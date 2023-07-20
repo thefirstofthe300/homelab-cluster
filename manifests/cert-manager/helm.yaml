@@ -5,6 +5,13 @@ metadata:
   namespace: cert-manager
 spec:
   interval: 1h
+  install:
+    remediation:
+      retries: 1
+      remediateLastFailure: true
+  upgrade:
+    remediation:
+      retries: 1
   chart:
     spec:
       chart: cert-manager
