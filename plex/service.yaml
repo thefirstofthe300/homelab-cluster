@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: plex
+  namespace: plex
+spec:
+  ports:
+  - name: pms
+    nodePort: 32400
+    port: 32400
+    protocol: TCP
+    targetPort: pms
+  - name: http
+    nodePort: 32208
+    port: 80
+    protocol: TCP
+    targetPort: pms
+  - name: https
+    nodePort: 30758
+    port: 443
+    protocol: TCP
+    targetPort: 32443
+  selector:
+    app: plex
+  type: NodePort
