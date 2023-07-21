@@ -3,11 +3,12 @@ kind: Kustomization
 namespace: plex
 resources:
   - deployment.yaml
-  - ingress.yaml
-  - pv.yaml
-  - service.yaml
-  - rbac.yaml
   - images.yaml
+  - ingress.yaml
+  - namespace.yaml
+  - pv.yaml
+  - rbac.yaml
+  - service.yaml
   - updateautomation.yaml
 images:
   - name: plexinc/pms-docker
