@@ -3,6 +3,9 @@ on:
   push:
     branches: ["flux/updates/*"]
 
+permissions:
+  pull-requests: write
+
 jobs:
   pull-request:
     name: Open PR to main
