@@ -19,6 +19,6 @@ jobs:
         with:
           destination_branch: "main"
           pr_title: "[Flux] Image update"
-          pr_body: "Flux would like to update a container image for you."
+          pr_body: "${{ github.event.head_commit.message }}"
           pr_reviewer: "thefirstofthe300"
           github_token: ${{ secrets.GITHUB_TOKEN }}
