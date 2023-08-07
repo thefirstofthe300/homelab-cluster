@@ -1,7 +1,7 @@
 name: Staging Auto-PR
 on:
   push:
-    branches: ["flux/*"]
+    branches: ["flux/updates/*"]
 
 jobs:
   pull-request:
