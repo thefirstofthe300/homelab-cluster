@@ -39,22 +39,4 @@ spec:
   resources:
     requests:
       storage: 10Gi
-  storageClassName: manual
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: plex-data
-  namespace: plex
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 10Gi
-  iscsi:
-    targetPortal: 192.168.1.100:3260
-    iqn: iqn.2005-10.org.freenas.ctl:k3s-plex
-    lun: 0
-    fsType: ext4
-    chapAuthSession: false
+  storageClassName: truenas-iscsi-csi

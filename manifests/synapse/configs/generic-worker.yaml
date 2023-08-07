@@ -1,0 +1,30 @@
+worker_app: "synapse.app.generic_worker"
+
+worker_main_http_uri: http://matrix-synapse:8008
+worker_replication_host: "matrix-synapse-replication"
+worker_replication_http_port: 9093
+
+worker_listeners:
+  - port: 9090
+    tls: false
+    bind_addresses: ["::"]
+    type: http
+
+    resources:
+      - names: [metrics]
+        compress: false
+
+  - port: 8083
+    tls: false
+    bind_addresses: ["::"]
+    type: http
+    x_forwarded: true
+
+    resources:
+      - names:
+          - client
+          - federation
+        compress: false
+
+worker_log_config: /data/config/server/log.yaml
+enable_metrics: true

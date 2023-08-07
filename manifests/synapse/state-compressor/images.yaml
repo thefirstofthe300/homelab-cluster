@@ -1,0 +1,19 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: state-compressor
+spec:
+  image: ghcr.io/thefirstofthe300/rust-synapse-compress-state
+  interval: 1h0m0s
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: state-compressor
+spec:
+  imageRepositoryRef:
+    name: state-compressor
+  policy:
+    semver:
+      range: v0.x.x

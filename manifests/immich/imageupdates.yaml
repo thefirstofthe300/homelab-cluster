@@ -1,0 +1,78 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: immich-server
+spec:
+  image: ghcr.io/immich-app/immich-server
+  interval: 1h0m0s
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: immich
+spec:
+  imageRepositoryRef:
+    name: immich-server
+  policy:
+    semver:
+      range: v1.x.x
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: typesense
+spec:
+  image: docker.io/typesense/typesense
+  interval: 1h0m0s
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: typesense
+spec:
+  imageRepositoryRef:
+    name: typesense
+  policy:
+    semver:
+      range: 0.24.x
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageUpdateAutomation
+metadata:
+  name: immich
+spec:
+  interval: 1m0s
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  git:
+    checkout:
+      ref:
+        branch: main
+    commit:
+      author:
+        email: fluxcdbot@users.noreply.github.com
+        name: fluxcdbot
+      messageTemplate: |
+        Automated image update
+
+        Automation name: {{ .AutomationObject }}
+
+        Files:
+        {{ range $filename, $_ := .Updated.Files -}}
+        - {{ $filename }}
+        {{ end -}}
+
+        Objects:
+        {{ range $resource, $_ := .Updated.Objects -}}
+        - {{ $resource.Kind }} {{ $resource.Name }}
+        {{ end -}}
+
+        Images:
+        {{ range .Updated.Images -}}
+        - {{.}}
+        {{ end -}}
+    push:
+      branch: flux-image-updates

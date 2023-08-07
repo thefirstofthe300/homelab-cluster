@@ -1,0 +1,40 @@
+---
+# Source: matrix-bridges/templates/signal-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mautrix-discord
+spec:
+  replicas: 1
+  template:
+    spec:
+      serviceAccountName: mautrix-discord
+      containers:
+        - name: mautrix-discord
+          image: dock.mau.dev/mautrix/discord
+          imagePullPolicy: IfNotPresent
+          command:
+            - /usr/bin/mautrix-discord
+            - -c
+            - /etc/discord/config.yaml
+            - --no-update
+          ports:
+            - name: http
+              containerPort: 29328
+              protocol: TCP
+          # livenessProbe:
+          #   httpGet:
+          #     path: /_matrix/mau/live
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /_matrix/mau/ready
+          #     port: http
+          resources: {}
+          volumeMounts:
+            - name: config
+              mountPath: /etc/discord
+      volumes:
+        - name: config
+          secret:
+            secretName: mautrix-discord-config

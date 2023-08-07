@@ -1,0 +1,64 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: state-compressor
+  labels:
+    app.kubernetes.io/component: state-compressor
+spec:
+  schedule: "0 0 * * 0"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: compressor
+              image: ghcr.io/thefirstofthe300/rust-synapse-compress-state
+              command:
+                - synapse_auto_compressor
+              args:
+                - -p
+                - "user=synapse password=$(DB_PASSWORD) dbname=synapse host=postgresql-hl.postgres.svc"
+                - -c
+                - "500"
+                - -n
+                - "10000"
+              env:
+                - name: DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: postgres-synapse
+                      key: password
+          restartPolicy: OnFailure
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: postgres-vacuum
+  labels:
+    app.kubernetes.io/component: postgres-vacuum
+spec:
+  schedule: "0 4 * * 0"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: compressor
+              image: bitnami/postgresql:14.5.0-debian-11-r14
+              command:
+                - PGPASSWORD=$(DB_PASSWORD)
+                - psql
+              args:
+                - --username=postgres
+                - -d
+                - synapse
+                - -c
+                - "VACUUM (VERBOSE, ANALYZE) synapse;"
+              env:
+                - name: DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: postgres-synapse
+                      key: password
+          restartPolicy: OnFailure

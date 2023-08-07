@@ -1,0 +1,50 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mautrix-signal
+spec:
+  replicas: 1
+  template:
+    spec:
+      serviceAccountName: mautrix-signal
+      containers:
+        - name: mautrix-signal
+          image: dock.mau.dev/mautrix/signal
+          imagePullPolicy: IfNotPresent
+          command:
+            - python3
+            - -m
+            - mautrix_signal
+            - -c
+            - /etc/signald/config.yaml
+          ports:
+            - name: http
+              containerPort: 29328
+          livenessProbe:
+            httpGet:
+              path: /_matrix/mau/live
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /_matrix/mau/live
+              port: http
+          resources: {}
+          volumeMounts:
+            - name: config
+              mountPath: /etc/signald
+            - name: signald
+              mountPath: /signald
+        - name: signald
+          image: signald/signald
+          imagePullPolicy: IfNotPresent
+          resources: {}
+          volumeMounts:
+            - name: signald
+              mountPath: /signald
+      volumes:
+        - name: config
+          secret:
+            secretName: mautrix-signal-config
+        - name: signald
+          emptyDir: {}

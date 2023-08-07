@@ -1,0 +1,6 @@
+---
+# Source: matrix-bridges/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mautrix-telegram

@@ -1,0 +1,38 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: mautrix-signal
+spec:
+  image: dock.mau.dev/mautrix/signal
+  interval: 1h0m0s
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: mautrix-signal
+spec:
+  imageRepositoryRef:
+    name: mautrix-signal
+  policy:
+    semver:
+      range: v0.x.x
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: signald
+spec:
+  image: signald/signald
+  interval: 1h0m0s
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: signald
+spec:
+  imageRepositoryRef:
+    name: signald
+  policy:
+    semver:
+      range: v0.x.x

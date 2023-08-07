@@ -1,0 +1,218 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: truenas-api-iscsi
+  namespace: democratic-csi
+spec:
+  interval: 1h
+  install:
+    remediation:
+      retries: 1
+      remediateLastFailure: true
+  upgrade:
+    remediation:
+      retries: 1
+  chart:
+    spec:
+      chart: democratic-csi
+      version: ">= 0.14.0 < 0.15.0"
+      sourceRef:
+        kind: HelmRepository
+        name: democratic-csi
+        namespace: flux-system
+      interval: 1h
+  values:
+    fullnameOverride: truenas-api-iscsi
+    csiDriver:
+      name: org.democratic-csi.truenas-api-iscsi
+    storageClasses:
+      - name: truenas-iscsi-csi
+        defaultClass: false
+        reclaimPolicy: Retain
+        volumeBindingMode: Immediate
+        allowVolumeExpansion: true
+        parameters:
+          fsType: ext4
+        mountOptions:
+        secrets:
+          provisioner-secret:
+          controller-publish-secret:
+          node-stage-secret:
+          node-publish-secret:
+          controller-expand-secret:
+    volumeSnapshotClasses: []
+    driver:
+      config:
+        driver: freenas-api-iscsi
+        instance_id:
+        httpConnection:
+          protocol: https
+          host: 192.168.1.100
+          port: 443
+          apiKey: 1-40FRDa0iV8ISwzRCzjZ62BTPEu86ebv2C8mx2JHwWCZal4w5oTf3uQmAWlnzMeSf
+          allowInsecure: true
+        zfs:
+          datasetParentName: media/data/k8s/vols
+          detachedSnapshotsDatasetParentName: media/data/k8s/snaps
+          zvolCompression:
+          zvolDedup:
+          zvolEnableReservation: false
+          zvolBlocksize:
+        iscsi:
+          targetPortal: "192.168.1.100"
+          targetPortals: []
+          interface:
+          namePrefix: csi-
+          nameSuffix: "-cluster"
+          targetGroups:
+            - targetGroupPortalGroup: 1
+              targetGroupInitiatorGroup: 6
+              targetGroupAuthType: None
+              targetGroupAuthGroup:
+          extentInsecureTpc: true
+          extentXenCompat: false
+          extentDisablePhysicalBlocksize: true
+          extentBlocksize: 4096
+          extentRpm: "SSD"
+          extentAvailThreshold: 0
+    node:
+      hostPID: true
+      driver:
+        extraEnv:
+          - name: ISCSIADM_HOST_STRATEGY
+            value: nsenter
+          - name: ISCSIADM_HOST_PATH
+            value: /usr/local/sbin/iscsiadm
+        iscsiDirHostPath: /usr/local/etc/iscsi
+        iscsiDirHostPathType: ""
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: truenas-api-nfs
+  namespace: democratic-csi
+spec:
+  interval: 1h
+  install:
+    remediation:
+      retries: 1
+      remediateLastFailure: true
+  upgrade:
+    remediation:
+      retries: 1
+  chart:
+    spec:
+      chart: democratic-csi
+      version: ">= 0.14.0 < 0.15.0"
+      sourceRef:
+        kind: HelmRepository
+        name: democratic-csi
+        namespace: flux-system
+      interval: 1h
+  values:
+    fullnameOverride: truenas-api-nfs
+    csiDriver:
+      name: org.democratic-csi.truenas-api-nfs
+    storageClasses:
+      - name: truenas-nfs-csi
+        defaultClass: false
+        reclaimPolicy: Retain
+        volumeBindingMode: Immediate
+        allowVolumeExpansion: true
+        parameters:
+          fsType: nfs
+        mountOptions:
+        secrets:
+          provisioner-secret:
+          controller-publish-secret:
+          node-stage-secret:
+          node-publish-secret:
+          controller-expand-secret:
+    volumeSnapshotClasses: []
+    driver:
+      config:
+        driver: freenas-api-nfs
+        instance_id:
+        httpConnection:
+          protocol: https
+          host: 192.168.1.100
+          port: 443
+          apiKey: 1-40FRDa0iV8ISwzRCzjZ62BTPEu86ebv2C8mx2JHwWCZal4w5oTf3uQmAWlnzMeSf
+          allowInsecure: true
+        zfs:
+          datasetParentName: media/data/k8s/vols
+          detachedSnapshotsDatasetParentName: media/data/k8s/snaps
+          datasetEnableQuotas: true
+          datasetEnableReservation: false
+          datasetPermissionsMode: "0777"
+          datasetPermissionsUser: 0
+          datasetPermissionsGroup: 0
+        nfs:
+          shareHost: 192.168.1.100
+          shareAlldirs: false
+          shareAllowedHosts: []
+          shareAllowedNetworks: []
+          shareMaprootUser: root
+          shareMaprootGroup: root
+          shareMapallUser: ""
+          shareMapallGroup: ""
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: node-manual
+  namespace: democratic-csi
+spec:
+  interval: 1h
+  install:
+    remediation:
+      retries: 1
+      remediateLastFailure: true
+  upgrade:
+    remediation:
+      retries: 1
+  chart:
+    spec:
+      chart: democratic-csi
+      version: ">= 0.14.0 < 0.15.0"
+      sourceRef:
+        kind: HelmRepository
+        name: democratic-csi
+        namespace: flux-system
+      interval: 1h
+  values:
+    fullnameOverride: node-manual
+    csiDriver:
+      name: org.democratic-csi.node-manual
+    storageClasses:
+      - name: node-manual
+        defaultClass: false
+        reclaimPolicy: Retain
+        volumeBindingMode: Immediate
+        allowVolumeExpansion: true
+        mountOptions:
+        secrets:
+          provisioner-secret:
+          controller-publish-secret:
+          node-stage-secret:
+          node-publish-secret:
+          controller-expand-secret:
+    driver:
+      config:
+        driver: node-manual
+    controller:
+      externalSnapshotter:
+        enabled: false
+      externalResizer:
+        enabled: false
+    node:
+      hostPID: true
+      driver:
+        extraEnv:
+          - name: ISCSIADM_HOST_STRATEGY
+            value: nsenter
+          - name: ISCSIADM_HOST_PATH
+            value: /usr/local/sbin/iscsiadm
+        iscsiDirHostPath: /usr/local/etc/iscsi
+        iscsiDirHostPathType: ""

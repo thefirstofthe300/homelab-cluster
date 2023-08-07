@@ -1,0 +1,123 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: immich
+  namespace: immich
+spec:
+  interval: 1m
+  timeout: 10m
+  chart:
+    spec:
+      chart: immich
+      version: ">=0.1.1 <1.0.0"
+      sourceRef:
+        kind: HelmRepository
+        name: immich
+        namespace: flux-system
+      interval: 10m
+  install:
+    remediation:
+      retries: 3
+      remediateLastFailure: true
+  upgrade:
+    remediation:
+      retries: 3
+  valuesFrom:
+    - kind: Secret
+      name: immich-values
+  values:
+    env:
+      REDIS_HOSTNAME: redis-master.redis.svc
+      DB_HOSTNAME: postgresql-hl.postgres.svc
+      DB_USERNAME: immich
+      DB_DATABASE_NAME: immich
+      TYPESENSE_ENABLED: "{{ .Values.typesense.enabled }}"
+      TYPESENSE_API_KEY: "{{ .Values.typesense.env.TYPESENSE_API_KEY }}"
+      TYPESENSE_HOST: '{{ printf "%s-typesense" .Release.Name }}'
+      IMMICH_WEB_URL: '{{ printf "http://%s-web:3000" .Release.Name }}'
+      IMMICH_SERVER_URL: '{{ printf "http://%s-server:3001" .Release.Name }}'
+      IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
+    image:
+      tag: v1.72.1 # {"$imagepolicy": "immich:immich:tag"}
+    immich:
+      persistence:
+        library:
+          existingClaim: library
+    typesense:
+      enabled: true
+      podSecurityContext:
+        runAsUser: 10001
+      env:
+        TYPESENSE_DATA_DIR: /tsdata
+      persistence:
+        tsdata:
+          enabled: true
+          accessMode: ReadWriteOnce
+          size: 20Gi
+          storageClass: truenas-nfs-csi
+      image:
+        repository: docker.io/typesense/typesense
+        tag: 0.24.1 # {"$imagepolicy": "immich:typesense:tag"}
+        pullPolicy: IfNotPresent
+    server:
+      enabled: true
+      image:
+        repository: ghcr.io/immich-app/immich-server
+        pullPolicy: IfNotPresent
+      podSecurityContext:
+        runAsUser: 10001
+    microservices:
+      enabled: true
+      env:
+        REVERSE_GEOCODING_DUMP_DIRECTORY: /geodata-cache
+      podSecurityContext:
+        runAsUser: 10001
+      persistence:
+        geodata-cache:
+          enabled: true
+          size: 1Gi
+          type: emptyDir
+          accessMode: ReadWriteMany
+      image:
+        repository: ghcr.io/immich-app/immich-server
+        pullPolicy: IfNotPresent
+    machine-learning:
+      enabled: true
+      podSecurityContext:
+        runAsUser: 10001
+      image:
+        repository: ghcr.io/immich-app/immich-machine-learning
+        pullPolicy: IfNotPresent
+      env:
+        TRANSFORMERS_CACHE: /cache
+      persistence:
+        cache:
+          enabled: true
+          size: 10Gi
+          type: emptyDir
+          accessMode: ReadWriteMany
+      probes:
+        liveness:
+          spec:
+            initialDelaySeconds: 180
+            periodSeconds: 10
+            timeoutSeconds: 1
+            failureThreshold: 6
+        readiness:
+          spec:
+            initialDelaySeconds: 120
+            periodSeconds: 10
+            timeoutSeconds: 1
+            failureThreshold: 2
+    web:
+      enabled: true
+      podSecurityContext:
+        runAsUser: 10001
+      image:
+        repository: ghcr.io/immich-app/immich-web
+        pullPolicy: IfNotPresent
+      persistence:
+        library:
+          enabled: false
+    proxy:
+      enabled: false

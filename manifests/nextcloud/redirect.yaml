@@ -1,0 +1,40 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: dav-redirect
+  namespace: nextcloud
+spec:
+  redirectRegex:
+    regex: "https://(.*)/.well-known/(?:card|cal)dav"
+    replacement: "https://${1}/remote.php/dav"
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: webfinger-redirect
+  namespace: nextcloud
+spec:
+  redirectRegex:
+    regex: "https://cloud.seymour.family/.well-known/webfinger"
+    replacement: "https://cloud.seymour.family/index.php/.well-known/webfinger"
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: nodeinfo-redirect
+  namespace: nextcloud
+spec:
+  redirectRegex:
+    regex: "https://cloud.seymour.family/.well-known/nodeinfo"
+    replacement: "https://cloud.seymour.family/index.php/.well-known/nodeinfo"
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: no-robots
+  namespace: nextcloud
+spec:
+  headers:
+    stsSeconds: 15552000
+    customResponseHeaders:
+      X-Robots-Tag: "noindex, nofollow"
