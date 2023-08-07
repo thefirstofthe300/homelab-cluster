@@ -17,7 +17,7 @@ spec:
         email: fluxcdbot@users.noreply.github.com
         name: fluxcdbot
       messageTemplate: |
-        Automated image update
+        Automated Nextcloud update
 
         Automation name: {{ .AutomationObject }}
 
@@ -36,7 +36,7 @@ spec:
         - {{.}}
         {{ end -}}
     push:
-      branch: flux-image-updates
+      branch: flux/updates/nextcloud
   update:
     path: ./manifests
     strategy: Setters

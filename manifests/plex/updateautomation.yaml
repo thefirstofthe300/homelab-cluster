@@ -18,7 +18,7 @@ spec:
         email: fluxcdbot@users.noreply.github.com
         name: fluxcdbot
       messageTemplate: |
-        Automated image update
+        Automated Plex update
 
         Automation name: {{ .AutomationObject }}
 
@@ -37,7 +37,7 @@ spec:
         - {{.}}
         {{ end -}}
     push:
-      branch: flux-image-updates
+      branch: flux/updates/plex
   update:
     path: ./
     strategy: Setters
