@@ -64,6 +64,8 @@ spec:
               name: shared
             - mountPath: /cert
               name: cert
+            - mountPath: /dev/dri
+              name: quicksync
       serviceAccountName: plex
       volumes:
         - name: data
@@ -80,3 +82,6 @@ spec:
           secret:
             defaultMode: 420
             secretName: plex-cert
+        - name: quicksync
+          hostPath:
+            path: /dev/dri
