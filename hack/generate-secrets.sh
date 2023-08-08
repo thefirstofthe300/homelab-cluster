@@ -1,6 +1,7 @@
 #! /usr/bin/env bash
 
 kubeseal -f secrets/synapse/bridges/mautrix-signal/secret.yaml -o yaml | grep -v creationTimestamp >manifests/synapse/bridges/mautrix-signal/sealedsecret.yaml
+kubeseal -f secrets/synapse/bridges/mautrix-gmessages/secret.yaml -o yaml | grep -v creationTimestamp >manifests/synapse/bridges/mautrix-gmessages/sealedsecret.yaml
 kubeseal -f secrets/synapse/bridges/mautrix-telegram/secret.yaml -o yaml | grep -v creationTimestamp >manifests/synapse/bridges/mautrix-telegram/sealedsecret.yaml
 kubeseal -f secrets/synapse/bridges/mautrix-discord/secret.yaml -o yaml | grep -v creationTimestamp >manifests/synapse/bridges/mautrix-discord/sealedsecret.yaml
 kubeseal -f secrets/synapse/bridges/registrations/secret.yaml -o yaml | grep -v creationTimestamp >manifests/synapse/bridges/registrations/sealedsecret.yaml

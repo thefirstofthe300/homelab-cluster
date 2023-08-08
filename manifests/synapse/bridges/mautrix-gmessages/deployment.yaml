@@ -1,0 +1,40 @@
+---
+# Source: matrix-bridges/templates/signal-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mautrix-gmessages
+spec:
+  replicas: 1
+  template:
+    spec:
+      serviceAccountName: mautrix-gmessages
+      containers:
+        - name: mautrix-gmessages
+          image: dock.mau.dev/mautrix/gmessages
+          imagePullPolicy: IfNotPresent
+          command:
+            - /usr/bin/mautrix-gmessages
+            - -c
+            - /etc/gmessages/config.yaml
+            - --no-update
+          ports:
+            - name: http
+              containerPort: 29336
+              protocol: TCP
+          # livenessProbe:
+          #   httpGet:
+          #     path: /_matrix/mau/live
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /_matrix/mau/ready
+          #     port: http
+          resources: {}
+          volumeMounts:
+            - name: config
+              mountPath: /etc/gmessages
+      volumes:
+        - name: config
+          secret:
+            secretName: mautrix-gmessages-config

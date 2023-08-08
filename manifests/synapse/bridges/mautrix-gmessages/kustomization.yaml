@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: synapse
+resources:
+  - deployment.yaml
+  - service.yaml
+  - rbac.yaml
+  - sealedsecret.yaml
+  - images.yaml
+commonLabels:
+  app.kubernetes.io/component: mautrix-gmessages
+images:
+  - name: dock.mau.dev/mautrix/gmessages
+    newTag: latest # {"$imagepolicy": "synapse:mautrix-gmessages:tag"}
