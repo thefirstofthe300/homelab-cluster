@@ -29,6 +29,6 @@ configMapGenerator:
       - shared_secret_authenticator.py=configs/shared-secret-authenticator.py
 images:
   - name: matrixdotorg/synapse
-    newTag: v1.89.0 # {"$imagepolicy": "synapse:synapse:tag"}
+    newTag: v1.90.0 # {"$imagepolicy": "synapse:synapse:tag"}
   - name: ghcr.io/matrix-org/sliding-sync
     newTag: v0.99.5 # {"$imagepolicy": "synapse:sliding-sync:tag"}
