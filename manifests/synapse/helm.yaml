@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: element-web
-      version: "11.9.1"
+      version: ">= 1.2.10"
       sourceRef:
         kind: HelmRepository
         name: ananace
@@ -23,7 +23,7 @@ spec:
   values:
     replicaCount: 2
     image:
-      tag: ""
+      tag: "v1.11.39" # {"$imagepolicy": "synapse:element-web:tag"}
     defaultServer:
       url: "https://matrix.seymour.family"
       name: "Seymour Family"
