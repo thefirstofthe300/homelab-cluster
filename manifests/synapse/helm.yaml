@@ -29,8 +29,6 @@ spec:
       name: "Seymour Family"
     config:
       show_labs_settings: true
-      features:
-        feature_sliding_sync: true
       default_theme: "dark"
       room_directory:
         servers:
