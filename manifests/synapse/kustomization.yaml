@@ -5,6 +5,7 @@ resources:
   - ./bridges
   - ./state-compressor
   - deployment.yaml
+  - helm.yaml
   - images.yaml
   - ingress.yaml
   - namespace.yaml

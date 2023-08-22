@@ -1,0 +1,64 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: element-web
+spec:
+  interval: 1m
+  chart:
+    spec:
+      chart: element-web
+      version: "11.9.1"
+      sourceRef:
+        kind: HelmRepository
+        name: ananace
+        namespace: flux-system
+      interval: 1m
+  install:
+    remediation:
+      retries: 3
+      remediateLastFailure: true
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    replicaCount: 2
+    image:
+      tag: ""
+    defaultServer:
+      url: "https://matrix.seymour.family"
+      name: "Seymour Family"
+    config:
+      show_labs_settings: true
+      features:
+        feature_sliding_sync: true
+      default_theme: "dark"
+      room_directory:
+        servers:
+          - "seymour.family"
+          - "matrix.org"
+      element_call:
+        url: "https://call.element.io"
+        participant_limit: 8
+        brand: "Element Call"
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-production
+      hosts:
+        - chat.seymour.family
+      tls:
+        - secretName: element-web-tls
+          hosts:
+            - chat.seymour.family
+    resources:
+      limits:
+        memory: 1Gi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+    autoscaling:
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 5
+      targetCPUUtilizationPercentage: 80
+      targetMemoryUtilizationPercentage: 80
