@@ -171,6 +171,7 @@ spec:
         - secretName: matrix-seymour-family-tls
           hosts:
             - matrix.seymour.family
+            - seymour.family
     postgresql:
       enabled: false
     externalPostgresql:
