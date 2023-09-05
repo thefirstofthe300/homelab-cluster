@@ -3,7 +3,7 @@ kind: HelmRelease
 metadata:
   name: element-web
 spec:
-  interval: 1m
+  interval: 1h
   chart:
     spec:
       chart: element-web
@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: ananace
         namespace: flux-system
-      interval: 1m
+      interval: 1h
   install:
     remediation:
       retries: 3
@@ -66,7 +66,7 @@ kind: HelmRelease
 metadata:
   name: matrix-synapse
 spec:
-  interval: 1m
+  interval: 1h
   chart:
     spec:
       chart: matrix-synapse
@@ -75,7 +75,7 @@ spec:
         kind: HelmRepository
         name: ananace
         namespace: flux-system
-      interval: 1m
+      interval: 1h
   install:
     remediation:
       retries: 3
@@ -102,16 +102,28 @@ spec:
       existingSecretKey: signing.key
     synapse:
       extraVolumes:
-        - name: appservice-registrations
+        - name: mautrix-discord
           secret:
             secretName: appservice-registrations
             items:
               - key: mautrix-discord.yaml
                 path: mautrix-discord.yaml
+        - name: mautrix-signal
+          secret:
+            secretName: appservice-registrations
+            items:
               - key: mautrix-signal.yaml
                 path: mautrix-signal.yaml
+        - name: mautrix-telegram
+          secret:
+            secretName: appservice-registrations
+            items:
               - key: mautrix-telegram.yaml
                 path: mautrix-telegram.yaml
+        - name: mautrix-gmessages
+          secret:
+            secretName: appservice-registrations
+            items:
               - key: mautrix-gmessages.yaml
                 path: mautrix-gmessages.yaml
         - name: shared-secret-authenticator
@@ -121,8 +133,18 @@ spec:
               - key: shared_secret_authenticator.py
                 path: shared_secret_authenticator.py
       extraVolumeMounts:
-        - name: appservice-registrations
+        - name: mautrix-discord
           mountPath: /synapse/config/conf.d/
+          subpath: mautrix-discord.yaml
+        - name: mautrix-signal
+          mountPath: /synapse/config/conf.d/
+          subpath: mautrix-signal.yaml
+        - name: mautrix-telegram
+          mountPath: /synapse/config/conf.d/
+          subpath: mautrix-telegram.yaml
+        - name: mautrix-gmessages
+          mountPath: /synapse/config/conf.d/
+          subpath: mautrix-gmessages.yaml
         - name: shared-secret-authenticator
           mountPath: /usr/local/lib/python3.11/site-packages/shared_secret_authenticator.py
           subPath: shared_secret_authenticator.py
