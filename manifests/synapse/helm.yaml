@@ -165,6 +165,12 @@ spec:
     ingress:
       traefikPaths: true
       includeUnderscoreSynapse: false
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-production
+      tls:
+        - secretName: matrix-seymour-family-tls
+          hosts:
+            - matrix.seymour.family
     postgresql:
       enabled: false
     externalPostgresql:
@@ -206,6 +212,7 @@ spec:
     - kind: Secret
       name: sliding-sync-values
   values:
+    matrixServer: "https://matrix.seymour.family"
     ingress:
       enabled: true
       annotations:
