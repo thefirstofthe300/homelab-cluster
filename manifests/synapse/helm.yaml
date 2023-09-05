@@ -175,6 +175,8 @@ spec:
     - kind: Secret
       name: sliding-sync-values
   values:
+    postgres:
+      enabled: false
     externalPostgresql:
       host: postgresql-hl.postgres.svc.cluster.local
       port: 5432
