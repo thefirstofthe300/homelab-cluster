@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pvc-3ba69a7a-9e64-4974-8f04-71e3ddf04783
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 500Gi
+  csi:
+    driver: org.democratic-csi.truenas-api-iscsi
+    fsType: ext4
+    volumeAttributes:
+      interface: ""
+      iqn: iqn.2005-10.org.freenas.ctl:csi-pvc-3ba69a7a-9e64-4974-8f04-71e3ddf04783-cluster
+      lun: "0"
+      node_attach_driver: iscsi
+      portal: 192.168.1.100
+      portals: ""
+      provisioner_driver: freenas-api-iscsi
+    volumeHandle: pvc-3ba69a7a-9e64-4974-8f04-71e3ddf04783
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: truenas-iscsi-csi
+  volumeMode: Filesystem
