@@ -17,3 +17,5 @@ configMapGenerator:
   - name: shared-secret-authenticator
     files:
       - shared_secret_authenticator.py=configs/shared-secret-authenticator.py
+    options:
+      disableNameSuffixHash: true
