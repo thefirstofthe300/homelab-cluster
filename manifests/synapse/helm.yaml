@@ -15,11 +15,11 @@ spec:
       interval: 1h
   install:
     remediation:
-      retries: 3
+      retries: 1
       remediateLastFailure: true
   upgrade:
     remediation:
-      retries: 3
+      retries: 1
   values:
     replicaCount: 2
     image:
@@ -77,12 +77,14 @@ spec:
         namespace: flux-system
       interval: 1h
   install:
+    timeout: 2m
     remediation:
-      retries: 3
+      retries: 1
       remediateLastFailure: true
   upgrade:
+    timeout: 2m
     remediation:
-      retries: 3
+      retries: 1
   values:
     image:
       tag: v1.91.1 # {"$imagepolicy": "synapse:synapse:tag"}
@@ -100,32 +102,27 @@ spec:
         enabled: false
       existingSecret: matrix-synapse-signingkey
       existingSecretKey: signing.key
+    extraConfig:
+      media_retention:
+        remote_media_lifetime: 14d
+      app_service_config_files:
+        - /synapse/config/appservices/mautrix-gmessages.yaml
+        - /synapse/config/appservices/mautrix-signal.yaml
+        - /synapse/config/appservices/mautrix-telegram.yaml
+        - /synapse/config/appservices/mautrix-discord.yaml
     synapse:
+      securityContext:
+        capabilities:
+          drop:
+            - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        runAsUser: 991
+        runAsGroup: 991
       extraVolumes:
-        - name: mautrix-discord
+        - name: appservice-registrations
           secret:
             secretName: appservice-registrations
-            items:
-              - key: mautrix-discord.yaml
-                path: mautrix-discord.yaml
-        - name: mautrix-signal
-          secret:
-            secretName: appservice-registrations
-            items:
-              - key: mautrix-signal.yaml
-                path: mautrix-signal.yaml
-        - name: mautrix-telegram
-          secret:
-            secretName: appservice-registrations
-            items:
-              - key: mautrix-telegram.yaml
-                path: mautrix-telegram.yaml
-        - name: mautrix-gmessages
-          secret:
-            secretName: appservice-registrations
-            items:
-              - key: mautrix-gmessages.yaml
-                path: mautrix-gmessages.yaml
         - name: shared-secret-authenticator
           configMap:
             name: shared-secret-authenticator
@@ -133,26 +130,36 @@ spec:
               - key: shared_secret_authenticator.py
                 path: shared_secret_authenticator.py
       extraVolumeMounts:
-        - name: mautrix-discord
-          mountPath: /synapse/config/conf.d/
-          subpath: mautrix-discord.yaml
-        - name: mautrix-signal
-          mountPath: /synapse/config/conf.d/
-          subpath: mautrix-signal.yaml
-        - name: mautrix-telegram
-          mountPath: /synapse/config/conf.d/
-          subpath: mautrix-telegram.yaml
-        - name: mautrix-gmessages
-          mountPath: /synapse/config/conf.d/
-          subpath: mautrix-gmessages.yaml
-        - name: shared-secret-authenticator
-          mountPath: /usr/local/lib/python3.11/site-packages/shared_secret_authenticator.py
-          subPath: shared_secret_authenticator.py
+        - name: appservice-registrations
+          mountPath: /synapse/config/appservices
     workers:
       default:
+        volumes:
+          - name: appservice-registrations
+            secret:
+              secretName: appservice-registrations
+          - name: shared-secret-authenticator
+            configMap:
+              name: shared-secret-authenticator
+              items:
+                - key: shared_secret_authenticator.py
+                  path: shared_secret_authenticator.py
+        volumeMounts:
+          - name: appservice-registrations
+            mountPath: /synapse/config/appservices
         replicaCount: 3
       generic_worker:
         enabled: true
+      securityContext:
+        capabilities:
+          drop:
+            - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        runAsUser: 991
+        runAsGroup: 991
+        fsGroup: 991
+        fsGroupChangePolicy: "Always"
     persistence:
       existingClaim: media
     ingress:
@@ -187,20 +194,32 @@ spec:
         namespace: flux-system
       interval: 1h
   install:
+    timeout: 1m
     remediation:
-      retries: 3
+      retries: 1
       remediateLastFailure: true
   upgrade:
+    timeout: 1m
     remediation:
-      retries: 3
+      retries: 1
   valuesFrom:
     - kind: Secret
       name: sliding-sync-values
   values:
-    postgres:
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-production
+      hosts:
+        - sliding-sync.matrix.seymour.family
+      tls:
+        - secretName: sliding-sync-proxy-tls
+          hosts:
+            - sliding-sync.matrix.seymour.family
+    postgresql:
       enabled: false
     externalPostgresql:
       host: postgresql-hl.postgres.svc.cluster.local
-      port: 5432
+      sslmode: disable
       database: slidingsync
       username: slidingsync
