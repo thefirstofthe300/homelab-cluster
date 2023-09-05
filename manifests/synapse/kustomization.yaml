@@ -4,27 +4,16 @@ namespace: synapse
 resources:
   - ./bridges
   - ./state-compressor
-  - deployment.yaml
   - helm.yaml
   - images.yaml
-  - ingress.yaml
   - namespace.yaml
   - sealedsecret.yaml
-  - service.yaml
   - storage.yaml
   - updateautomation.yaml
 commonLabels:
   app.kubernetes.io/name: matrix-synapse
   app.kubernetes.io/instance: matrix-synapse
 configMapGenerator:
-  - name: matrix-synapse
-    files:
-      - configs/homeserver.yaml
-      - configs/log.yaml
-  # - name: matrix-synapse-workers
-  #   files:
-  #     - configs/appservice-worker.yaml
-  #     - configs/generic-worker.yaml
   - name: shared-secret-authenticator
     files:
       - shared_secret_authenticator.py=configs/shared-secret-authenticator.py

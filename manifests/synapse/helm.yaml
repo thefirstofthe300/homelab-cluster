@@ -60,3 +60,123 @@ spec:
       maxReplicas: 5
       targetCPUUtilizationPercentage: 80
       targetMemoryUtilizationPercentage: 80
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: matrix-synapse
+spec:
+  interval: 1m
+  chart:
+    spec:
+      chart: matrix-synapse
+      version: ">= 3.7.0 < 4.0.0"
+      sourceRef:
+        kind: HelmRepository
+        name: ananace
+        namespace: flux-system
+      interval: 1m
+  install:
+    remediation:
+      retries: 3
+      remediateLastFailure: true
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    image:
+      tag: v1.91.1 # {"$imagepolicy": "synapse:synapse:tag"}
+    serverName: seymour.family
+    publicServerName: matrix.seymour.family
+    wellknown:
+      enabled: true
+      client:
+        m.homeserver":
+          base_url: "https://matrix.seymour.family"
+        org.matrix.msc3575.proxy:
+          url: "https://sliding-sync.matrix.seymour.family"
+    signingkey:
+      job:
+        enabled: false
+      existingSecret: matrix-synapse-signingkey
+      existingSecretKey: signing.key
+    synapse:
+      extraVolumes:
+        - name: appservice-registrations
+          secret:
+            secretName: appservice-registrations
+            items:
+              - key: mautrix-discord.yaml
+                path: mautrix-discord.yaml
+              - key: mautrix-signal.yaml
+                path: mautrix-signal.yaml
+              - key: mautrix-telegram.yaml
+                path: mautrix-telegram.yaml
+              - key: mautrix-gmessages.yaml
+                path: mautrix-gmessages.yaml
+        - name: shared-secret-authenticator
+          configMap:
+            name: shared-secret-authenticator
+            items:
+              - key: shared_secret_authenticator.py
+                path: shared_secret_authenticator.py
+      extraVolumeMounts:
+        - name: appservice-registrations
+          mountPath: /synapse/config/conf.d/
+        - name: shared-secret-authenticator
+          mountPath: /usr/local/lib/python3.11/site-packages/shared_secret_authenticator.py
+          subPath: shared_secret_authenticator.py
+    workers:
+      default:
+        replicaCount: 3
+      generic_worker:
+        enabled: true
+    persistence:
+      existingClaim: media
+    ingress:
+      traefikPaths: true
+      includeUnderscoreSynapse: false
+    postgresql:
+      enabled: false
+    externalPostgresql:
+      host: postgresql-hl.postgres.svc.cluster.local
+      existingSecret: postgres-synapse
+      existingSecretPasswordKey: password
+    redis:
+      enabled: false
+    externalRedis:
+      host: redis-headless.redis.svc.cluster.local
+      existingSecret: redis-password
+      existingSecretPasswordKey: password
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: sliding-sync-proxy
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: sliding-sync-proxy
+      version: ">= 3.7.0 < 4.0.0"
+      sourceRef:
+        kind: HelmRepository
+        name: ananace
+        namespace: flux-system
+      interval: 1h
+  install:
+    remediation:
+      retries: 3
+      remediateLastFailure: true
+  upgrade:
+    remediation:
+      retries: 3
+  valuesFrom:
+    - kind: Secret
+      name: sliding-sync-values
+  values:
+    externalPostgresql:
+      host: postgresql-hl.postgres.svc.cluster.local
+      port: 5432
+      database: slidingsync
+      username: slidingsync
