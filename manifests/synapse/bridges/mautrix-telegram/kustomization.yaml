@@ -11,4 +11,4 @@ commonLabels:
   app.kubernetes.io/component: mautrix-telegram
 images:
   - name: dock.mau.dev/mautrix/telegram
-    newTag: v0.14.1 # {"$imagepolicy": "synapse:mautrix-telegram:tag"}
+    newTag: v0.14.2 # {"$imagepolicy": "synapse:mautrix-telegram:tag"}
