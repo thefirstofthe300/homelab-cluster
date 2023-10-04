@@ -38,7 +38,7 @@ spec:
       IMMICH_SERVER_URL: '{{ printf "http://%s-server:3001" .Release.Name }}'
       IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
     image:
-      tag: v1.81.0 # {"$imagepolicy": "immich:immich:tag"}
+      tag: v1.81.1 # {"$imagepolicy": "immich:immich:tag"}
     immich:
       persistence:
         library:
