@@ -87,7 +87,7 @@ spec:
       retries: 1
   values:
     image:
-      tag: v1.96.0 # {"$imagepolicy": "synapse:synapse:tag"}
+      tag: v1.96.1 # {"$imagepolicy": "synapse:synapse:tag"}
     serverName: seymour.family
     publicServerName: matrix.seymour.family
     wellknown:
