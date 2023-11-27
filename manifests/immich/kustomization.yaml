@@ -4,7 +4,6 @@ namespace: immich
 resources:
   - helm.yaml
   - imageupdates.yaml
-  - ingress.yaml
   - namespace.yaml
   - sealedsecret.yaml
   - storage.yaml
