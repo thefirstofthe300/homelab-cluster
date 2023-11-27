@@ -69,6 +69,8 @@ spec:
       ingress:
         main:
           enabled: true
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt-production
           hosts:
             - host: photos.seymour.family
               paths:
