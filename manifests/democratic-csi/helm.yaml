@@ -204,6 +204,8 @@ spec:
     controller:
       externalSnapshotter:
         enabled: false
+      externalResizer:
+        enabled: false
     node:
       hostPID: true
       driver:
