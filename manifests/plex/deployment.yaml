@@ -18,7 +18,7 @@ spec:
             - name: TZ
               value: America/Los_Angeles
             - name: PLEX_CLAIM
-              value: claim-P2-jixzcHAyYUsxxTBgE
+              value: claim-Wda6RSToKyAsy4h_9d19
             - name: PLEX_UID
               value: "972"
             - name: PLEX_GID
