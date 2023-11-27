@@ -76,7 +76,9 @@ spec:
               paths:
                 - path: "/"
           tls:
-            - immich-tls
+            - hosts:
+                - photos.seymour.family
+              secretName: immich-tls
     microservices:
       enabled: true
       env:
