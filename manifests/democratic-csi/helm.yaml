@@ -77,6 +77,10 @@ spec:
           extentRpm: "SSD"
           extentAvailThreshold: 0
     node:
+      tolerations:
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+        effect: "NoSchedule"
       hostPID: true
       driver:
         extraEnv:
@@ -157,6 +161,11 @@ spec:
           shareMaprootGroup: root
           shareMapallUser: ""
           shareMapallGroup: ""
+    node:
+      tolerations:
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+        effect: "NoSchedule"
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
@@ -207,6 +216,10 @@ spec:
       externalResizer:
         enabled: false
     node:
+      tolerations:
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+        effect: "NoSchedule"
       hostPID: true
       driver:
         extraEnv:

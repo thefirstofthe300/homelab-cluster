@@ -66,6 +66,19 @@ spec:
         pullPolicy: IfNotPresent
       podSecurityContext:
         runAsUser: 10001
+      ingress:
+        main:
+          enabled: true
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt-production
+          hosts:
+            - host: photos.seymour.family
+              paths:
+                - path: "/"
+          tls:
+            - hosts:
+                - photos.seymour.family
+              secretName: immich-tls
     microservices:
       enabled: true
       env:
@@ -109,15 +122,3 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 1
             failureThreshold: 2
-    web:
-      enabled: true
-      podSecurityContext:
-        runAsUser: 10001
-      image:
-        repository: ghcr.io/immich-app/immich-web
-        pullPolicy: IfNotPresent
-      persistence:
-        library:
-          enabled: false
-    proxy:
-      enabled: false
