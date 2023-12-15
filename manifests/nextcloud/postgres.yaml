@@ -23,13 +23,13 @@ spec:
               topologyKey: kubernetes.io/hostname
               labelSelector:
                 matchLabels:
-                  postgres-operator.crunchydata.com/cluster: nextclouddb
-                  postgres-operator.crunchydata.com/instance-set: nextclouddb
+                  postgres-operator.crunchydata.com/cluster: nextcloud
+                  postgres-operator.crunchydata.com/instance-set: nextcloud
   users:
     - name: postgres
-    - name: nextclouddb
+    - name: nextcloud
       databases:
-        - nextclouddb
+        - nextcloud
   backups:
     pgbackrest:
       global:
