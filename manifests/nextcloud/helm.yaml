@@ -27,7 +27,7 @@ spec:
   values:
     image:
       flavor: apache
-      tag: 27.1.4 # {"$imagepolicy": "nextcloud:nextcloud:tag"}
+      tag: 28.0.0 # {"$imagepolicy": "nextcloud:nextcloud:tag"}
     nextcloud:
       host: cloud.seymour.family
       configs:
@@ -59,13 +59,23 @@ spec:
     internalDatabase:
       enabled: false
     externalDatabase:
-      enabled: true
-      type: postgresql
-      host: postgresql-hl.postgres:5432
+      existingSecret:
+        enabled: true
+        secretName: nextcloud-pguser-nextcloud
+        usernameKey: user
+        passwordKey: password
+        databaseKey: dbname
+        hostKey: host
     cronjob:
       enabled: true
     persistence:
       enabled: true
-      existingClaim: data
+      storageClass: truenas-iscsi-csi
+      annotations:
+        rollout: test
+      nextcloudData:
+        enabled: true
+        storageClass: truenas-nfs-csi
+        size: 500Gi
     phpClientHttpsFix:
       enabled: true

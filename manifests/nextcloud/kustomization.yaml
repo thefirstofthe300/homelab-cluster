@@ -7,5 +7,5 @@ resources:
   - namespace.yaml
   - redirect.yaml
   - sealedsecret.yaml
-  - storage.yaml
   - updateautomation.yaml
+  - postgres.yaml
