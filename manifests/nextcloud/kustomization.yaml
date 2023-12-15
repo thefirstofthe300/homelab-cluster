@@ -6,6 +6,5 @@ resources:
   - images.yaml
   - namespace.yaml
   - redirect.yaml
-  - sealedsecret.yaml
   - updateautomation.yaml
   - postgres.yaml

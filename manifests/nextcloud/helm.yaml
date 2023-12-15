@@ -21,9 +21,6 @@ spec:
   upgrade:
     remediation:
       retries: 1
-  valuesFrom:
-    - kind: Secret
-      name: nextcloud-values
   values:
     image:
       flavor: apache
