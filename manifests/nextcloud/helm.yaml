@@ -56,13 +56,13 @@ spec:
     internalDatabase:
       enabled: false
     externalDatabase:
-      type: postgresql
+      type: "postgresql"
       existingSecret:
-        secretName: nextclouddb-pguser-nextcloud
-        usernameKey: user
-        passwordKey: password
-        databaseKey: dbname
-        hostKey: host
+        secretName: "nextclouddb-pguser-nextcloud"
+        usernameKey: "user"
+        passwordKey: "password"
+        databaseKey: "dbname"
+        hostKey: "host"
     cronjob:
       enabled: true
     persistence:
