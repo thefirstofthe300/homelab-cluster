@@ -59,6 +59,8 @@ spec:
     internalDatabase:
       enabled: false
     externalDatabase:
+      enabled: true
+      type: postgresql
       existingSecret:
         enabled: true
         secretName: nextclouddb-pguser-nextcloud
