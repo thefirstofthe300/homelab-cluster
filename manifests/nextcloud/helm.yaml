@@ -61,7 +61,7 @@ spec:
     externalDatabase:
       existingSecret:
         enabled: true
-        secretName: nextcloud-pguser-nextcloud
+        secretName: nextclouddb-pguser-nextcloud
         usernameKey: user
         passwordKey: password
         databaseKey: dbname

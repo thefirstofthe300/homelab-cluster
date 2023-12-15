@@ -2,11 +2,11 @@
 apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
 metadata:
-  name: nextcloud
+  name: nextclouddb
 spec:
   postgresVersion: 15
   instances:
-    - name: nextcloud
+    - name: nextclouddb
       replicas: 2
       dataVolumeClaimSpec:
         storageClassName: truenas-iscsi-csi
@@ -23,13 +23,13 @@ spec:
               topologyKey: kubernetes.io/hostname
               labelSelector:
                 matchLabels:
-                  postgres-operator.crunchydata.com/cluster: nextcloud
-                  postgres-operator.crunchydata.com/instance-set: nextcloud
+                  postgres-operator.crunchydata.com/cluster: nextclouddb
+                  postgres-operator.crunchydata.com/instance-set: nextclouddb
   users:
     - name: postgres
-    - name: nextcloud
+    - name: nextclouddb
       databases:
-        - nextcloud
+        - nextclouddb
   backups:
     pgbackrest:
       global:
