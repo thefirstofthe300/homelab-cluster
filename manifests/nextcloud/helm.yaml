@@ -68,8 +68,6 @@ spec:
     persistence:
       enabled: true
       storageClass: truenas-iscsi-csi
-      annotations:
-        rollout: test
       nextcloudData:
         enabled: true
         storageClass: truenas-nfs-csi
