@@ -4,8 +4,8 @@ metadata:
   name: immich
   namespace: immich
 spec:
-  interval: 1m
-  timeout: 10m
+  interval: 1h0m0s
+  timeout: 10m0s
   chart:
     spec:
       chart: immich
@@ -14,14 +14,10 @@ spec:
         kind: HelmRepository
         name: immich
         namespace: flux-system
-      interval: 10m
+      interval: 24h0m0s
   install:
     remediation:
-      retries: 3
       remediateLastFailure: true
-  upgrade:
-    remediation:
-      retries: 3
   valuesFrom:
     - kind: Secret
       name: immich-values
@@ -29,8 +25,20 @@ spec:
     env:
       REDIS_HOSTNAME: redis-master.redis.svc
       DB_HOSTNAME: postgresql-hl.postgres.svc
-      DB_USERNAME: immich
-      DB_DATABASE_NAME: immich
+        # valueFrom:
+        #   secretKeyRef:
+        #     name: immich-pguser-immich
+        #     key: host
+      DB_USERNAME:
+        valueFrom:
+          secretKeyRef:
+            name: immich-pguser-immich
+            key: user
+      DB_DATABASE_NAME:
+        valueFrom:
+          secretKeyRef:
+            name: immich-pguser-immich
+            key: dbname
       TYPESENSE_ENABLED: "{{ .Values.typesense.enabled }}"
       TYPESENSE_API_KEY: "{{ .Values.typesense.env.TYPESENSE_API_KEY }}"
       TYPESENSE_HOST: '{{ printf "%s-typesense" .Release.Name }}'
