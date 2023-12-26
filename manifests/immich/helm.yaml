@@ -87,6 +87,10 @@ spec:
       podSecurityContext:
         runAsUser: 10001
       persistence:
+        config:
+          enabled: true
+          type: secret
+          name: pgo-root-cacert
         geodata-cache:
           enabled: true
           size: 1Gi
