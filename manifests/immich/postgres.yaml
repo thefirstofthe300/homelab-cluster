@@ -1,0 +1,61 @@
+---
+apiVersion: postgres-operator.crunchydata.com/v1beta1
+kind: PostgresCluster
+metadata:
+  name: immich
+spec:
+  postgresVersion: 15
+  image: firstofth300/immich-postgres:pg15-v0.1.11
+  imagePullPolicy: Always
+  instances:
+    - name: immich
+      replicas: 2
+      dataVolumeClaimSpec:
+        storageClassName: truenas-iscsi-csi
+        accessModes:
+        - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: 100Gi
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            podAffinityTerm:
+              topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchLabels:
+                  postgres-operator.crunchydata.com/cluster: immich
+                  postgres-operator.crunchydata.com/instance-set: immich
+  patroni:
+    dynamicConfiguration:
+      postgresql:
+        parameters:
+          shared_preload_libraries: vectors
+  users:
+    - name: postgres
+    - name: immich
+      password:
+        type: AlphaNumeric
+      options: 'SUPERUSER'
+      databases:
+        - immich
+  backups:
+    pgbackrest:
+      global:
+        repo1-retention-full: "14"
+        repo1-retention-full-type: time
+      repos:
+      - name: repo1
+        schedules:
+          full: "0 1 * * 0"
+          differential: "0 1 * * 1-6"
+          incremental: "*/5 * * * *"
+        volume:
+          volumeClaimSpec:
+            storageClassName: truenas-nfs-csi
+            accessModes:
+            - "ReadWriteOnce"
+            resources:
+              requests:
+                storage: 100Gi
