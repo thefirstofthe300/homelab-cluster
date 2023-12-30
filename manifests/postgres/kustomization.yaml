@@ -4,5 +4,4 @@ namespace: postgres
 resources:
   - helm.yaml
   - namespace.yaml
-  - postgres.yaml
   - storage.yaml
