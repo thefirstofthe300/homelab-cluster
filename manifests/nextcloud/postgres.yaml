@@ -28,6 +28,9 @@ spec:
   users:
     - name: postgres
     - name: nextcloud
+      password:
+        type: AlphaNumeric
+      options: 'SUPERUSER'
       databases:
         - nextcloud
   backups:
