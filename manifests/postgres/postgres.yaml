@@ -1,0 +1,52 @@
+---
+apiVersion: postgres-operator.crunchydata.com/v1beta1
+kind: PostgresCluster
+metadata:
+  name: cluster
+spec:
+  postgresVersion: 15
+  instances:
+    - name: cluster
+      replicas: 2
+      dataVolumeClaimSpec:
+        storageClassName: truenas-iscsi-csi
+        accessModes:
+        - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: 500Gi
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            podAffinityTerm:
+              topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchLabels:
+                  postgres-operator.crunchydata.com/cluster: cluster
+                  postgres-operator.crunchydata.com/instance-set: cluster
+  users:
+    - name: postgres
+    - name: vault
+      password:
+        type: AlphaNumeric
+      options: 'SUPERUSER'
+  backups:
+    pgbackrest:
+      global:
+        repo1-retention-full: "14"
+        repo1-retention-full-type: time
+      repos:
+      - name: repo1
+        schedules:
+          full: "0 1 * * 0"
+          differential: "0 1 * * 1-6"
+          incremental: "*/5 * * * *"
+        volume:
+          volumeClaimSpec:
+            storageClassName: truenas-nfs-csi
+            accessModes:
+            - "ReadWriteOnce"
+            resources:
+              requests:
+                storage: 100Gi

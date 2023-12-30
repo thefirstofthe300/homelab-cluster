@@ -26,3 +26,13 @@ spec:
         fsGroupChangePolicy: Always
       persistence:
         existingClaim: postgres-data
+      extraEnvVars:
+        - name: PGSSLROOTCERT
+          value: /etc/postgres/root.crt
+      extraVolumeMounts:
+        - name: pgssl
+          mountPath: /etc/postgres
+      extraVolumes:
+        - name: pgssl
+          secret:
+            secretName: pgo-immich-root-cacert
