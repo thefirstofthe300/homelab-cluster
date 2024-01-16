@@ -2,11 +2,13 @@
 apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
 metadata:
-  name: nextclouddb
+  name: immich
 spec:
   postgresVersion: 15
+  image: firstofth300/immich-postgres:pg15-v0.1.11
+  imagePullPolicy: Always
   instances:
-    - name: nextclouddb
+    - name: immich
       replicas: 2
       dataVolumeClaimSpec:
         storageClassName: truenas-iscsi-csi
@@ -23,16 +25,21 @@ spec:
               topologyKey: kubernetes.io/hostname
               labelSelector:
                 matchLabels:
-                  postgres-operator.crunchydata.com/cluster: nextcloud
-                  postgres-operator.crunchydata.com/instance-set: nextcloud
+                  postgres-operator.crunchydata.com/cluster: immich
+                  postgres-operator.crunchydata.com/instance-set: immich
+  patroni:
+    dynamicConfiguration:
+      postgresql:
+        parameters:
+          shared_preload_libraries: vectors
   users:
     - name: postgres
-    - name: nextcloud
+    - name: immich
       password:
         type: AlphaNumeric
       options: 'SUPERUSER'
       databases:
-        - nextcloud
+        - immich
   backups:
     pgbackrest:
       global:

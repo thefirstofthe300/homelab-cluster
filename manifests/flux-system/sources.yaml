@@ -111,3 +111,12 @@ spec:
   type: "oci"
   interval: 24h0m0s
   url: oci://registry.developers.crunchydata.com/crunchydata
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: hashicorp
+  namespace: flux-system
+spec:
+  interval: 24h0m0s
+  url: https://helm.releases.hashicorp.com

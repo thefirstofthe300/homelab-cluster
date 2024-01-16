@@ -1,14 +1,14 @@
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: nextcloud
   namespace: nextcloud
 spec:
-  interval: 1m
+  interval: 1h0m0s
   chart:
     spec:
       chart: nextcloud
-      version: "3.5.4"
+      version: "4.5.10"
       sourceRef:
         kind: HelmRepository
         name: nextcloud
@@ -21,12 +21,30 @@ spec:
   upgrade:
     remediation:
       retries: 1
+  driftDetection:
+    mode: enabled
   values:
     image:
       flavor: apache
-      tag: 28.0.0 # {"$imagepolicy": "nextcloud:nextcloud:tag"}
+      tag: 28.0.1 # {"$imagepolicy": "nextcloud:nextcloud:tag"}
     nextcloud:
       host: cloud.seymour.family
+      extraEnv:
+        - name: PGSSLMODE
+          value: verify-full
+        - name: PGSSLROOTCERT
+          value: /etc/postgres/tls/root.crt
+      extraVolumeMounts:
+        - name: pgssl
+          mountPath: /etc/postgres/tls
+          readOnly: true
+      extraVolumes:
+        - name: pgssl
+          secret:
+            secretName: pgo-root-cacert
+            items:
+              - key: root.crt
+                path: root.crt
       configs:
         proxy.config.php: |-
           <?php
@@ -56,6 +74,7 @@ spec:
     internalDatabase:
       enabled: false
     externalDatabase:
+      enabled: true
       type: "postgresql"
       existingSecret:
         secretName: "nextclouddb-pguser-nextcloud"

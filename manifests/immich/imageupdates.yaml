@@ -19,25 +19,6 @@ spec:
       range: v1.x.x
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta1
-kind: ImageRepository
-metadata:
-  name: typesense
-spec:
-  image: docker.io/typesense/typesense
-  interval: 1h0m0s
----
-apiVersion: image.toolkit.fluxcd.io/v1beta1
-kind: ImagePolicy
-metadata:
-  name: typesense
-spec:
-  imageRepositoryRef:
-    name: typesense
-  policy:
-    semver:
-      range: 0.24.x
----
-apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImageUpdateAutomation
 metadata:
   name: immich
