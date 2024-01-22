@@ -30,3 +30,5 @@ spec:
       web:
         redirectTo:
           port: websecure
+    service:
+      external traffic policy: Local
