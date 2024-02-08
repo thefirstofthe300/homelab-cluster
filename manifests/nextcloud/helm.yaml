@@ -27,7 +27,7 @@ spec:
   values:
     image:
       flavor: apache
-      tag: 27.1.6 # {"$imagepolicy": "nextcloud:nextcloud:tag"}
+      tag: 28.0.2 # {"$imagepolicy": "nextcloud:nextcloud:tag"}
     nextcloud:
       host: cloud.seymour.family
       configs:
