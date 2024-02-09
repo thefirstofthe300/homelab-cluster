@@ -11,6 +11,4 @@ commonLabels:
   app.kubernetes.io/component: mautrix-signal
 images:
   - name: dock.mau.dev/mautrix/signal
-    newTag: v0.4.3 # {"$imagepolicy": "synapse:mautrix-signal:tag"}
-  - name: signald/signald
-    newTag: 0.23.2 # {"$imagepolicy": "synapse:signald:tag"}
+    newTag: d482bca04137457c0355f02f730b934069074088-amd64 # {"$imagepolicy": "synapse:mautrix-signal:tag"}

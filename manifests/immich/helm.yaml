@@ -4,8 +4,8 @@ metadata:
   name: immich
   namespace: immich
 spec:
-  interval: 1m
-  timeout: 10m
+  interval: 1h0m0s
+  timeout: 10m0s
   chart:
     spec:
       chart: immich
@@ -14,51 +14,47 @@ spec:
         kind: HelmRepository
         name: immich
         namespace: flux-system
-      interval: 10m
+      interval: 24h0m0s
   install:
     remediation:
-      retries: 3
       remediateLastFailure: true
-  upgrade:
-    remediation:
-      retries: 3
   valuesFrom:
     - kind: Secret
       name: immich-values
   values:
     env:
       REDIS_HOSTNAME: redis-master.redis.svc
-      DB_HOSTNAME: postgresql-hl.postgres.svc
-      DB_USERNAME: immich
-      DB_DATABASE_NAME: immich
-      TYPESENSE_ENABLED: "{{ .Values.typesense.enabled }}"
-      TYPESENSE_API_KEY: "{{ .Values.typesense.env.TYPESENSE_API_KEY }}"
-      TYPESENSE_HOST: '{{ printf "%s-typesense" .Release.Name }}'
+      DB_HOSTNAME:
+        valueFrom:
+          secretKeyRef:
+            name: immich-pguser-immich
+            key: host
+      DB_USERNAME:
+        valueFrom:
+          secretKeyRef:
+            name: immich-pguser-immich
+            key: user
+      DB_PASSWORD:
+        valueFrom:
+          secretKeyRef:
+            name: immich-pguser-immich
+            key: password
+      DB_DATABASE_NAME:
+        valueFrom:
+          secretKeyRef:
+            name: immich-pguser-immich
+            key: dbname
+      PGSSLMODE: verify-full
+      PGSSLROOTCERT: /config/root.crt
       IMMICH_WEB_URL: '{{ printf "http://%s-web:3000" .Release.Name }}'
       IMMICH_SERVER_URL: '{{ printf "http://%s-server:3001" .Release.Name }}'
       IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
     image:
-      tag: v1.90.2 # {"$imagepolicy": "immich:immich:tag"}
+      tag: v1.94.1 # {"$imagepolicy": "immich:immich:tag"}
     immich:
       persistence:
         library:
           existingClaim: library
-    typesense:
-      enabled: true
-      podSecurityContext:
-        runAsUser: 10001
-      env:
-        TYPESENSE_DATA_DIR: /tsdata
-      persistence:
-        tsdata:
-          enabled: true
-          accessMode: ReadWriteOnce
-          size: 20Gi
-          storageClass: truenas-nfs-csi
-      image:
-        repository: docker.io/typesense/typesense
-        tag: 0.24.1 # {"$imagepolicy": "immich:typesense:tag"}
-        pullPolicy: IfNotPresent
     server:
       enabled: true
       image:
@@ -66,6 +62,11 @@ spec:
         pullPolicy: IfNotPresent
       podSecurityContext:
         runAsUser: 10001
+      persistence:
+        config:
+          enabled: true
+          type: secret
+          name: pgo-root-cacert
       ingress:
         main:
           enabled: true
@@ -86,6 +87,10 @@ spec:
       podSecurityContext:
         runAsUser: 10001
       persistence:
+        config:
+          enabled: true
+          type: secret
+          name: pgo-root-cacert
         geodata-cache:
           enabled: true
           size: 1Gi

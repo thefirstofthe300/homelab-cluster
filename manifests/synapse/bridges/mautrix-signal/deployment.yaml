@@ -13,11 +13,12 @@ spec:
           image: dock.mau.dev/mautrix/signal
           imagePullPolicy: IfNotPresent
           command:
-            - python3
-            - -m
-            - mautrix_signal
-            - -c
-            - /etc/signald/config.yaml
+            - /usr/bin/mautrix-signal
+            - --config=/etc/signal/config.yaml
+            - --no-update
+          env:
+            - name: PGSSLROOTCERT
+              value: /etc/postgres/root.crt
           ports:
             - name: http
               containerPort: 29328
@@ -32,19 +33,13 @@ spec:
           resources: {}
           volumeMounts:
             - name: config
-              mountPath: /etc/signald
-            - name: signald
-              mountPath: /signald
-        - name: signald
-          image: signald/signald
-          imagePullPolicy: IfNotPresent
-          resources: {}
-          volumeMounts:
-            - name: signald
-              mountPath: /signald
+              mountPath: /etc/signal
+            - name: pgssl
+              mountPath: /etc/postgres
       volumes:
         - name: config
           secret:
             secretName: mautrix-signal-config
-        - name: signald
-          emptyDir: {}
+        - name: pgssl
+          secret:
+            secretName: pgo-root-cacert

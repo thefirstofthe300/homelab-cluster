@@ -1,14 +1,14 @@
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: nextcloud
   namespace: nextcloud
 spec:
-  interval: 1m
+  interval: 1h0m0s
   chart:
     spec:
       chart: nextcloud
-      version: "3.5.4"
+      version: "4.5.10"
       sourceRef:
         kind: HelmRepository
         name: nextcloud
@@ -16,20 +16,35 @@ spec:
       interval: 10m
   install:
     remediation:
-      retries: 3
+      retries: 1
       remediateLastFailure: true
   upgrade:
     remediation:
-      retries: 3
-  valuesFrom:
-    - kind: Secret
-      name: nextcloud-values
+      retries: 1
+  driftDetection:
+    mode: enabled
   values:
     image:
       flavor: apache
       tag: 28.0.2 # {"$imagepolicy": "nextcloud:nextcloud:tag"}
     nextcloud:
       host: cloud.seymour.family
+      extraEnv:
+        - name: PGSSLMODE
+          value: verify-full
+        - name: PGSSLROOTCERT
+          value: /etc/postgres/tls/root.crt
+      extraVolumeMounts:
+        - name: pgssl
+          mountPath: /etc/postgres/tls
+          readOnly: true
+      extraVolumes:
+        - name: pgssl
+          secret:
+            secretName: pgo-root-cacert
+            items:
+              - key: root.crt
+                path: root.crt
       configs:
         proxy.config.php: |-
           <?php
@@ -59,20 +74,19 @@ spec:
     internalDatabase:
       enabled: false
     externalDatabase:
+      enabled: true
+      type: "postgresql"
       existingSecret:
-        enabled: true
-        secretName: nextcloud-pguser-nextcloud
-        usernameKey: user
-        passwordKey: password
-        databaseKey: dbname
-        hostKey: host
+        secretName: "nextclouddb-pguser-nextcloud"
+        usernameKey: "user"
+        passwordKey: "password"
+        databaseKey: "dbname"
+        hostKey: "host"
     cronjob:
       enabled: true
     persistence:
       enabled: true
       storageClass: truenas-iscsi-csi
-      annotations:
-        rollout: test
       nextcloudData:
         enabled: true
         storageClass: truenas-nfs-csi

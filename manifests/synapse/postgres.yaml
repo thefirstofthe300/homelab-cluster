@@ -2,11 +2,11 @@
 apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
 metadata:
-  name: nextclouddb
+  name: synapse
 spec:
   postgresVersion: 15
   instances:
-    - name: nextclouddb
+    - name: synapse
       replicas: 2
       dataVolumeClaimSpec:
         storageClassName: truenas-iscsi-csi
@@ -23,16 +23,20 @@ spec:
               topologyKey: kubernetes.io/hostname
               labelSelector:
                 matchLabels:
-                  postgres-operator.crunchydata.com/cluster: nextcloud
-                  postgres-operator.crunchydata.com/instance-set: nextcloud
+                  postgres-operator.crunchydata.com/cluster: synapse
+                  postgres-operator.crunchydata.com/instance-set: synapse
   users:
     - name: postgres
-    - name: nextcloud
+    - name: synapse
       password:
         type: AlphaNumeric
-      options: 'SUPERUSER'
       databases:
-        - nextcloud
+        - synapse
+    - name: mautrix-signal
+      password:
+        type: AlphaNumeric
+      databases:
+        - mautrix-signal
   backups:
     pgbackrest:
       global:

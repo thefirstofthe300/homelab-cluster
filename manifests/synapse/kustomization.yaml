@@ -10,6 +10,7 @@ resources:
   - sealedsecret.yaml
   - storage.yaml
   - updateautomation.yaml
+  - postgres.yaml
 commonLabels:
   app.kubernetes.io/name: matrix-synapse
   app.kubernetes.io/instance: matrix-synapse
