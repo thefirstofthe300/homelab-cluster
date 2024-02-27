@@ -23,7 +23,7 @@ spec:
   values:
     replicaCount: 2
     image:
-      tag: "v1.11.58" # {"$imagepolicy": "synapse:element-web:tag"}
+      tag: "v1.11.59" # {"$imagepolicy": "synapse:element-web:tag"}
     defaultServer:
       url: "https://matrix.seymour.family"
       name: "Seymour Family"
