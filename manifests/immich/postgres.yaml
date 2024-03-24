@@ -5,7 +5,7 @@ metadata:
   name: immich
 spec:
   postgresVersion: 15
-  image: firstofth300/immich-postgres:pg15-v0.1.11
+  image: firstofth300/immich-postgres:pg15-v0.2.0
   imagePullPolicy: Always
   instances:
     - name: immich
