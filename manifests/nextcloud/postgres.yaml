@@ -43,7 +43,7 @@ spec:
         schedules:
           full: "0 1 * * 0"
           differential: "0 1 * * 1-6"
-          incremental: "*/5 * * * *"
+          incremental: "0 * * * *"
         volume:
           volumeClaimSpec:
             storageClassName: truenas-nfs-csi
