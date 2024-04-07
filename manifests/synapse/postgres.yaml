@@ -18,9 +18,7 @@ spec:
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-          - weight: 1
-            podAffinityTerm:
-              topologyKey: kubernetes.io/hostname
+            - topologyKey: kubernetes.io/hostname
               labelSelector:
                 matchLabels:
                   postgres-operator.crunchydata.com/cluster: synapse
