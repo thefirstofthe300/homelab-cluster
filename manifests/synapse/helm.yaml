@@ -158,6 +158,12 @@ spec:
         replicaCount: 3
       generic_worker:
         enabled: true
+      resources:
+        requests:
+          cpu: 500m
+          memory: 1Gi
+        limits:
+          memory: 2Gi
       securityContext:
         capabilities:
           drop:
