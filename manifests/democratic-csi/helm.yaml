@@ -78,6 +78,15 @@ spec:
           extentBlocksize: 4096
           extentRpm: "SSD"
           extentAvailThreshold: 0
+    controller:
+      driver:
+        image: docker.io/democraticcsi/democratic-csi:v1.8.4
+        resources:
+          requests:
+            cpu: 10m
+            memory: 100Mi
+          limits:
+            memory: 100Mi
     node:
       tolerations:
       - key: "node-role.kubernetes.io/control-plane"
@@ -85,6 +94,7 @@ spec:
         effect: "NoSchedule"
       hostPID: true
       driver:
+        image: docker.io/democraticcsi/democratic-csi:v1.8.4
         extraEnv:
           - name: ISCSIADM_HOST_STRATEGY
             value: nsenter
@@ -92,6 +102,12 @@ spec:
             value: /usr/local/sbin/iscsiadm
         iscsiDirHostPath: /usr/local/etc/iscsi
         iscsiDirHostPathType: ""
+        resources:
+          requests:
+            cpu: 10m
+            memory: 100Mi
+          limits:
+            memory: 100Mi
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
@@ -165,7 +181,24 @@ spec:
           shareMaprootGroup: root
           shareMapallUser: ""
           shareMapallGroup: ""
+    controller:
+      driver:
+        image: docker.io/democraticcsi/democratic-csi:v1.8.4
+        resources:
+          requests:
+            cpu: 10m
+            memory: 100Mi
+          limits:
+            memory: 100Mi
     node:
+      driver:
+        image: docker.io/democraticcsi/democratic-csi:v1.8.4
+        resources:
+          requests:
+            cpu: 10m
+            memory: 100Mi
+          limits:
+            memory: 100Mi
       tolerations:
       - key: "node-role.kubernetes.io/control-plane"
         operator: "Exists"
@@ -217,6 +250,14 @@ spec:
       config:
         driver: node-manual
     controller:
+      driver:
+        image: docker.io/democraticcsi/democratic-csi:v1.8.4
+        resources:
+          requests:
+            cpu: 10m
+            memory: 100Mi
+          limits:
+            memory: 100Mi
       externalSnapshotter:
         enabled: false
       externalResizer:
@@ -228,6 +269,7 @@ spec:
         effect: "NoSchedule"
       hostPID: true
       driver:
+        image: docker.io/democraticcsi/democratic-csi:v1.8.4
         extraEnv:
           - name: ISCSIADM_HOST_STRATEGY
             value: nsenter
@@ -235,3 +277,9 @@ spec:
             value: /usr/local/sbin/iscsiadm
         iscsiDirHostPath: /usr/local/etc/iscsi
         iscsiDirHostPathType: ""
+        resources:
+          requests:
+            cpu: 10m
+            memory: 100Mi
+          limits:
+            memory: 100Mi
