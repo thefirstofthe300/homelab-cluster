@@ -5,7 +5,7 @@ metadata:
   name: synapse
 spec:
   image: matrixdotorg/synapse
-  interval: 1h0m0s
+  interval: 24h0m0s
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImagePolicy
@@ -24,7 +24,7 @@ metadata:
   name: sliding-sync
 spec:
   image: ghcr.io/matrix-org/sliding-sync
-  interval: 1h0m0s
+  interval: 24h0m0s
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImagePolicy
@@ -43,7 +43,7 @@ metadata:
   name: element-web
 spec:
   image: docker.io/vectorim/element-web
-  interval: 1h0m0s
+  interval: 24h0m0s
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImagePolicy

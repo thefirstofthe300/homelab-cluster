@@ -1,11 +1,20 @@
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: immich
   namespace: immich
 spec:
-  interval: 1h0m0s
-  timeout: 10m0s
+  interval: 24h0m0s
+  timeout: 15m0s
+  install:
+    remediation:
+      retries: 3
+      remediateLastFailure: true
+  upgrade:
+    remediation:
+      retries: 3
+  driftDetection:
+    mode: enabled
   chart:
     spec:
       chart: immich
@@ -15,9 +24,6 @@ spec:
         name: immich
         namespace: flux-system
       interval: 24h0m0s
-  install:
-    remediation:
-      remediateLastFailure: true
   valuesFrom:
     - kind: Secret
       name: immich-values
@@ -50,7 +56,7 @@ spec:
       IMMICH_SERVER_URL: '{{ printf "http://%s-server:3001" .Release.Name }}'
       IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
     image:
-      tag: v1.94.1 # {"$imagepolicy": "immich:immich:tag"}
+      tag: v1.101.0 # {"$imagepolicy": "immich:immich:tag"}
     immich:
       persistence:
         library:

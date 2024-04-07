@@ -5,7 +5,7 @@ metadata:
   name: state-compressor
 spec:
   image: ghcr.io/thefirstofthe300/rust-synapse-compress-state
-  interval: 1h0m0s
+  interval: 24h0m0s
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImagePolicy

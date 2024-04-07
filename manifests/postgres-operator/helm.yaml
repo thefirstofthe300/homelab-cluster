@@ -4,7 +4,16 @@ kind: HelmRelease
 metadata:
   name: postgres-operator
 spec:
-  interval: 1h
+  interval: 24h0m0s
+  install:
+    remediation:
+      retries: 3
+      remediateLastFailure: true
+  upgrade:
+    remediation:
+      retries: 3
+  driftDetection:
+    mode: enabled
   chart:
     spec:
       chart: pgo
@@ -13,13 +22,6 @@ spec:
         kind: HelmRepository
         name: postgres-operator
         namespace: flux-system
-      interval: 1h
-  install:
-    remediation:
-      retries: 1
-      remediateLastFailure: true
-  upgrade:
-    remediation:
-      retries: 1
+      interval: 24h0m0s
   values:
     debug: false

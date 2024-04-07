@@ -3,7 +3,7 @@ kind: HelmRelease
 metadata:
   name: postgresql
 spec:
-  interval: 1m
+  interval: 24h0m0s
   chart:
     spec:
       chart: postgresql
@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: bitnami
         namespace: flux-system
-      interval: 1m
+      interval: 24h0m0s
   install:
     remediation:
       retries: 3

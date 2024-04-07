@@ -5,7 +5,7 @@ metadata:
   name: immich-server
 spec:
   image: ghcr.io/immich-app/immich-server
-  interval: 1h0m0s
+  interval: 24h0m0s
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImagePolicy
@@ -23,7 +23,7 @@ kind: ImageUpdateAutomation
 metadata:
   name: immich
 spec:
-  interval: 1m0s
+  interval: 24h0m0s
   sourceRef:
     kind: GitRepository
     name: flux-system
