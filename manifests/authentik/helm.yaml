@@ -23,13 +23,6 @@ spec:
         name: authentik
         namespace: flux-system
       interval: 24h0m0s
-  install:
-    remediation:
-      retries: 1
-      remediateLastFailure: true
-  upgrade:
-    remediation:
-      retries: 1
   valuesFrom:
     - kind: Secret
       name: authentik-values
