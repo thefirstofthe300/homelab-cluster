@@ -3,7 +3,16 @@ kind: HelmRelease
 metadata:
   name: element-web
 spec:
-  interval: 1h
+  interval: 24h0m0s
+  install:
+    remediation:
+      retries: 3
+      remediateLastFailure: true
+  upgrade:
+    remediation:
+      retries: 3
+  driftDetection:
+    mode: enabled
   chart:
     spec:
       chart: element-web
@@ -12,14 +21,7 @@ spec:
         kind: HelmRepository
         name: ananace
         namespace: flux-system
-      interval: 1h
-  install:
-    remediation:
-      retries: 1
-      remediateLastFailure: true
-  upgrade:
-    remediation:
-      retries: 1
+      interval: 24h0m0s
   values:
     replicaCount: 2
     image:
@@ -66,7 +68,16 @@ kind: HelmRelease
 metadata:
   name: matrix-synapse
 spec:
-  interval: 1h
+  interval: 24h0m0s
+  install:
+    remediation:
+      retries: 3
+      remediateLastFailure: true
+  upgrade:
+    remediation:
+      retries: 3
+  driftDetection:
+    mode: enabled
   chart:
     spec:
       chart: matrix-synapse
@@ -75,16 +86,7 @@ spec:
         kind: HelmRepository
         name: ananace
         namespace: flux-system
-      interval: 1h
-  install:
-    timeout: 2m
-    remediation:
-      retries: 1
-      remediateLastFailure: true
-  upgrade:
-    timeout: 2m
-    remediation:
-      retries: 1
+      interval: 24h0m0s
   values:
     image:
       tag: v1.103.0 # {"$imagepolicy": "synapse:synapse:tag"}
@@ -190,7 +192,16 @@ kind: HelmRelease
 metadata:
   name: sliding-sync-proxy
 spec:
-  interval: 1h
+  interval: 24h0m0s
+  install:
+    remediation:
+      retries: 3
+      remediateLastFailure: true
+  upgrade:
+    remediation:
+      retries: 3
+  driftDetection:
+    mode: enabled
   chart:
     spec:
       chart: sliding-sync-proxy
@@ -199,16 +210,7 @@ spec:
         kind: HelmRepository
         name: ananace
         namespace: flux-system
-      interval: 1h
-  install:
-    timeout: 1m
-    remediation:
-      retries: 1
-      remediateLastFailure: true
-  upgrade:
-    timeout: 1m
-    remediation:
-      retries: 1
+      interval: 24h0m0s
   valuesFrom:
     - kind: Secret
       name: sliding-sync-values

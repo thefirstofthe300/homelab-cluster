@@ -3,7 +3,7 @@ kind: ImageUpdateAutomation
 metadata:
   name: synapse
 spec:
-  interval: 1m0s
+  interval: 24h0m0s
   sourceRef:
     kind: GitRepository
     name: flux-system

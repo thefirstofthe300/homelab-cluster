@@ -4,8 +4,16 @@ metadata:
   name: authentik
   namespace: authentik
 spec:
-  interval: 1h
-  timeout: 5m
+  interval: 24h0m0s
+  install:
+    remediation:
+      retries: 3
+      remediateLastFailure: true
+  upgrade:
+    remediation:
+      retries: 3
+  driftDetection:
+    mode: enabled
   chart:
     spec:
       chart: authentik
@@ -14,7 +22,7 @@ spec:
         kind: HelmRepository
         name: authentik
         namespace: flux-system
-      interval: 10m
+      interval: 24h0m0s
   install:
     remediation:
       retries: 1

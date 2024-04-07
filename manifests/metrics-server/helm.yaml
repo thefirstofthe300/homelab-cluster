@@ -5,15 +5,16 @@ metadata:
   name: metrics-server
   namespace: kube-system
 spec:
-  interval: 1h
-  timeout: 5m
+  interval: 24h0m0s
   install:
     remediation:
-      retries: 1
+      retries: 3
       remediateLastFailure: true
   upgrade:
     remediation:
-      retries: 1
+      retries: 3
+  driftDetection:
+    mode: enabled
   chart:
     spec:
       chart: metrics-server
@@ -22,7 +23,7 @@ spec:
         kind: HelmRepository
         name: metrics-server
         namespace: flux-system
-      interval: 1h
+      interval: 24h0m0s
   values:
     args:
       - --kubelet-insecure-tls

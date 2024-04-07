@@ -5,14 +5,16 @@ metadata:
   name: truenas-api-iscsi
   namespace: democratic-csi
 spec:
-  interval: 1h
+  interval: 24h0m0s
   install:
     remediation:
-      retries: 1
+      retries: 3
       remediateLastFailure: true
   upgrade:
     remediation:
-      retries: 1
+      retries: 3
+  driftDetection:
+    mode: enabled
   chart:
     spec:
       chart: democratic-csi
@@ -21,7 +23,7 @@ spec:
         kind: HelmRepository
         name: democratic-csi
         namespace: flux-system
-      interval: 1h
+      interval: 24h0m0s
   values:
     fullnameOverride: truenas-api-iscsi
     csiDriver:
@@ -97,14 +99,16 @@ metadata:
   name: truenas-api-nfs
   namespace: democratic-csi
 spec:
-  interval: 1h
+  interval: 24h0m0s
   install:
     remediation:
-      retries: 1
+      retries: 3
       remediateLastFailure: true
   upgrade:
     remediation:
-      retries: 1
+      retries: 3
+  driftDetection:
+    mode: enabled
   chart:
     spec:
       chart: democratic-csi
@@ -113,7 +117,7 @@ spec:
         kind: HelmRepository
         name: democratic-csi
         namespace: flux-system
-      interval: 1h
+      interval: 24h0m0s
   values:
     fullnameOverride: truenas-api-nfs
     csiDriver:
@@ -173,14 +177,16 @@ metadata:
   name: node-manual
   namespace: democratic-csi
 spec:
-  interval: 1h
+  interval: 24h0m0s
   install:
     remediation:
-      retries: 1
+      retries: 3
       remediateLastFailure: true
   upgrade:
     remediation:
-      retries: 1
+      retries: 3
+  driftDetection:
+    mode: enabled
   chart:
     spec:
       chart: democratic-csi
@@ -189,7 +195,7 @@ spec:
         kind: HelmRepository
         name: democratic-csi
         namespace: flux-system
-      interval: 1h
+      interval: 24h0m0s
   values:
     fullnameOverride: node-manual
     csiDriver:

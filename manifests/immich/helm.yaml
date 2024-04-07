@@ -4,8 +4,17 @@ metadata:
   name: immich
   namespace: immich
 spec:
-  interval: 1h0m0s
-  timeout: 10m0s
+  interval: 24h0m0s
+  timeout: 15m0s
+  install:
+    remediation:
+      retries: 3
+      remediateLastFailure: true
+  upgrade:
+    remediation:
+      retries: 3
+  driftDetection:
+    mode: enabled
   chart:
     spec:
       chart: immich
@@ -15,9 +24,6 @@ spec:
         name: immich
         namespace: flux-system
       interval: 24h0m0s
-  install:
-    remediation:
-      remediateLastFailure: true
   valuesFrom:
     - kind: Secret
       name: immich-values
