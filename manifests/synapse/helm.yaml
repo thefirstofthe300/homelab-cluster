@@ -113,6 +113,12 @@ spec:
         - /synapse/config/appservices/mautrix-telegram.yaml
         - /synapse/config/appservices/mautrix-discord.yaml
     synapse:
+      resources:
+        requests:
+          cpu: 500m
+          memory: 1Gi
+        limits:
+          memory: 2Gi
       securityContext:
         capabilities:
           drop:
