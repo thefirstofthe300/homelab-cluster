@@ -56,10 +56,7 @@ spec:
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-production
         hosts:
-          - host: authentik.seymour.family
-            paths:
-              - path: "/"
-                pathType: Prefix
+          - authentik.seymour.family
         tls:
           - hosts:
               - authentik.seymour.family
