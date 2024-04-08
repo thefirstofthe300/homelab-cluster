@@ -1,4 +1,4 @@
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: authentik
@@ -50,6 +50,11 @@ spec:
         name: authentik
       redis:
         host: redis-headless.redis.svc.cluster.local
+    server:
+      metrics:
+        enabled: "true"
+        serviceMonitor:
+          enabled: "true"
     ingress:
       ingressClassName: traefik
       enabled: true
