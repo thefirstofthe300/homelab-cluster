@@ -33,7 +33,7 @@ spec:
           value: disable
     authentik:
       error_reporting:
-        enabled: "true"
+        enabled: true
       postgresql:
         host: postgresql-hl.postgres.svc.cluster.local
         name: authentik
@@ -47,12 +47,12 @@ spec:
         limits:
           memory: 2Gi
       metrics:
-        enabled: "true"
+        enabled: true
         serviceMonitor:
-          enabled: "true"
+          enabled: true
       ingress:
         ingressClassName: traefik
-        enabled: "true"
+        enabled: true
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-production
         hosts:
