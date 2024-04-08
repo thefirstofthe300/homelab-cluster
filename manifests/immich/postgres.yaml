@@ -6,10 +6,29 @@ metadata:
 spec:
   postgresVersion: 15
   image: firstofth300/immich-postgres:pg15-v0.2.1
-  imagePullPolicy: Always
+  imagePullPolicy: IfNotPresent
   instances:
     - name: immich
       replicas: 2
+      containers:
+        - name: pgexporter
+          image: quay.io/prometheuscommunity/postgres-exporter:v0.15.0
+          env:
+            - name: DATA_SOURCE_URI
+              value: localhost
+            - name: DATA_SOURCE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: immich-pguser-monitoring
+                  key: user
+            - name: DATA_SOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: immich-pguser-monitoring
+                  key: password
+          ports:
+            - name: metrics
+              containerPort: 9187
       dataVolumeClaimSpec:
         storageClassName: truenas-iscsi-csi
         accessModes:
@@ -38,6 +57,9 @@ spec:
       options: 'SUPERUSER'
       databases:
         - immich
+    - name: monitoring
+      password:
+        type: AlphaNumeric
   backups:
     pgbackrest:
       global:

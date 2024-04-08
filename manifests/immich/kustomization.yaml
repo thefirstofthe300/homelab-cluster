@@ -7,4 +7,11 @@ resources:
   - namespace.yaml
   - postgres.yaml
   - sealedsecret.yaml
+  - servicemonitor.yaml
   - storage.yaml
+configMapGenerator:
+  - name: postgres-exporter
+    options:
+      disableNameSuffixHash: true
+    files:
+      - configs/queries.yaml
