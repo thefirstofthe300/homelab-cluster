@@ -29,7 +29,8 @@ spec:
   values:
     global:
       env:
-        AUTHENTIK_POSTGRESQL__SSLMODE: disable
+        - name: AUTHENTIK_POSTGRESQL__SSLMODE
+          value: disable
     authentik:
       error_reporting:
         enabled: "true"
