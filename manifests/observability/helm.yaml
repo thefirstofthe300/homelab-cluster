@@ -1,0 +1,67 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+  namespace: observability-system
+spec:
+  interval: 24h0m0s
+  timeout: 30m0s
+  install:
+    remediation:
+      retries: 3
+      remediateLastFailure: true
+  upgrade:
+    remediation:
+      retries: 3
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      version: "58.0.0"
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+        namespace: flux-system
+      interval: 24h0m0s
+  values:
+    grafana:
+      ingress:
+        enabled: true
+        ingressClassName: traefik
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-production
+        path: /
+        pathType: ImplementationSpecific
+        hosts:
+          - grafana.seymour.family
+        tls:
+          - secretName: grafana-cert
+            hosts:
+              - grafana.seymour.family
+    prometheus:
+      prometheusSpec:
+        podMonitorSelectorNilUsesHelmValues: false
+        serviceMonitorSelectorNilUsesHelmValues: false
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: truenas-iscsi-csi
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 50Gi
+      ingress:
+        enabled: true
+        ingressClassName: traefik
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-production
+        paths: 
+          - /
+        pathType: ImplementationSpecific
+        hosts:
+          - prometheus.seymour.family
+        tls:
+          - secretName: prometheus-cert
+            hosts:
+              - prometheus.seymour.family
