@@ -1,0 +1,8 @@
+- op: add
+  path: /spec/template/spec/containers/0/env/-
+  value:
+    name: PGO_FEATURE_GATES
+    value: InstanceSidecars=true
+# - op: add
+#   path: /spec/template/spec/0/containers/env/14/value
+#   value: InstanceSidecars=true
