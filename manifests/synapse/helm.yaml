@@ -250,6 +250,9 @@ spec:
     image:
       tag: v0.99.16 # {"$imagepolicy": "synapse:sliding-sync:tag"}
     matrixServer: "https://matrix.seymour.family"
+    extraEnv:
+      SYNCV3_LOG_LEVEL: info
+      SYNCV3_PROM: 0.0.0.0:9090
     ingress:
       enabled: true
       annotations:
