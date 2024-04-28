@@ -248,7 +248,7 @@ spec:
       name: sliding-sync-values
   values:
     image:
-      tag: v0.99.7 # {"$imagepolicy": "synapse:sliding-sync-proxy:tag"}
+      tag: v0.99.7 # {"$imagepolicy": "synapse:sliding-sync:tag"}
     matrixServer: "https://matrix.seymour.family"
     ingress:
       enabled: true
