@@ -150,50 +150,6 @@ spec:
       extraVolumeMounts:
         - name: appservice-registrations
           mountPath: /synapse/config/appservices
-    workers:
-      default:
-        volumes:
-          - name: appservice-registrations
-            secret:
-              secretName: appservice-registrations
-          - name: shared-secret-authenticator
-            configMap:
-              name: shared-secret-authenticator
-              items:
-                - key: shared_secret_authenticator.py
-                  path: shared_secret_authenticator.py
-        volumeMounts:
-          - name: appservice-registrations
-            mountPath: /synapse/config/appservices
-        replicaCount: 3
-      generic_worker:
-        enabled: true
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 1
-              podAffinityTerm:
-                topologyKey: kubernetes.io/hostname
-                labelSelector:
-                  matchLabels:
-                    app.kubernetes.io/name: matrix-synapse
-                    app.kubernetes.io/component: generic-worker
-      resources:
-        requests:
-          cpu: 500m
-          memory: 1Gi
-        limits:
-          memory: 2Gi
-      securityContext:
-        capabilities:
-          drop:
-            - ALL
-        readOnlyRootFilesystem: true
-        runAsNonRoot: true
-        runAsUser: 991
-        runAsGroup: 991
-        fsGroup: 991
-        fsGroupChangePolicy: "Always"
     persistence:
       existingClaim: media
     ingress:
