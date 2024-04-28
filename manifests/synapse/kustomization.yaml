@@ -7,7 +7,7 @@ resources:
   - helm.yaml
   - images.yaml
   - namespace.yaml
-  - servicemonitor.yaml
+  - podmonitor.yaml
   - postgres.yaml
   - sealedsecret.yaml
   - storage.yaml
