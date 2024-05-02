@@ -18,7 +18,7 @@ spec:
   chart:
     spec:
       chart: nextcloud
-      version: "4.6.5"
+      version: "4.6.8"
       sourceRef:
         kind: HelmRepository
         name: nextcloud
@@ -27,7 +27,7 @@ spec:
   values:
     image:
       flavor: apache
-      tag: 28.0.4 # {"$imagepolicy": "nextcloud:nextcloud:tag"}
+      tag: 29.0.0 # {"$imagepolicy": "nextcloud:nextcloud:tag"}
     nextcloud:
       host: cloud.seymour.family
       extraEnv:
