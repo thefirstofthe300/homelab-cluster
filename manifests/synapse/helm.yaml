@@ -204,7 +204,7 @@ spec:
       name: sliding-sync-values
   values:
     image:
-      tag: v0.99.17 # {"$imagepolicy": "synapse:sliding-sync:tag"}
+      tag: v0.99.18 # {"$imagepolicy": "synapse:sliding-sync:tag"}
     matrixServer: "https://matrix.seymour.family"
     extraEnv:
       SYNCV3_LOG_LEVEL: info
