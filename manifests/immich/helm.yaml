@@ -18,7 +18,7 @@ spec:
   chart:
     spec:
       chart: immich
-      version: ">=0.1.1 <1.0.0"
+      version: "0.7.0"
       sourceRef:
         kind: HelmRepository
         name: immich
@@ -52,8 +52,6 @@ spec:
             key: dbname
       PGSSLMODE: verify-full
       PGSSLROOTCERT: /config/root.crt
-      IMMICH_WEB_URL: '{{ printf "http://%s-web:3000" .Release.Name }}'
-      IMMICH_SERVER_URL: '{{ printf "http://%s-server:3001" .Release.Name }}'
       IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
     image:
       tag: v1.106.4 # {"$imagepolicy": "immich:immich:tag"}
@@ -88,25 +86,6 @@ spec:
             - hosts:
                 - photos.seymour.family
               secretName: immich-tls
-    microservices:
-      enabled: true
-      env:
-        REVERSE_GEOCODING_DUMP_DIRECTORY: /geodata-cache
-      podSecurityContext:
-        runAsUser: 10001
-      persistence:
-        config:
-          enabled: true
-          type: secret
-          name: pgo-root-cacert
-        geodata-cache:
-          enabled: true
-          size: 1Gi
-          type: emptyDir
-          accessMode: ReadWriteMany
-      image:
-        repository: ghcr.io/immich-app/immich-server
-        pullPolicy: IfNotPresent
     machine-learning:
       enabled: true
       podSecurityContext:
