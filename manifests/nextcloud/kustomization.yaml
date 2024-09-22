@@ -7,3 +7,4 @@ resources:
   - namespace.yaml
   - postgres.yaml
   - redirect.yaml
+  - updateautomation.yaml
