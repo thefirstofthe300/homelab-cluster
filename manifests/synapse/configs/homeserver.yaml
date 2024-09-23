@@ -67,6 +67,7 @@ app_service_config_files:
   - /data/appservices/mautrix-telegram.yaml
   - /data/appservices/mautrix-discord.yaml
   - /data/appservices/mautrix-gmessages.yaml
+  - /data/appservices/doublepuppet.yaml
 suppress_key_server_warning: true
 url_preview_enabled: true
 url_preview_ip_range_blacklist:
