@@ -97,8 +97,6 @@ spec:
       client:
         m.homeserver:
           base_url: "https://matrix.seymour.family"
-        org.matrix.msc3575.proxy:
-          url: "https://sliding-sync.matrix.seymour.family"
     signingkey:
       job:
         enabled: false
@@ -112,6 +110,7 @@ spec:
         - /synapse/config/appservices/mautrix-signal.yaml
         - /synapse/config/appservices/mautrix-telegram.yaml
         - /synapse/config/appservices/mautrix-discord.yaml
+        - /synapse/config/appservices/doublepuppet.yaml
     synapse:
       resources:
         requests:
@@ -174,55 +173,3 @@ spec:
       host: redis-headless.redis.svc.cluster.local
       existingSecret: redis-password
       existingSecretPasswordKey: password
----
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
-kind: HelmRelease
-metadata:
-  name: sliding-sync-proxy
-spec:
-  interval: 24h0m0s
-  install:
-    remediation:
-      retries: 3
-      remediateLastFailure: true
-  upgrade:
-    remediation:
-      retries: 3
-  driftDetection:
-    mode: enabled
-  chart:
-    spec:
-      chart: sliding-sync-proxy
-      version: ">= 0.1.4 < 1.0.0"
-      sourceRef:
-        kind: HelmRepository
-        name: ananace
-        namespace: flux-system
-      interval: 24h0m0s
-  valuesFrom:
-    - kind: Secret
-      name: sliding-sync-values
-  values:
-    image:
-      tag: v0.99.19 # {"$imagepolicy": "synapse:sliding-sync:tag"}
-    matrixServer: "https://matrix.seymour.family"
-    extraEnv:
-      SYNCV3_LOG_LEVEL: info
-      SYNCV3_PROM: 0.0.0.0:9090
-    ingress:
-      enabled: true
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-production
-      hosts:
-        - sliding-sync.matrix.seymour.family
-      tls:
-        - secretName: sliding-sync-proxy-tls
-          hosts:
-            - sliding-sync.matrix.seymour.family
-    postgresql:
-      enabled: false
-    externalPostgresql:
-      host: postgresql-hl.postgres.svc.cluster.local
-      sslmode: disable
-      database: slidingsync
-      username: slidingsync
