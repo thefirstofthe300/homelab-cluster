@@ -35,6 +35,11 @@ spec:
         type: AlphaNumeric
       databases:
         - mautrix-signal
+    - name: mautrix-gmessages
+      password:
+        type: AlphaNumeric
+      databases:
+        - mautrix-gmessages
   backups:
     pgbackrest:
       global:
