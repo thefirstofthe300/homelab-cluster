@@ -1,4 +1,4 @@
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: element-web
@@ -63,7 +63,7 @@ spec:
       targetCPUUtilizationPercentage: 80
       targetMemoryUtilizationPercentage: 80
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: matrix-synapse
@@ -156,6 +156,7 @@ spec:
       includeUnderscoreSynapse: false
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-production
+        traefik.ingress.kubernetes.io/router.middlewares: synapse-cors@kubernetescrd
       tls:
         - secretName: matrix-seymour-family-tls
           hosts:

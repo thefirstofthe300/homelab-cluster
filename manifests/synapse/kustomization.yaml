@@ -4,6 +4,7 @@ namespace: synapse
 resources:
   - ./bridges
   - ./state-compressor
+  - cors.yaml
   - helm.yaml
   - images.yaml
   - namespace.yaml
