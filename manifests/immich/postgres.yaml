@@ -41,6 +41,9 @@ spec:
   backups:
     pgbackrest:
       image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.49-0
+      configuration:
+      - secret:
+          name: pgo-s3-creds
       global:
         repo1-retention-full: "14"
         repo1-retention-full-type: time
@@ -49,12 +52,8 @@ spec:
         schedules:
           full: "0 12 * * 0"
           differential: "0 12 * * 1-6"
-          incremental: "0 * * * *"
-        volume:
-          volumeClaimSpec:
-            storageClassName: truenas-nfs-csi
-            accessModes:
-            - "ReadWriteOnce"
-            resources:
-              requests:
-                storage: 10Gi
+          incremental: "30 * * * *"
+        s3:
+          bucket: seymour-family-postgres
+          endpoint: s3.us-west-004.backblazeb2.com
+          region: us-west-004

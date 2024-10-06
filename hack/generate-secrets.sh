@@ -8,6 +8,7 @@ kubeseal -f secrets/synapse/bridges/mautrix-discord/secret.yaml -o yaml | grep -
 kubeseal -f secrets/synapse/bridges/registrations/secret.yaml -o yaml | grep -v creationTimestamp >manifests/synapse/bridges/registrations/sealedsecret.yaml
 kubeseal -f secrets/redis/secret.yaml -o yaml | grep -v creationTimestamp >manifests/redis/sealedsecret.yaml
 kubeseal -f secrets/immich/secret.yaml -o yaml | grep -v creationTimestamp >manifests/immich/sealedsecret.yaml
+kubeseal -f secrets/postgres/secret.yaml -n immich -o yaml | grep -v creationTimestamp >>manifests/immich/sealedsecret.yaml
 kubeseal -f secrets/cert-manager/secret.yaml -o yaml | grep -v creationTimestamp >manifests/cert-manager/sealedsecret.yaml
 kubeseal -f secrets/nextcloud/secret.yaml -o yaml | grep -v creationTimestamp >manifests/nextcloud/sealedsecret.yaml
 kubeseal -f secrets/synapse/matrix-synapse.yaml -o yaml | grep -v creationTimestamp >manifests/synapse/sealedsecret.yaml
