@@ -19,3 +19,5 @@ echo "---" >>manifests/synapse/sealedsecret.yaml
 kubeseal -f secrets/synapse/redis-password.yaml -o yaml | grep -v creationTimestamp >>manifests/synapse/sealedsecret.yaml
 echo "---" >>manifests/synapse/sealedsecret.yaml
 kubeseal -f secrets/synapse/sliding-sync.yaml -o yaml | grep -v creationTimestamp >>manifests/synapse/sealedsecret.yaml
+kubeseal -f secrets/velero/credentials-velero.yaml -o yaml | grep -v creationTimestamp >manifests/velero/sealedsecret.yaml
+kubeseal -f secrets/velero/velero-repo-credentials.yaml -o yaml | grep -v creationTimestamp >>manifests/velero/sealedsecret.yaml

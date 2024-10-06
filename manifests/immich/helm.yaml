@@ -63,6 +63,8 @@ spec:
           existingClaim: library
     server:
       enabled: true
+      podAnnotations:
+        backup.velero.io/backup-volumes: library
       image:
         repository: ghcr.io/immich-app/immich-server
         pullPolicy: IfNotPresent
