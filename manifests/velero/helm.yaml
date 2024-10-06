@@ -67,6 +67,8 @@ spec:
           labels:
             severity: warning
 
+    snapshotsEnabled: false
+
     configuration:
       backupStorageLocation:
       - name: backups
@@ -85,7 +87,6 @@ spec:
       existingSecret: cloud-provider-credentials
     
     backupsEnabled: true
-    snapshotsEnabled: false
     deployNodeAgent: true
     nodeAgent:
       tolerations:

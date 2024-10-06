@@ -6,7 +6,7 @@ labels:
   pairs:
     app.kubernetes.io/name: postgres-operator
     # The version below should match the version on the PostgresCluster CRD
-    app.kubernetes.io/version: 5.5.1
+    app.kubernetes.io/version: 5.6.1
     postgres-operator.crunchydata.com/control-plane: postgres-operator
 resources:
 - crd/
@@ -15,7 +15,7 @@ resources:
 images:
 - name: postgres-operator
   newName: registry.developers.crunchydata.com/crunchydata/postgres-operator
-  newTag: ubi8-5.5.1-0 
+  newTag: ubi8-5.6.1-0
 patches:
  - target:
       group: apps

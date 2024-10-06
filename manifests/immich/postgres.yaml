@@ -16,7 +16,7 @@ spec:
         - "ReadWriteOnce"
         resources:
           requests:
-            storage: 10Gi
+            storage: 500Gi
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -38,7 +38,7 @@ spec:
       options: 'SUPERUSER'
       databases:
         - immich
-  backups:
+  backups: 
     pgbackrest:
       image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.49-0
       configuration:
