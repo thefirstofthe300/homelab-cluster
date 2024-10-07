@@ -28,6 +28,8 @@ spec:
     image:
       flavor: apache
       tag: 29.0.7 # {"$imagepolicy": "nextcloud:nextcloud:tag"}
+    podAnnotations:
+      backup.velero.io/backup-volumes: nextcloud-data
     nextcloud:
       host: cloud.seymour.family
       extraEnv:

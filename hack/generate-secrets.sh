@@ -11,6 +11,7 @@ kubeseal -f secrets/immich/secret.yaml -o yaml | grep -v creationTimestamp >mani
 kubeseal -f secrets/postgres/secret.yaml -n immich -o yaml | grep -v creationTimestamp >>manifests/immich/sealedsecret.yaml
 kubeseal -f secrets/cert-manager/secret.yaml -o yaml | grep -v creationTimestamp >manifests/cert-manager/sealedsecret.yaml
 kubeseal -f secrets/nextcloud/secret.yaml -o yaml | grep -v creationTimestamp >manifests/nextcloud/sealedsecret.yaml
+kubeseal -f secrets/postgres/secret.yaml -n nextcloud -o yaml | grep -v creationTimestamp >>manifests/nextcloud/sealedsecret.yaml
 kubeseal -f secrets/synapse/matrix-synapse.yaml -o yaml | grep -v creationTimestamp >manifests/synapse/sealedsecret.yaml
 echo "---" >>manifests/synapse/sealedsecret.yaml
 kubeseal -f secrets/synapse/matrix-synapse-signingkey.yaml -o yaml | grep -v creationTimestamp >>manifests/synapse/sealedsecret.yaml
