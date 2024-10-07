@@ -5,7 +5,7 @@ metadata:
   name: immich
   namespace: velero
 spec:
-  schedule: 0 3 * * *
+  schedule: 0 10 * * *
   skipImmediately: false
   template:
     csiSnapshotTimeout: 0s
@@ -25,7 +25,7 @@ metadata:
   name: nextcloud
   namespace: velero
 spec:
-  schedule: 0 2 * * *
+  schedule: 0 9 * * *
   skipImmediately: false
   template:
     csiSnapshotTimeout: 0s
