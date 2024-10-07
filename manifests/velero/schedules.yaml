@@ -1,3 +1,4 @@
+---
 apiVersion: velero.io/v1
 kind: Schedule
 metadata:
@@ -11,6 +12,26 @@ spec:
     hooks: {}
     includedNamespaces:
     - immich
+    itemOperationTimeout: 0s
+    metadata: {}
+    ttl: 0s
+    uploaderConfig:
+      parallelFilesUpload: 10
+  useOwnerReferencesInBackup: false
+---
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: nextcloud
+  namespace: velero
+spec:
+  schedule: 0 3 * * *
+  skipImmediately: false
+  template:
+    csiSnapshotTimeout: 0s
+    hooks: {}
+    includedNamespaces:
+    - nextcloud
     itemOperationTimeout: 0s
     metadata: {}
     ttl: 0s
