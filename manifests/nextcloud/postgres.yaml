@@ -45,7 +45,7 @@ spec:
         schedules:
           full: "0 12 * * 0"
           differential: "0 12 * * 1-6"
-          incremental: "* * * * *"
+          incremental: "30 * * * *"
         s3:
           bucket: seymour-family-postgres
           endpoint: s3.us-west-004.backblazeb2.com
