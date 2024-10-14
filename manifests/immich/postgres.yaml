@@ -48,7 +48,10 @@ spec:
         repo1-retention-full: "14"
         repo1-retention-full-type: time
         repo1-path: /pgbackrest/immich
-        archive-timeout: "180"
+        repo1-block: "y"
+        repo1-bundle: "y"
+        repo1-compress-type: "zst"
+        archive-timeout: "300"
       repos:
         - name: repo1
           schedules:
