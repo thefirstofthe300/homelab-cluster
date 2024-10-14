@@ -50,8 +50,6 @@ spec:
         repo1-path: /pgbackrest/immich
         repo1-block: "y"
         repo1-bundle: "y"
-        repo1-compress-type: "zst"
-        archive-timeout: "300"
       repos:
         - name: repo1
           schedules:
