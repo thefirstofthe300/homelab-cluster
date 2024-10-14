@@ -45,11 +45,12 @@ spec:
         - secret:
             name: pgo-s3-creds
       global:
-        repo2-retention-full: "14"
-        repo2-retention-full-type: time
-        repo2-path: /pgbackrest/immich
+        repo1-retention-full: "14"
+        repo1-retention-full-type: time
+        repo1-path: /pgbackrest/immich
+        archive-timeout: "180"
       repos:
-        - name: repo2
+        - name: repo1
           schedules:
             full: "0 12 * * 0"
             differential: "0 12 * * 1-6"
