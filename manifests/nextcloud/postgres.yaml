@@ -11,7 +11,7 @@ spec:
       dataVolumeClaimSpec:
         storageClassName: truenas-iscsi-csi
         accessModes:
-        - "ReadWriteOnce"
+          - "ReadWriteOnce"
         resources:
           requests:
             storage: 100Gi
@@ -28,25 +28,25 @@ spec:
     - name: nextcloud
       password:
         type: AlphaNumeric
-      options: 'SUPERUSER'
+      options: "SUPERUSER"
       databases:
         - nextcloud
   backups:
     pgbackrest:
       configuration:
-      - secret:
-          name: pgo-s3-creds
+        - secret:
+            name: pgo-s3-creds
       global:
-        repo1-retention-full: "14"
-        repo1-retention-full-type: time
-        repo1-path: /pgbackrest/nextcloud/repo1
+        backblaze-retention-full: "14"
+        backblaze-retention-full-type: time
+        backblaze-path: /pgbackrest/nextcloud
       repos:
-      - name: repo1
-        schedules:
-          full: "0 12 * * 0"
-          differential: "0 12 * * 1-6"
-          incremental: "30 * * * *"
-        s3:
-          bucket: seymour-family-postgres
-          endpoint: s3.us-west-004.backblazeb2.com
-          region: us-west-004
+        - name: backblaze
+          schedules:
+            full: "0 12 * * 0"
+            differential: "0 12 * * 1-6"
+            incremental: "30 * * * *"
+          s3:
+            bucket: seymour-family-postgres
+            endpoint: s3.us-west-004.backblazeb2.com
+            region: us-west-004
