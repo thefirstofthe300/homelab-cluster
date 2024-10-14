@@ -37,11 +37,11 @@ spec:
         - secret:
             name: pgo-s3-creds
       global:
-        backblaze-retention-full: "14"
-        backblaze-retention-full-type: time
-        backblaze-path: /pgbackrest/nextcloud
+        repo2-retention-full: "14"
+        repo2-retention-full-type: time
+        repo2-path: /pgbackrest/nextcloud
       repos:
-        - name: backblaze
+        - name: repo2
           schedules:
             full: "0 12 * * 0"
             differential: "0 12 * * 1-6"
