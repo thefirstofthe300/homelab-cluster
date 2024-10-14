@@ -40,7 +40,6 @@ spec:
         repo1-retention-full: "14"
         repo1-retention-full-type: time
         repo1-path: /pgbackrest/nextcloud
-        archive-timeout: "180"
       repos:
         - name: repo1
           schedules:
