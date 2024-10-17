@@ -11,4 +11,4 @@ commonLabels:
   app.kubernetes.io/component: mautrix-gmessages
 images:
   - name: dock.mau.dev/mautrix/gmessages
-    newTag: v0.5.0 # {"$imagepolicy": "synapse:mautrix-gmessages:tag"}
+    newTag: v0.5.1 # {"$imagepolicy": "synapse:mautrix-gmessages:tag"}
