@@ -27,7 +27,7 @@ spec:
   values:
     image:
       flavor: apache
-      tag: 30.0.0 # {"$imagepolicy": "nextcloud:nextcloud:tag"}
+      tag: 30.0.1 # {"$imagepolicy": "nextcloud:nextcloud:tag"}
     podAnnotations:
       backup.velero.io/backup-volumes: nextcloud-data
     nextcloud:
