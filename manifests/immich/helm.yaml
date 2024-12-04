@@ -5,7 +5,7 @@ metadata:
   namespace: immich
 spec:
   interval: 24h0m0s
-  timeout: 15m0s
+  timeout: 5m0s
   install:
     remediation:
       retries: 3
@@ -30,28 +30,6 @@ spec:
   values:
     env:
       REDIS_HOSTNAME: redis-master.redis.svc
-      DB_HOSTNAME:
-        valueFrom:
-          secretKeyRef:
-            name: immich-pguser-immich
-            key: host
-      DB_USERNAME:
-        valueFrom:
-          secretKeyRef:
-            name: immich-pguser-immich
-            key: user
-      DB_PASSWORD:
-        valueFrom:
-          secretKeyRef:
-            name: immich-pguser-immich
-            key: password
-      DB_DATABASE_NAME:
-        valueFrom:
-          secretKeyRef:
-            name: immich-pguser-immich
-            key: dbname
-      PGSSLMODE: verify-full
-      PGSSLROOTCERT: /config/root.crt
       IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
     image:
       tag: v1.121.0 # {"$imagepolicy": "immich:immich:tag"}
@@ -70,11 +48,6 @@ spec:
         pullPolicy: IfNotPresent
       podSecurityContext:
         runAsUser: 10001
-      persistence:
-        config:
-          enabled: true
-          type: secret
-          name: pgo-root-cacert
       ingress:
         main:
           enabled: true
