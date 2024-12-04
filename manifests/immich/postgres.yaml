@@ -68,7 +68,7 @@ metadata:
   name: immich-postgres
 spec:
   instances: 2
-  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.6-v0.4.0
+  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.5-v0.3.0
   imagePullPolicy: IfNotPresent
   postgresUID: 26
   postgresGID: 26
@@ -80,6 +80,7 @@ spec:
   logLevel: info
   enableSuperuserAccess: true
   postgresql:
+    enableAlterSystem: true
     shared_preload_libraries:
       - "vectors.so"
     pg_hba: []
@@ -95,8 +96,18 @@ spec:
       secret:
         name: immich-postgres-user-immich
       postInitSQL:
-        - ALTER SYSTEM SET search_path TO "$user", public, vectors;
+        - ALTER SYSTEM SET search_path TO "$user",public,vectors;
         - CREATE EXTENSION IF NOT EXISTS "vectors";
+        - CREATE EXTENSION IF NOT EXISTS "cube";
+        - CREATE EXTENSION IF NOT EXISTS "earthdistance";
+  managed:
+    roles:
+      - name: immich
+        ensure: present
+        superuser: true
+        login: true
+        passwordSecret:
+          name: immich-postgres-user-immich
   backup:
     barmanObjectStore:
       destinationPath: "s3://seymour-family-postgres/immich"
