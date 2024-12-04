@@ -61,3 +61,56 @@ spec:
             bucket: seymour-family-postgres
             endpoint: s3.us-west-004.backblazeb2.com
             region: us-west-004
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: immich-postgres
+spec:
+  instances: 2
+  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.6-v0.4.0
+  imagePullPolicy: IfNotPresent
+  postgresUID: 26
+  postgresGID: 26
+  storage:
+    size: 20Gi
+    storageClass: truenas-iscsi-csi
+  primaryUpdateMethod: switchover
+  primaryUpdateStrategy: unsupervised
+  logLevel: info
+  enableSuperuserAccess: true
+  postgresql:
+    shared_preload_libraries:
+      - "vectors.so"
+    pg_hba: []
+    pg_ident: []
+    parameters: {}
+  monitoring:
+    enablePodMonitor: true
+    disableDefaultQueries: false
+  bootstrap:
+    initdb:
+      postInitSQL:
+        - ALTER SYSTEM SET search_path TO "$user", public, vectors;
+        - CREATE EXTENSION IF NOT EXISTS "vectors";
+  managed:
+    roles:
+      - name: immich
+        ensure: present
+        comment: Immich application
+        login: true
+        superuser: false
+        passwordSecret:
+          name: immich-postgres-user-immich
+  backup:
+    barmanObjectStore:
+      destinationPath: "s3://seymour-family-postgres/immich"
+      endpointURL: "https://s3.us-west-004.backblazeb2.com"
+      s3Credentials:
+        accessKeyId:
+          name: backblaze-creds
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: backblaze-creds
+          key: ACCESS_SECRET_KEY
+    retentionPolicy: "30d"
