@@ -90,18 +90,13 @@ spec:
     disableDefaultQueries: false
   bootstrap:
     initdb:
+      database: immich
+      owner: immich
+      secret:
+        name: immich-postgres-user-immich
       postInitSQL:
         - ALTER SYSTEM SET search_path TO "$user", public, vectors;
         - CREATE EXTENSION IF NOT EXISTS "vectors";
-  managed:
-    roles:
-      - name: immich
-        ensure: present
-        comment: Immich application
-        login: true
-        superuser: false
-        passwordSecret:
-          name: immich-postgres-user-immich
   backup:
     barmanObjectStore:
       destinationPath: "s3://seymour-family-postgres/immich"
