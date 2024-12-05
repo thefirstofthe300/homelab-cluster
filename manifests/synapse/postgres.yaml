@@ -11,7 +11,7 @@ spec:
       dataVolumeClaimSpec:
         storageClassName: truenas-iscsi-csi
         accessModes:
-        - "ReadWriteOnce"
+          - "ReadWriteOnce"
         resources:
           requests:
             storage: 100Gi
@@ -46,16 +46,16 @@ spec:
         repo1-retention-full: "14"
         repo1-retention-full-type: time
       repos:
-      - name: repo1
-        schedules:
-          full: "0 5 * * 0"
-          differential: "0 5 * * 1-6"
-          incremental: "*/5 * * * *"
-        volume:
-          volumeClaimSpec:
-            storageClassName: truenas-nfs-csi
-            accessModes:
-            - "ReadWriteOnce"
-            resources:
-              requests:
-                storage: 100Gi
+        - name: repo1
+          schedules:
+            full: "0 5 * * 0"
+            differential: "0 5 * * 1-6"
+            incremental: "30 * * * *"
+          volume:
+            volumeClaimSpec:
+              storageClassName: truenas-nfs-csi
+              accessModes:
+                - "ReadWriteOnce"
+              resources:
+                requests:
+                  storage: 100Gi
