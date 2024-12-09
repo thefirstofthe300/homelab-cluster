@@ -18,7 +18,7 @@ spec:
                 - synapse_auto_compressor
               args:
                 - -p
-                - "user=synapse password=$(DB_PASSWORD) dbname=synapse host=postgresql-hl.postgres.svc"
+                - "user=synapse password=$(DB_PASSWORD) dbname=synapse host=synapse-postgres-rw.synapse.svc"
                 - -c
                 - "500"
                 - -n
@@ -45,7 +45,7 @@ spec:
         spec:
           containers:
             - name: compressor
-              image: bitnami/postgresql:14.5.0-debian-11-r14
+              image: ghcr.io/cloudnative-pg/postgresql:17.0
               command:
                 - PGPASSWORD=$(DB_PASSWORD)
                 - psql

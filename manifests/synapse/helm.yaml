@@ -165,7 +165,7 @@ spec:
     postgresql:
       enabled: false
     externalPostgresql:
-      host: postgresql-hl.postgres.svc.cluster.local
+      host: synapse-postgres-rw.synapse.svc.cluster.local
       existingSecret: postgres-synapse
       existingSecretPasswordKey: password
     redis:

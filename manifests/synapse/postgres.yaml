@@ -64,6 +64,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: synapse-postgres
+  namespace: synapse
 spec:
   instances: 2
   imagePullPolicy: IfNotPresent
@@ -83,6 +84,7 @@ spec:
     initdb:
       database: synapse
       owner: synapse
+      encoding: UTF8
       secret:
         name: synapse-postgres-user-synapse
   managed:
