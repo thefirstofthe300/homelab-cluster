@@ -71,7 +71,7 @@ spec:
   postgresUID: 26
   postgresGID: 26
   storage:
-    size: 20Gi
+    size: 100Gi
     storageClass: truenas-iscsi-csi
   primaryUpdateMethod: switchover
   primaryUpdateStrategy: unsupervised
