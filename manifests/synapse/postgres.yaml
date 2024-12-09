@@ -59,3 +59,59 @@ spec:
               resources:
                 requests:
                   storage: 100Gi
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: synapse-postgres
+spec:
+  instances: 2
+  imagePullPolicy: IfNotPresent
+  postgresUID: 26
+  postgresGID: 26
+  storage:
+    size: 20Gi
+    storageClass: truenas-iscsi-csi
+  primaryUpdateMethod: switchover
+  primaryUpdateStrategy: unsupervised
+  logLevel: info
+  enableSuperuserAccess: true
+  monitoring:
+    enablePodMonitor: true
+    disableDefaultQueries: false
+  bootstrap:
+    initdb:
+      database: synapse
+      owner: synapse
+      secret:
+        name: synapse-postgres-user-synapse
+  managed:
+    roles:
+      - name: synapse
+        ensure: present
+        login: true
+        passwordSecret:
+          name: synapse-postgres-user-synapse
+  backup:
+    barmanObjectStore:
+      destinationPath: "s3://seymour-family-postgres/synapse"
+      endpointURL: "https://s3.us-west-004.backblazeb2.com"
+      s3Credentials:
+        accessKeyId:
+          name: backblaze-creds
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: backblaze-creds
+          key: ACCESS_SECRET_KEY
+    retentionPolicy: "30d"
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: synapse-postgres
+spec:
+  schedule: "0 0 0 * * *"
+  immediate: true
+  backupOwnerReference: self
+  cluster:
+    name: synapse-postgres
