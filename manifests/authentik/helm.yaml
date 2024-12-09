@@ -35,7 +35,7 @@ spec:
       error_reporting:
         enabled: true
       postgresql:
-        host: postgresql-hl.postgres.svc.cluster.local
+        host: authentik-postgres-rw.authentik.svc.cluster.local
         name: authentik
       redis:
         host: redis-headless.redis.svc.cluster.local
