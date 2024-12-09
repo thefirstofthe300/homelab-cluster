@@ -1,39 +1,112 @@
-terraform {
-  backend "kubernetes" {
-    secret_suffix = "state"
-    config_path   = "~/.kube/config"
-  }
+provider "apko" {
+  default_archs = ["x86_64", "aarch64"]
+  extra_repositories = ["https://packages.wolfi.dev/os"]
+  extra_keyring      = ["https://packages.wolfi.dev/os/wolfi-signing.rsa.pub"]
+  extra_packages     = ["wolfi-baselayout"]
 }
 
-resource "aws_kms_alias" "vault_unseal_key" {
-  name          = "alias/VaultUnsealKey"
-  target_key_id = aws_kms_key.vault_unseal_key.key_id
+data "apko_config" "java" {
+  config_contents = jsonencode({
+    contents = {
+      packages = [
+        "openjdk-21-default-jvm",
+        "glibc-locale-en",
+        "libstdc++",
+      ]
+    },
+    accounts = {
+      groups = [{
+        groupname = "nonroot",
+        gid = 65532
+      }],
+      users = [{
+        username = "nonroot",
+        uid = 65532,
+        gid = 65532
+      }],
+      run-as = 65532
+    },
+    work-dir = "/app"
+    environment = {
+      "LANG" : "en_US.UTF-8",
+      "JAVA_HOME" : "/usr/lib/jvm/default-jvm"
+    }
+    accounts = {
+      groups = [{
+        groupname = "nonroot"
+        gid       = 65532
+      }]
+      users = [{
+        username = "nonroot"
+        uid      = 65532
+        gid      = 65532
+      }]
+      run-as = 65532
+    }
+    entrypoint = {
+      command = "/usr/bin/java"
+    }
+  })
 }
 
-resource "aws_kms_key" "vault_unseal_key" {
-  description = "Key used to auto-unseal Vault"
+resource "apko_build" "java" {
+  repo   = "docker.io/firstofth300/java"
+  config = data.apko_config.java.config
 }
 
-resource "aws_iam_user" "vault" {
-  name = "Vault"
+resource "oci_tag" "java" {
+  digest_ref = apko_build.java.sboms.index.digest
+  tag = "21-jre"
 }
 
-data "aws_iam_policy_document" "vault" {
-  statement {
-    effect = "Allow"
-    actions = [
-      "kms:DecryptKey",
-      "kms:EncryptKey",
-      "kms:DescribeKey",
-    ]
-    resources = [
-      aws_kms_key.vault_unseal_key.arn,
-    ]
-  }
+data "apko_config" "node" {
+  config_contents = jsonencode({
+    contents = {
+      packages = [
+        "nodejs-22",
+        "npm",
+        "bash",
+        "tini",
+      ]
+    }
+    entrypoint = {
+      command = "/usr/bin/node"
+    },
+    cmd = "--help",
+    work-dir = "/app",
+    accounts = {
+      groups = [{
+        groupname = "nonroot"
+        gid       = 65532
+      }]
+      users = [{
+        username = "nonroot"
+        uid      = 65532
+        gid      = 65532
+      }]
+      run-as = 65532
+    }
+    environment = {
+      NODE_PORT = 3000,
+      NPM_CONFIG_UPDATE_NOTIFIER = false,
+      PATH : "/usr/sbin:/sbin:/usr/bin:/bin"
+    }
+    paths = [{
+      path = "/app"
+      type = "directory"
+      uid = 65532
+      gid = 65532
+      permissions = 511
+    }]
+  })
 }
 
-resource "aws_iam_user_policy" "vault" {
-  name   = "Vault"
-  user   = aws_iam_user.vault.name
-  policy = data.aws_iam_policy_document.vault.json
+resource "apko_build" "node" {
+  repo   = "docker.io/firstofth300/node"
+  config = data.apko_config.node.config
+}
+
+resource "oci_tag" "node" {
+  digest_ref = apko_build.node.sboms.index.digest
+  tag = "22"
 }
