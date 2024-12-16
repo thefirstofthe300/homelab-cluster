@@ -18,9 +18,6 @@ spec:
             - -c
             - /etc/gmessages/config.yaml
             - --no-update
-          env:
-            - name: PGSSLROOTCERT
-              value: /etc/postgres/root.crt
           ports:
             - name: http
               containerPort: 29336
@@ -37,12 +34,7 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /etc/gmessages
-            - name: pgssl
-              mountPath: /etc/postgres
       volumes:
         - name: config
           secret:
             secretName: mautrix-gmessages-config
-        - name: pgssl
-          secret:
-            secretName: pgo-root-cacert

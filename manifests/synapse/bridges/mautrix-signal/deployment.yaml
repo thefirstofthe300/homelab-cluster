@@ -16,9 +16,6 @@ spec:
             - /usr/bin/mautrix-signal
             - --config=/etc/signal/config.yaml
             - --no-update
-          env:
-            - name: PGSSLROOTCERT
-              value: /etc/postgres/root.crt
           ports:
             - name: http
               containerPort: 29328
@@ -34,12 +31,7 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /etc/signal
-            - name: pgssl
-              mountPath: /etc/postgres
       volumes:
         - name: config
           secret:
             secretName: mautrix-signal-config
-        - name: pgssl
-          secret:
-            secretName: pgo-root-cacert
