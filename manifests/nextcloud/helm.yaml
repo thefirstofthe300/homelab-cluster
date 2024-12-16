@@ -27,27 +27,11 @@ spec:
   values:
     image:
       flavor: apache
-      tag: 30.0.3 # {"$imagepolicy": "nextcloud:nextcloud:tag"}
+      tag: 30.0.4 # {"$imagepolicy": "nextcloud:nextcloud:tag"}
     podAnnotations:
       backup.velero.io/backup-volumes: nextcloud-data
     nextcloud:
       host: cloud.seymour.family
-      extraEnv:
-        - name: PGSSLMODE
-          value: verify-full
-        - name: PGSSLROOTCERT
-          value: /etc/postgres/tls/root.crt
-      extraVolumeMounts:
-        - name: pgssl
-          mountPath: /etc/postgres/tls
-          readOnly: true
-      extraVolumes:
-        - name: pgssl
-          secret:
-            secretName: pgo-root-cacert
-            items:
-              - key: root.crt
-                path: root.crt
       configs:
         proxy.config.php: |-
           <?php
@@ -82,12 +66,12 @@ spec:
     externalDatabase:
       enabled: true
       type: "postgresql"
+      host: nextcloud-postgres-rw
+      database: nextcloud
       existingSecret:
-        secretName: "nextclouddb-pguser-nextcloud"
-        usernameKey: "user"
+        secretName: "nextcloud-postgres-user-nextcloud"
+        usernameKey: "username"
         passwordKey: "password"
-        databaseKey: "dbname"
-        hostKey: "host"
     cronjob:
       enabled: true
     persistence:
