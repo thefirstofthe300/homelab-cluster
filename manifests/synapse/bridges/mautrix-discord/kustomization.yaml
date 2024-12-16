@@ -11,4 +11,4 @@ commonLabels:
   app.kubernetes.io/component: mautrix-discord
 images:
   - name: dock.mau.dev/mautrix/discord
-    newTag: v0.7.1 # {"$imagepolicy": "synapse:mautrix-discord:tag"}
+    newTag: v0.7.2 # {"$imagepolicy": "synapse:mautrix-discord:tag"}
