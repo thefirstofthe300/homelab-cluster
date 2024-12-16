@@ -56,3 +56,235 @@ spec:
   backupOwnerReference: self
   cluster:
     name: synapse-postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: mautrix-discord-postgres
+  namespace: synapse
+spec:
+  instances: 2
+  imagePullPolicy: IfNotPresent
+  postgresUID: 26
+  postgresGID: 26
+  storage:
+    size: 1Gi
+    storageClass: truenas-iscsi-csi
+  primaryUpdateMethod: switchover
+  primaryUpdateStrategy: unsupervised
+  logLevel: info
+  enableSuperuserAccess: true
+  monitoring:
+    enablePodMonitor: true
+    disableDefaultQueries: false
+  bootstrap:
+    initdb:
+      database: mautrix-discord
+      owner: mautrix-discord
+      encoding: UTF8
+      secret:
+        name: discord-postgres-user-mautrix-discord
+  managed:
+    roles:
+      - name: mautrix-discord
+        ensure: present
+        login: true
+        passwordSecret:
+          name: mautrix-discord-postgres-user-mautrix-discord
+  backup:
+    barmanObjectStore:
+      destinationPath: "s3://seymour-family-postgres/synapse-bridges/discord"
+      endpointURL: "https://s3.us-west-004.backblazeb2.com"
+      s3Credentials:
+        accessKeyId:
+          name: backblaze-creds
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: backblaze-creds
+          key: ACCESS_SECRET_KEY
+    retentionPolicy: "30d"
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: mautrix-discord-postgres
+spec:
+  schedule: "0 0 0 * * *"
+  immediate: true
+  backupOwnerReference: self
+  cluster:
+    name: mautrix-discord-postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: mautrix-signal-postgres
+  namespace: synapse
+spec:
+  instances: 2
+  imagePullPolicy: IfNotPresent
+  postgresUID: 26
+  postgresGID: 26
+  storage:
+    size: 1Gi
+    storageClass: truenas-iscsi-csi
+  primaryUpdateMethod: switchover
+  primaryUpdateStrategy: unsupervised
+  logLevel: info
+  enableSuperuserAccess: true
+  monitoring:
+    enablePodMonitor: true
+    disableDefaultQueries: false
+  bootstrap:
+    initdb:
+      database: mautrix-signal
+      owner: mautrix-signal
+      encoding: UTF8
+      secret:
+        name: mautrix-signal-postgres-user-mautrix-signal
+  managed:
+    roles:
+      - name: mautrix-signal
+        ensure: present
+        login: true
+        passwordSecret:
+          name: mautrix-signal-postgres-user-mautrix-signal
+  backup:
+    barmanObjectStore:
+      destinationPath: "s3://seymour-family-postgres/synapse-bridges/signal"
+      endpointURL: "https://s3.us-west-004.backblazeb2.com"
+      s3Credentials:
+        accessKeyId:
+          name: backblaze-creds
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: backblaze-creds
+          key: ACCESS_SECRET_KEY
+    retentionPolicy: "30d"
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: mautrix-signal-postgres
+spec:
+  schedule: "0 0 0 * * *"
+  immediate: true
+  backupOwnerReference: self
+  cluster:
+    name: mautrix-signal-postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: mautrix-telegram-postgres
+  namespace: synapse
+spec:
+  instances: 2
+  imagePullPolicy: IfNotPresent
+  postgresUID: 26
+  postgresGID: 26
+  storage:
+    size: 1Gi
+    storageClass: truenas-iscsi-csi
+  primaryUpdateMethod: switchover
+  primaryUpdateStrategy: unsupervised
+  logLevel: info
+  enableSuperuserAccess: true
+  monitoring:
+    enablePodMonitor: true
+    disableDefaultQueries: false
+  bootstrap:
+    initdb:
+      database: mautrix-telegram
+      owner: mautrix-telegram
+      encoding: UTF8
+      secret:
+        name: mautrix-telegram-postgres-user-mautrix-telegram
+  managed:
+    roles:
+      - name: mautrix-telegram
+        ensure: present
+        login: true
+        passwordSecret:
+          name: mautrix-telegram-postgres-user-mautrix-telegram
+  backup:
+    barmanObjectStore:
+      destinationPath: "s3://seymour-family-postgres/synapse-bridges/telegram"
+      endpointURL: "https://s3.us-west-004.backblazeb2.com"
+      s3Credentials:
+        accessKeyId:
+          name: backblaze-creds
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: backblaze-creds
+          key: ACCESS_SECRET_KEY
+    retentionPolicy: "30d"
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: mautrix-telegram-postgres
+spec:
+  schedule: "0 0 0 * * *"
+  immediate: true
+  backupOwnerReference: self
+  cluster:
+    name: mautrix-telegram-postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: mautrix-gmessages-postgres
+  namespace: synapse
+spec:
+  instances: 2
+  imagePullPolicy: IfNotPresent
+  postgresUID: 26
+  postgresGID: 26
+  storage:
+    size: 1Gi
+    storageClass: truenas-iscsi-csi
+  primaryUpdateMethod: switchover
+  primaryUpdateStrategy: unsupervised
+  logLevel: info
+  enableSuperuserAccess: true
+  monitoring:
+    enablePodMonitor: true
+    disableDefaultQueries: false
+  bootstrap:
+    initdb:
+      database: mautrix-gmessages
+      owner: mautrix-gmessages
+      encoding: UTF8
+      secret:
+        name: mautrix-gmessages-postgres-user-mautrix-gmessages
+  managed:
+    roles:
+      - name: mautrix-gmessages
+        ensure: present
+        login: true
+        passwordSecret:
+          name: mautrix-gmessages-postgres-user-mautrix-gmessages
+  backup:
+    barmanObjectStore:
+      destinationPath: "s3://seymour-family-postgres/synapse-bridges/gmessages"
+      endpointURL: "https://s3.us-west-004.backblazeb2.com"
+      s3Credentials:
+        accessKeyId:
+          name: backblaze-creds
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: backblaze-creds
+          key: ACCESS_SECRET_KEY
+    retentionPolicy: "30d"
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: mautrix-gmessages-postgres
+spec:
+  schedule: "0 0 0 * * *"
+  immediate: true
+  backupOwnerReference: self
+  cluster:
+    name: mautrix-gmessages-postgres
