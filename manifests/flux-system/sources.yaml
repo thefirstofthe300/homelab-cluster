@@ -156,3 +156,30 @@ metadata:
 spec:
   interval: 24h0m0s
   url: https://charts.philippwaller.com
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: nfd
+  namespace: flux-system
+spec:
+  interval: 24h0m0s
+  url: https://kubernetes-sigs.github.io/node-feature-discovery/charts
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: intel
+  namespace: flux-system
+spec:
+  interval: 24h0m0s
+  url: https://intel.github.io/helm-charts/
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: jellyfin
+  namespace: flux-system
+spec:
+  interval: 24h0m0s
+  url: https://jellyfin.github.io/jellyfin-helm
