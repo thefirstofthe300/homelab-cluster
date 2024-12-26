@@ -28,6 +28,9 @@ spec:
     deploymentStrategy:
       type: Recreate
 
+    securityContext:
+      runAsGroup: 568
+
     ingress:
       ingressClassName: traefik
       enabled: true
