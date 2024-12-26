@@ -25,6 +25,11 @@ spec:
         namespace: flux-system
       interval: 24h0m0s
   values:
+    jellyfin:
+      env:
+        - name: TZ
+          value: America/Los_Angeles
+
     deploymentStrategy:
       type: Recreate
 
