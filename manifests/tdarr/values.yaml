@@ -1,0 +1,31 @@
+persistence:
+  configs:
+    enabled: true
+    storageClass: truenas-nfs-csi
+    size: 10Gi
+  logs:
+    enabled: false
+  server:
+    enabled: true
+    storageClass: truenas-iscsi-csi
+    size: 10Gi
+  transcode-cache:
+    enabled: false
+  media:
+    enabled: true
+    storageClass: "-"
+    existingClaim: "media"
+resources:
+  requests:
+    cpu: 1000m
+  limits:
+    cpu: 3000m
+workload:
+  main:
+    podSpec:
+      containers:
+        main:
+          env:
+            webUIPort: "{{ .Values.service.main.ports.main.port }}"
+            serverPort: "{{ .Values.service.comm.ports.comm.port }}"
+            internalNode: "false"

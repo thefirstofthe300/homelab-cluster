@@ -1,0 +1,47 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: filebot
+spec:
+  schedule: "0 22 * * *"
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          containers:
+            - name: filebot
+              image: rednoah/filebot:latest
+              imagePullPolicy: IfNotPresent
+              args:
+                - -script
+                - fn:amc
+                - --output
+                - /data
+                - --action
+                - move
+                - --conflict
+                - auto
+                - -non-strict
+                - --def
+                - unsorted=y
+                - music=y
+                - artwork=y
+                - clean=y
+                - movieFormat=/data/{plex}
+                - seriesFormat=/data/{plex}
+                - /data/import
+              env:
+                - name: PUID
+                  value: "972"
+                - name: PGID
+                  value: "568"
+              volumeMounts:
+                - name: data
+                  mountPath: /data
+          volumes:
+            - name: data
+              persistentVolumeClaim:
+                claimName: media
+          restartPolicy: Never
