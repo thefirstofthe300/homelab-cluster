@@ -104,13 +104,16 @@ spec:
       existingSecretKey: signing.key
     extraConfig:
       media_retention:
-        remote_media_lifetime: 14d
+        remote_media_lifetime: 5m
       app_service_config_files:
         - /synapse/config/appservices/mautrix-gmessages.yaml
         - /synapse/config/appservices/mautrix-signal.yaml
         - /synapse/config/appservices/mautrix-telegram.yaml
         - /synapse/config/appservices/mautrix-discord.yaml
         - /synapse/config/appservices/doublepuppet.yaml
+      prevent_media_downloads_from:
+        - nakama.tv
+        - unredacted.org
     synapse:
       resources:
         requests:
