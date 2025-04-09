@@ -89,7 +89,7 @@ spec:
       interval: 24h0m0s
   values:
     image:
-      tag: v1.127.1 # {"$imagepolicy": "synapse:synapse:tag"}
+      tag: v1.128.0 # {"$imagepolicy": "synapse:synapse:tag"}
     serverName: seymour.family
     publicServerName: matrix.seymour.family
     wellknown:
