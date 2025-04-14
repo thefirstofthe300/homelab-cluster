@@ -18,13 +18,15 @@ spec:
   chart:
     spec:
       chart: jellyfin
-      version: "2.1.0"
+      version: "2.3.0"
       sourceRef:
         kind: HelmRepository
         name: jellyfin
         namespace: flux-system
       interval: 24h0m0s
   values:
+    image:
+      tag: 10.10.7 
     jellyfin:
       env:
         - name: TZ

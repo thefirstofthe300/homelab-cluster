@@ -1,0 +1,40 @@
+---
+# Source: matrix-bridges/templates/signal-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pinchflat
+  namespace: pinchflat
+spec:
+  template:
+    spec:
+      containers:
+        - name: pinchflat
+          image: ghcr.io/kieraneglin/pinchflat
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: America/Los_Angeles
+            - name: JOURNAL_MODE
+              value: delete
+            - name: YT_DLP_WORKER_CONCURRENCY
+              value: "1"
+          ports:
+            - name: http
+              containerPort: 8945
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: downloads
+              mountPath: /downloads
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: config
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: media
