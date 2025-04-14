@@ -26,7 +26,7 @@ spec:
       interval: 24h0m0s
   values:
     image:
-      tag: 10.10.7 
+      tag: 10.10.7 # {"$imagepolicy": "jellyfin:jellyfin:tag"}
     jellyfin:
       env:
         - name: TZ
