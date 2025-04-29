@@ -6,13 +6,6 @@ metadata:
 spec:
   interval: 24h0m0s
   timeout: 30m0s
-  install:
-    remediation:
-      retries: 1
-      remediateLastFailure: true
-  upgrade:
-    remediation:
-      retries: 1
   driftDetection:
     mode: enabled
   chart:
