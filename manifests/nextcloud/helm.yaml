@@ -44,6 +44,8 @@ spec:
         memory: 4Gi
     startupProbe:
       enabled: true
+    securityContext:
+      runAsUser: 33
     ingress:
       enabled: true
       ingressClass: traefik
