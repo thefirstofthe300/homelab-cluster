@@ -36,6 +36,8 @@ spec:
             'forwarded_for_headers' => array('HTTP_X_FORWARDED_FOR'),
             'default_phone_region' => '+1'
           );
+      podSecurityContext:
+        runAsUser: 33
     resources:
       requests:
         cpu: 1000m
@@ -44,8 +46,6 @@ spec:
         memory: 4Gi
     startupProbe:
       enabled: true
-    securityContext:
-      runAsUser: 33
     ingress:
       enabled: true
       ingressClass: traefik
