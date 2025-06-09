@@ -18,8 +18,6 @@ spec:
   enableSuperuserAccess: true
   postgresql:
     enableAlterSystem: true
-    shared_preload_libraries:
-      - "vectors.so"
     pg_hba: []
     pg_ident: []
     parameters: {}
