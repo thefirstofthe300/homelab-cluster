@@ -21,6 +21,8 @@ spec:
     pg_hba: []
     pg_ident: []
     parameters: {}
+    shared_preload_libraries:
+      - vchord.so
   monitoring:
     enablePodMonitor: true
     disableDefaultQueries: false
