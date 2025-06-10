@@ -52,10 +52,10 @@ spec:
             - chat.seymour.family
     resources:
       limits:
-        memory: 1Gi
+        memory: 4Gi
       requests:
         cpu: 100m
-        memory: 128Mi
+        memory: 2Gi
     autoscaling:
       enabled: false
       minReplicas: 1
