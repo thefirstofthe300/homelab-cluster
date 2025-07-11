@@ -111,7 +111,7 @@ spec:
         secretAccessKey:
           name: backblaze-creds
           key: ACCESS_SECRET_KEY
-    retentionPolicy: "30d"
+    retentionPolicy: 7d
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
@@ -173,7 +173,7 @@ spec:
         secretAccessKey:
           name: backblaze-creds
           key: ACCESS_SECRET_KEY
-    retentionPolicy: "30d"
+    retentionPolicy: 7d
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
@@ -235,7 +235,7 @@ spec:
         secretAccessKey:
           name: backblaze-creds
           key: ACCESS_SECRET_KEY
-    retentionPolicy: "30d"
+    retentionPolicy: 7d
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
@@ -297,7 +297,7 @@ spec:
         secretAccessKey:
           name: backblaze-creds
           key: ACCESS_SECRET_KEY
-    retentionPolicy: "30d"
+    retentionPolicy: 7d
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
