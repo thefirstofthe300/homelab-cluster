@@ -183,3 +183,13 @@ metadata:
 spec:
   interval: 24h0m0s
   url: https://jellyfin.github.io/jellyfin-helm
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: ess-community
+  namespace: flux-system
+spec:
+  type: oci
+  interval: 24h0m0s
+  url: oci://ghcr.io/element-hq/ess-helm/matrix-stack

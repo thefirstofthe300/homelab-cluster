@@ -1,71 +1,6 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: element-web
-spec:
-  interval: 24h0m0s
-  install:
-    remediation:
-      retries: 3
-      remediateLastFailure: true
-  upgrade:
-    remediation:
-      retries: 3
-  driftDetection:
-    mode: enabled
-  chart:
-    spec:
-      chart: element-web
-      version: ">= 1.2.10"
-      sourceRef:
-        kind: HelmRepository
-        name: ananace
-        namespace: flux-system
-      interval: 24h0m0s
-  values:
-    replicaCount: 2
-    image:
-      tag: "v1.11.105" # {"$imagepolicy": "synapse:element-web:tag"}
-    defaultServer:
-      url: "https://matrix.seymour.family"
-      name: "Seymour Family"
-    config:
-      show_labs_settings: true
-      default_theme: "dark"
-      room_directory:
-        servers:
-          - "seymour.family"
-          - "matrix.org"
-      element_call:
-        url: "https://call.element.io"
-        participant_limit: 8
-        brand: "Element Call"
-    ingress:
-      enabled: true
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-production
-      hosts:
-        - chat.seymour.family
-      tls:
-        - secretName: element-web-tls
-          hosts:
-            - chat.seymour.family
-    resources:
-      limits:
-        memory: 1Gi
-      requests:
-        cpu: 100m
-        memory: 128Mi
-    autoscaling:
-      enabled: false
-      minReplicas: 1
-      maxReplicas: 5
-      targetCPUUtilizationPercentage: 80
-      targetMemoryUtilizationPercentage: 80
----
-apiVersion: helm.toolkit.fluxcd.io/v2
-kind: HelmRelease
-metadata:
   name: matrix-synapse
 spec:
   interval: 24h0m0s
@@ -80,100 +15,64 @@ spec:
     mode: enabled
   chart:
     spec:
-      chart: matrix-synapse
-      version: ">= 3.7.0 < 4.0.0"
+      chart: matrix-stack
+      version: "25.7.0"
       sourceRef:
         kind: HelmRepository
-        name: ananace
+        name: ess-community
         namespace: flux-system
       interval: 24h0m0s
   values:
-    image:
-      tag: v1.133.0 # {"$imagepolicy": "synapse:synapse:tag"}
+    certManager:
+      clusterIssuer: letsencrypt-prod
+    elementWeb:
+      ingress:
+        host: chat.seymour.family
+    matrixAuthenticationService:
+      additional:
+        password-scheme.yml:
+          config: |
+            passwords:
+              schemes:
+                - version: 1
+                  algorithm: bcrypt
+                - version: 2
+                  algorithm: argon2id
+      syn2mas:
+        dryRun: true
+        enabled: true
+      ingress:
+        host: mas.seymour.family
+      postgres:
+        host: synapse-postgres-rw.synapse.svc.cluster.local
+        port: 5432
+        user: mas
+        password:
+          secret: synapse-postgres-user-mas
+          secretKey: password
+        database: mas
+        sslMode: prefer
+    matrixRTC:
+      ingress:
+        host: mrtc.seymour.family
     serverName: seymour.family
-    publicServerName: matrix.seymour.family
-    wellknown:
-      enabled: true
-      client:
-        m.homeserver:
-          base_url: "https://matrix.seymour.family"
-    signingkey:
-      job:
-        enabled: false
-      existingSecret: matrix-synapse-signingkey
-      existingSecretKey: signing.key
-    extraConfig:
-      media_retention:
-        remote_media_lifetime: 5m
-      app_service_config_files:
-        - /synapse/config/appservices/mautrix-gmessages.yaml
-        - /synapse/config/appservices/mautrix-signal.yaml
-        - /synapse/config/appservices/mautrix-telegram.yaml
-        - /synapse/config/appservices/mautrix-discord.yaml
-        - /synapse/config/appservices/doublepuppet.yaml
-      prevent_media_downloads_from:
-        - nakama.tv
-        - unredacted.org
     synapse:
-      resources:
-        requests:
-          cpu: 1000m
-          memory: 4Gi
-        limits:
-          memory: 4Gi
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 1
-              podAffinityTerm:
-                topologyKey: kubernetes.io/hostname
-                labelSelector:
-                  matchLabels:
-                    app.kubernetes.io/name: matrix-synapse
-                    app.kubernetes.io/component: generic-worker
-      securityContext:
-        capabilities:
-          drop:
-            - ALL
-        readOnlyRootFilesystem: true
-        runAsNonRoot: true
-        runAsUser: 991
-        runAsGroup: 991
-      extraVolumes:
-        - name: appservice-registrations
-          secret:
-            secretName: appservice-registrations
-        - name: shared-secret-authenticator
-          configMap:
-            name: shared-secret-authenticator
-            items:
-              - key: shared_secret_authenticator.py
-                path: shared_secret_authenticator.py
-      extraVolumeMounts:
-        - name: appservice-registrations
-          mountPath: /synapse/config/appservices
-    persistence:
-      existingClaim: media
-    ingress:
-      traefikPaths: true
-      includeUnderscoreSynapse: false
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-production
-        traefik.ingress.kubernetes.io/router.middlewares: synapse-cors@kubernetescrd
-      tls:
-        - secretName: matrix-seymour-family-tls
-          hosts:
-            - matrix.seymour.family
-            - seymour.family
-    postgresql:
-      enabled: false
-    externalPostgresql:
-      host: synapse-postgres-rw.synapse.svc.cluster.local
-      existingSecret: postgres-synapse
-      existingSecretPasswordKey: password
-    redis:
-      enabled: false
-    externalRedis:
-      host: redis-headless.redis.svc.cluster.local
-      existingSecret: redis-password
-      existingSecretPasswordKey: password
+      ingress:
+        host: matrix.seymour.family
+      appservices:
+        - secret: appservice-registrations
+          secretKey: mautrix-signal.yaml
+        - secret: appservice-registrations
+          secretKey: mautrix-gmessages.yaml
+      signingKey:
+        secret: matrix-synapse-signingkey
+        secretKey: signing.key
+      postgres:
+        host: synapse-postgres-rw.synapse.svc.cluster.local
+        port: 5432
+        user: synapse
+        password:
+          secret: synapse-postgres-user-synapse
+          secretKey: password
+        database: synapse
+        sslMode: prefer
