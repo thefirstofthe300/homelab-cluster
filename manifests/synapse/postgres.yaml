@@ -33,6 +33,11 @@ spec:
         login: true
         passwordSecret:
           name: synapse-postgres-user-synapse
+      - name: mas
+        ensure: present
+        login: true
+        passwordSecret:
+          name: synapse-postgres-user-mas
   backup:
     barmanObjectStore:
       data:

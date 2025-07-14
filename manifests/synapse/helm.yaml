@@ -1,12 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: matrix-synapse
+  name: matrix
 spec:
   interval: 24h0m0s
+  timeout: 30m0s
   install:
     remediation:
-      retries: 3
+      retries: 1
       remediateLastFailure: true
   upgrade:
     remediation:
@@ -18,7 +19,7 @@ spec:
       chart: matrix-stack
       version: "25.7.0"
       sourceRef:
-        kind: OCIRepository
+        kind: HelmRepository
         name: ess-community
         namespace: flux-system
       interval: 24h0m0s
@@ -67,6 +68,16 @@ spec:
       signingKey:
         secret: matrix-synapse-signingkey
         secretKey: signing.key
+      podSecurityContext:
+        capabilities:
+          drop:
+            - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        runAsUser: 991
+        runAsGroup: 991
+      storage:
+        existingClaim: media
       postgres:
         host: synapse-postgres-rw.synapse.svc.cluster.local
         port: 5432
