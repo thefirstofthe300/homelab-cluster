@@ -185,7 +185,7 @@ spec:
   url: https://jellyfin.github.io/jellyfin-helm
 ---
 apiVersion: source.toolkit.fluxcd.io/v1
-kind: OCIRepository
+kind: HelmRepository
 metadata:
   name: ess-community
   namespace: flux-system
