@@ -18,7 +18,7 @@ spec:
       chart: matrix-stack
       version: "25.7.0"
       sourceRef:
-        kind: HelmRepository
+        kind: OCIRepository
         name: ess-community
         namespace: flux-system
       interval: 24h0m0s
