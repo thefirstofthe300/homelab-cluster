@@ -69,15 +69,12 @@ spec:
         secret: matrix-synapse-signingkey
         secretKey: signing.key
       podSecurityContext:
-        capabilities:
-          drop:
-            - ALL
-        readOnlyRootFilesystem: true
         runAsNonRoot: true
         runAsUser: 991
         runAsGroup: 991
-      storage:
-        existingClaim: media
+      media:
+        storage:
+          existingClaim: media
       postgres:
         host: synapse-postgres-rw.synapse.svc.cluster.local
         port: 5432
