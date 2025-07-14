@@ -25,7 +25,7 @@ spec:
       interval: 24h0m0s
   values:
     certManager:
-      clusterIssuer: letsencrypt-prod
+      clusterIssuer: letsencrypt-production
     elementWeb:
       ingress:
         host: chat.seymour.family
