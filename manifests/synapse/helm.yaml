@@ -40,7 +40,6 @@ spec:
                 - version: 2
                   algorithm: argon2id
       syn2mas:
-        dryRun: true
         enabled: true
       ingress:
         host: mas.seymour.family
