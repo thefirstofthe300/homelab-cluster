@@ -2,13 +2,15 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: synapse
 resources:
-  - deployment.yaml
-  - service.yaml
-  - rbac.yaml
-  - sealedsecret.yaml
-  - images.yaml
-commonLabels:
-  app.kubernetes.io/component: mautrix-telegram
+- deployment.yaml
+- service.yaml
+- rbac.yaml
+- sealedsecret.yaml
+- images.yaml
 images:
-  - name: dock.mau.dev/mautrix/telegram
-    newTag: v0.15.2 # {"$imagepolicy": "synapse:mautrix-telegram:tag"}
+- name: dock.mau.dev/mautrix/telegram
+  newTag: v0.15.2
+labels:
+- includeSelectors: true
+  pairs:
+    app.kubernetes.io/component: mautrix-telegram

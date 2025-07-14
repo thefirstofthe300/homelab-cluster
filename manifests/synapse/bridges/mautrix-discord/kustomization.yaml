@@ -2,13 +2,15 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: synapse
 resources:
-  - deployment.yaml
-  - service.yaml
-  - rbac.yaml
-  - sealedsecret.yaml
-  - images.yaml
-commonLabels:
-  app.kubernetes.io/component: mautrix-discord
+- deployment.yaml
+- service.yaml
+- rbac.yaml
+- sealedsecret.yaml
+- images.yaml
 images:
-  - name: dock.mau.dev/mautrix/discord
-    newTag: v0.7.4 # {"$imagepolicy": "synapse:mautrix-discord:tag"}
+- name: dock.mau.dev/mautrix/discord
+  newTag: v0.7.4
+labels:
+- includeSelectors: true
+  pairs:
+    app.kubernetes.io/component: mautrix-discord
