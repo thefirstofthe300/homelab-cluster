@@ -39,6 +39,8 @@ spec:
                   algorithm: bcrypt
                 - version: 2
                   algorithm: argon2id
+      syn2mas:
+        enabled: true
       ingress:
         host: mas.seymour.family
       postgres:
