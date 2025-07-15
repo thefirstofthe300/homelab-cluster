@@ -38,6 +38,16 @@ spec:
         login: true
         passwordSecret:
           name: synapse-postgres-user-mas
+      - name: mautrix-signal
+        ensure: present
+        login: true
+        passwordSecret:
+          name: synapse-postgres-user-mautrix-signal
+      - name: mautrix-gmessages
+        ensure: present
+        login: true
+        passwordSecret:
+          name: synapse-postgres-user-mautrix-gmessages
   backup:
     barmanObjectStore:
       data:
