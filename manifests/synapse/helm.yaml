@@ -86,6 +86,13 @@ spec:
           secretKey: mautrix-discord.yaml
         - secret: appservice-registrations
           secretKey: mautrix-telegram.yaml
+      workers:
+        appservice:
+          enabled: true
+        federation-reader:
+          enabled: true
+        federation-inbound:
+          enabled: true
       signingKey:
         secret: matrix-synapse-signingkey
         secretKey: signing.key
