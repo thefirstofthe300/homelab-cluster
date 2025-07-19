@@ -103,10 +103,6 @@ spec:
       media:
         storage:
           existingClaim: media
-      livenessProbe:
-        timeoutSeconds: 5
-      readinessProbe:
-        timeoutSeconds: 5
       postgres:
         host: synapse-postgres-rw.synapse.svc.cluster.local
         port: 5432
