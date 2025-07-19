@@ -82,6 +82,10 @@ spec:
           secretKey: mautrix-signal.yaml
         - secret: appservice-registrations
           secretKey: mautrix-gmessages.yaml
+        - secret: appservice-registrations
+          secretKey: mautrix-discord.yaml
+        - secret: appservice-registrations
+          secretKey: mautrix-telegram.yaml
       signingKey:
         secret: matrix-synapse-signingkey
         secretKey: signing.key

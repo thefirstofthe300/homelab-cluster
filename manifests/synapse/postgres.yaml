@@ -48,6 +48,16 @@ spec:
         login: true
         passwordSecret:
           name: synapse-postgres-user-mautrix-gmessages
+      - name: mautrix-discord
+        ensure: present
+        login: true
+        passwordSecret:
+          name: synapse-postgres-user-mautrix-discord
+      - name: mautrix-telegram
+        ensure: present
+        login: true
+        passwordSecret:
+          name: synapse-postgres-user-mautrix-telegram
   backup:
     barmanObjectStore:
       data:
@@ -104,5 +114,25 @@ metadata:
 spec:
   name: mautrix-gmessages
   owner: mautrix-gmessages
+  cluster:
+    name: synapse-postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: mautrix-discord
+spec:
+  name: mautrix-discord
+  owner: mautrix-discord
+  cluster:
+    name: synapse-postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: mautrix-telegram
+spec:
+  name: mautrix-telegram
+  owner: mautrix-telegram
   cluster:
     name: synapse-postgres
