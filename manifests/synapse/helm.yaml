@@ -32,6 +32,25 @@ spec:
       additional:
         password-scheme.yml:
           config: |
+            upstream_oauth2:
+              providers:
+                - id: 01K08QGSY65Q8ESZR5Z3PY6SRY
+                  human_name: Authentik
+                  token_endpoint_auth_method: client_secret_basic
+                  client_id: kURaVQd6b5REhwlVJDgCdGZuGqO77n9pr8vP5eU7
+                  client_secret: IN492nvbN5HlWa20St02GbJMGgX5keXhBpIQPNdgYzO6H3YLnpPnLZhTjr3TaSxaMhbrciLntyVyy11J5sqBR7jrBDUh3RBE7wPSf5dkIcWWNa8utxI8B14NTPEP285g
+                  issuer: https://authentik.seymour.family/application/o/element-server-suite/
+                  scope: "openid email profile preferred_username"
+                  claims_imports:
+                    localpart:
+                      action: require
+                      template: "{{ user.matrix_handle }}"
+                    displayname:
+                      action: require
+                      template: "{{ user.name }}"
+                    email:
+                      action: require
+                      template: "{{ user.email }}"
             passwords:
               enabled: true
               schemes:

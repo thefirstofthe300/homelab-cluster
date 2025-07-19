@@ -19,5 +19,4 @@ kubeseal -f secrets/postgres/secret.yaml -o yaml -n nextcloud | grep -v creation
 encrypt secrets/synapse/matrix-synapse-signingkey.yaml manifests/synapse/sealedsecret.yaml
 kubeseal -f secrets/synapse/postgres-synapse.yaml -o yaml -n synapse | grep -v creationTimestamp >> manifests/synapse/sealedsecret.yaml
 kubeseal -f secrets/synapse/redis-password.yaml -o yaml -n synapse | grep -v creationTimestamp >> manifests/synapse/sealedsecret.yaml
-encrypt secrets/velero/credentials-velero.yaml manifests/velero/sealedsecret.yaml
-encrypt secrets/velero/velero-repo-credentials.yaml manifests/velero/sealedsecret.yaml
+encrypt secrets/velero/credentials.yaml manifests/velero/sealedsecret.yaml
