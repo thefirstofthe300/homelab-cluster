@@ -9,7 +9,7 @@ resources:
   - images.yaml
 images:
   - name: dock.mau.dev/mautrix/gmessages
-    newTag: v0.6.3 # {"$imagepolicy": "synapse:mautrix-gmessages:tag"}
+    newTag: v0.6.4 # {"$imagepolicy": "synapse:mautrix-gmessages:tag"}
 labels:
   - includeSelectors: true
     pairs:
