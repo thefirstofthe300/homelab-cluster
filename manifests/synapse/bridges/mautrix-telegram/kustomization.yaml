@@ -9,7 +9,7 @@ resources:
   - images.yaml
 images:
   - name: dock.mau.dev/mautrix/telegram
-    newTag: v0.15.2 # {"$imagepolicy": "synapse:mautrix-telegram:tag"}
+    newTag: v0.15.3 # {"$imagepolicy": "synapse:mautrix-telegram:tag"}
 labels:
   - includeSelectors: true
     pairs:
