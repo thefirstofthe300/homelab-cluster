@@ -34,7 +34,8 @@ spec:
               1 => '10.0.0.0/8',
             ),
             'forwarded_for_headers' => array('HTTP_X_FORWARDED_FOR'),
-            'default_phone_region' => '+1'
+            'default_phone_region' => '+1',
+            'maintenance_window_start' => 1
           );
       podSecurityContext:
         runAsUser: 33
