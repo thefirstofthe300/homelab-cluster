@@ -76,9 +76,10 @@ spec:
     serverName: seymour.family
     synapse:
       additional:
-        config: |
-          forget_rooms_on_leave: true
-          forgotten_room_retention_period: 1d
+        room-config.yml:
+          config: |
+            forget_rooms_on_leave: true
+            forgotten_room_retention_period: 1d
       ingress:
         host: matrix.seymour.family
       appservices:
