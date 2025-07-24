@@ -90,6 +90,8 @@ spec:
           secretKey: mautrix-discord.yaml
         - secret: appservice-registrations
           secretKey: mautrix-telegram.yaml
+        - secret: appservice-registrations
+          secretKey: doublepuppet.yaml
       workers:
         appservice:
           enabled: true

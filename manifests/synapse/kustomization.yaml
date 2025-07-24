@@ -13,12 +13,6 @@ resources:
   - sealedsecret.yaml
   - storage.yaml
   - updateautomation.yaml
-configMapGenerator:
-  - files:
-      - shared_secret_authenticator.py=configs/shared-secret-authenticator.py
-    name: shared-secret-authenticator
-    options:
-      disableNameSuffixHash: true
 labels:
   - includeSelectors: true
     pairs:
