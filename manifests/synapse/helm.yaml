@@ -55,7 +55,7 @@ spec:
                       action: require
                       template: "{{ user.email }}"
             passwords:
-              enabled: true
+              enabled: false
               schemes:
                 - version: 1
                   algorithm: bcrypt
