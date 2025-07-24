@@ -47,6 +47,7 @@ spec:
                     localpart:
                       action: require
                       template: "{{ user.matrix_handle }}"
+                      on_conflict: add
                     displayname:
                       action: require
                       template: "{{ user.name }}"
