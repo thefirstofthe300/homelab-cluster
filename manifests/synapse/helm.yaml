@@ -83,6 +83,7 @@ spec:
           config: |
             forget_rooms_on_leave: true
             forgotten_room_retention_period: 1d
+            dynamic_thumbnails: true
       ingress:
         host: matrix.seymour.family
       appservices:
