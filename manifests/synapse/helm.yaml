@@ -104,7 +104,7 @@ spec:
           enabled: true
         federation-inbound:
           enabled: true
-        synchotron:
+        synchrotron:
           enabled: true
         sliding-sync:
           enabled: true
