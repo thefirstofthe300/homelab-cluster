@@ -37,6 +37,8 @@ spec:
             'default_phone_region' => '+1',
             'maintenance_window_start' => 1
           );
+      podSecurityContext:
+        fsGroupChangePolicy: OnRootMismatch
     resources:
       requests:
         cpu: 1000m
