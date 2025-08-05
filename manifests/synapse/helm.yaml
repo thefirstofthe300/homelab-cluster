@@ -104,6 +104,10 @@ spec:
           enabled: true
         federation-inbound:
           enabled: true
+        synchotron:
+          enabled: true
+        sliding-sync:
+          enabled: true
       signingKey:
         secret: matrix-synapse-signingkey
         secretKey: signing.key
