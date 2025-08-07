@@ -29,8 +29,6 @@ spec:
       ingress:
         host: chat.seymour.family
     matrixAuthenticationService:
-      image:
-        tag: 0.20.0-rc.0
       additional:
         password-scheme.yml:
           config: |
