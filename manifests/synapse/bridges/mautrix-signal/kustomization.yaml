@@ -9,7 +9,7 @@ resources:
   - images.yaml
 images:
   - name: dock.mau.dev/mautrix/signal
-    newTag: v0.8.6 # {"$imagepolicy": "synapse:mautrix-signal:tag"}
+    newTag: v0.8.7 # {"$imagepolicy": "synapse:mautrix-signal:tag"}
 labels:
   - includeSelectors: true
     pairs:
