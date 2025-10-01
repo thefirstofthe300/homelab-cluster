@@ -31,7 +31,7 @@ spec:
     env:
       REDIS_HOSTNAME: redis-master.redis.svc
     image:
-      tag: v1.143.1 # {"$imagepolicy": "immich:immich:tag"}
+      tag: v1.144.1 # {"$imagepolicy": "immich:immich:tag"}
     immich:
       metrics:
         enabled: true
