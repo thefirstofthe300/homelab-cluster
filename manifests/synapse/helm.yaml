@@ -25,6 +25,9 @@ spec:
   values:
     certManager:
       clusterIssuer: letsencrypt-production
+    elementAdmin:
+      ingress:
+        host: admin.synapse.seymour.family
     elementWeb:
       ingress:
         host: chat.seymour.family
