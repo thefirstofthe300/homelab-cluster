@@ -1,0 +1,22 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: pinchflat
+spec:
+  image: pinchflat
+  interval: 24h0m0s
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: pinchflat
+spec:
+  imageRepositoryRef:
+    name: pinchflat
+  filterTags:
+    pattern: "^(?P<Y>[0-9]*).(?P<M>[0-9]*).(?P<D>[0-9]*)"
+    extract: "$Y$M$D"
+  policy:
+    numerical:
+      order: asc

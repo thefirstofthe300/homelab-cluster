@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: pinchflat
 resources:
   - deployment.yaml
+  - images.yaml
   - namespace.yaml
   - service.yaml
   - storage.yaml
