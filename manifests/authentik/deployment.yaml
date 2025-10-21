@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oidc
+  namespace: authentik
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: static-web-server
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: static-web-server
+    spec:
+      containers:
+        - name: sws
+          image: ghcr.io/static-web-server/static-web-server
+          args:
+            - --config-file=/etc/sws/config.toml
+            - --root=/public
+            - --log-level=info
+            - --health
+          ports:
+            - name: http
+              containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+          volumeMounts:
+            - name: config
+              mountPath: /etc/sws
+            - name: webfinger
+              mountPath: /public/.well-known
+      volumes:
+        - name: config
+          configMap:
+            name: sws-config
+        - name: webfinger
+          configMap:
+            name: webfinger

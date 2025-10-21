@@ -23,6 +23,9 @@ spec:
         namespace: flux-system
       interval: 24h0m0s
   values:
+    wellKnownDelegation:
+      baseDomainRedirect:
+        enabled: false
     certManager:
       clusterIssuer: letsencrypt-production
     elementAdmin:

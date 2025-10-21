@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: oidc
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  rules:
+    - host: seymour.family
+      http:
+        paths:
+          - backend:
+              service:
+                name: oidc
+                port:
+                  name: http
+            path: /.well-known/webfinger
+            pathType: Prefix
+  tls:
+    - hosts:
+        - seymour.family
+      secretName: oidc-cert
