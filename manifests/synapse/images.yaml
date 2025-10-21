@@ -1,5 +1,5 @@
 ---
-apiVersion: image.toolkit.fluxcd.io/v1beta1
+apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
 metadata:
   name: synapse
@@ -7,7 +7,7 @@ spec:
   image: matrixdotorg/synapse
   interval: 24h0m0s
 ---
-apiVersion: image.toolkit.fluxcd.io/v1beta1
+apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
 metadata:
   name: synapse
@@ -18,7 +18,7 @@ spec:
     semver:
       range: v1.x.x
 ---
-apiVersion: image.toolkit.fluxcd.io/v1beta1
+apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
 metadata:
   name: sliding-sync
@@ -26,7 +26,7 @@ spec:
   image: ghcr.io/matrix-org/sliding-sync
   interval: 24h0m0s
 ---
-apiVersion: image.toolkit.fluxcd.io/v1beta1
+apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
 metadata:
   name: sliding-sync
@@ -37,7 +37,7 @@ spec:
     semver:
       range: v0.x.x
 ---
-apiVersion: image.toolkit.fluxcd.io/v1beta1
+apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
 metadata:
   name: element-web
@@ -45,7 +45,7 @@ spec:
   image: docker.io/vectorim/element-web
   interval: 24h0m0s
 ---
-apiVersion: image.toolkit.fluxcd.io/v1beta1
+apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
 metadata:
   name: element-web
