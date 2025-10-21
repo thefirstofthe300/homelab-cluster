@@ -6,3 +6,4 @@ resources:
   - helm.yaml
   - namespace.yaml
   - sealedsecret.yaml
+  - imageupdates.yaml
