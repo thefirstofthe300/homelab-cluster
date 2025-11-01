@@ -62,7 +62,7 @@ spec:
     externalDatabase:
       enabled: true
       type: "postgresql"
-      host: nextcloud-postgres-rw.nextcloud.svc.cluster.local
+      host: 192.168.1.204:5432
       database: nextcloud
       existingSecret:
         secretName: "nextcloud-postgres-user-nextcloud"
