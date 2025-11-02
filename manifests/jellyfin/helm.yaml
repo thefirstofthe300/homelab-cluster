@@ -1,4 +1,3 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -26,18 +25,15 @@ spec:
       interval: 24h0m0s
   values:
     image:
-      tag: 10.11.0 # {"$imagepolicy": "jellyfin:jellyfin:tag"}
+      tag: 10.11.1 # {"$imagepolicy": "jellyfin:jellyfin:tag"}
     jellyfin:
       env:
         - name: TZ
           value: America/Los_Angeles
-
     deploymentStrategy:
       type: Recreate
-
     securityContext:
       runAsGroup: 568
-
     ingress:
       ingressClassName: traefik
       enabled: true
@@ -52,14 +48,12 @@ spec:
         - hosts:
             - movies.seymour.family
           secretName: jellyfin-tls
-
     resources:
       requests:
         cpu: 1000m
         memory: 1Gi
       limits:
         gpu.intel.com/i915: 1000m
-
     persistence:
       config:
         enabled: true
@@ -67,7 +61,6 @@ spec:
       media:
         enabled: true
         existingClaim: media
-
     metrics:
       enabled: true
       serviceMonitor:
