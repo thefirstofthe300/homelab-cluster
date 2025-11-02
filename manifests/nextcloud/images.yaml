@@ -16,4 +16,4 @@ spec:
     name: nextcloud
   policy:
     semver:
-      range: 31.x.x
+      range: 32.x

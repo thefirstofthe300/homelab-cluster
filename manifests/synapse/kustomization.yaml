@@ -4,17 +4,8 @@ namespace: synapse
 resources:
   - ./bridges
   - ./state-compressor
-  - cors.yaml
   - helm.yaml
-  - images.yaml
   - namespace.yaml
   - podmonitor.yaml
-  - postgres.yaml
   - sealedsecret.yaml
   - storage.yaml
-  - updateautomation.yaml
-labels:
-  - includeSelectors: true
-    pairs:
-      app.kubernetes.io/instance: matrix-synapse
-      app.kubernetes.io/name: matrix-synapse

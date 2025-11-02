@@ -18,7 +18,7 @@ spec:
     name: jellyfin
   policy:
     semver:
-      range: v10.10.x
+      range: v10.11.x
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageUpdateAutomation
