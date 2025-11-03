@@ -2,7 +2,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: synapse
 resources:
-  - ./bridges
   - ./state-compressor
   - helm.yaml
   - namespace.yaml

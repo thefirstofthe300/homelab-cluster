@@ -18,7 +18,7 @@ spec:
                 - synapse_auto_compressor
               args:
                 - -p
-                - "user=synapse password=$(DB_PASSWORD) dbname=synapse host=synapse-postgres-rw.synapse.svc"
+                - "user=synapse password=$(DB_PASSWORD) dbname=synapse host=192.168.1.204"
                 - -c
                 - "500"
                 - -n
