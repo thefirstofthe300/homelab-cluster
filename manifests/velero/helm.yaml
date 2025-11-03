@@ -17,13 +17,13 @@ spec:
   chart:
     spec:
       chart: velero
-      version: "7.2.1"
+      version: "11.1.1"
       sourceRef:
         kind: HelmRepository
         name: vmware
         namespace: flux-system
       interval: 24h0m0s
-  values: 
+  values:
     image:
       repository: velero/velero
       tag: v1.14.1
@@ -50,43 +50,43 @@ spec:
         enabled: true
         additionalLabels: {}
         spec:
-        - alert: VeleroBackupPartialFailures
-          annotations:
-            message: Velero backup {{ $labels.schedule }} has {{ $value | humanizePercentage }} partialy failed backups.
-          expr: |-
-            velero_backup_partial_failure_total{schedule!=""} / velero_backup_attempt_total{schedule!=""} > 0.25
-          for: 15m
-          labels:
-            severity: warning
-        - alert: VeleroBackupFailures
-          annotations:
-            message: Velero backup {{ $labels.schedule }} has {{ $value | humanizePercentage }} failed backups.
-          expr: |-
-            velero_backup_failure_total{schedule!=""} / velero_backup_attempt_total{schedule!=""} > 0.25
-          for: 15m
-          labels:
-            severity: warning
+          - alert: VeleroBackupPartialFailures
+            annotations:
+              message: Velero backup {{ $labels.schedule }} has {{ $value | humanizePercentage }} partialy failed backups.
+            expr: |-
+              velero_backup_partial_failure_total{schedule!=""} / velero_backup_attempt_total{schedule!=""} > 0.25
+            for: 15m
+            labels:
+              severity: warning
+          - alert: VeleroBackupFailures
+            annotations:
+              message: Velero backup {{ $labels.schedule }} has {{ $value | humanizePercentage }} failed backups.
+            expr: |-
+              velero_backup_failure_total{schedule!=""} / velero_backup_attempt_total{schedule!=""} > 0.25
+            for: 15m
+            labels:
+              severity: warning
 
     snapshotsEnabled: false
 
     configuration:
       backupStorageLocation:
-      - name: backups
-        provider: aws
-        bucket: seymour-family-backup
-        default: true
-        credential:
-          name: cloud-provider-credentials
-          key: credentials
-        config:
-          region: us-west-004
-          s3Url: https://s3.us-west-004.backblazeb2.com
-          checksumAlgorithm: ""
+        - name: backups
+          provider: aws
+          bucket: seymour-family-backup
+          default: true
+          credential:
+            name: cloud-provider-credentials
+            key: credentials
+          config:
+            region: us-west-004
+            s3Url: https://s3.us-west-004.backblazeb2.com
+            checksumAlgorithm: ""
 
     credentials:
       useSecret: true
       existingSecret: cloud-provider-credentials
-    
+
     backupsEnabled: true
     deployNodeAgent: true
     nodeAgent:
