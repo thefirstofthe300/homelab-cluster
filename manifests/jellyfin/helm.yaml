@@ -6,13 +6,6 @@ metadata:
   namespace: jellyfin
 spec:
   interval: 24h0m0s
-  install:
-    remediation:
-      retries: 3
-      remediateLastFailure: true
-  upgrade:
-    remediation:
-      retries: 3
   driftDetection:
     mode: enabled
   chart:
