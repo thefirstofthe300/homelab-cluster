@@ -45,6 +45,33 @@ spec:
     retentionPolicy: "30d"
 ---
 apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: nextcloud-postgres-backup
+spec:
+  storage:
+    size: 20Gi
+    storageClass: truenas-iscsi-csi
+  bootstrap:
+    recovery:
+      source: clusterBackup
+  externalClusters:
+    - name: clusterBackup
+      barmanObjectStore:
+        destinationPath: "s3://seymour-family-postgres/nextcloud"
+        serverName: nextcloud-postgres
+        endpointURL: "https://s3.us-west-004.backblazeb2.com"
+        s3Credentials:
+          accessKeyId:
+            name: backblaze-creds
+            key: ACCESS_KEY_ID
+          secretAccessKey:
+            name: backblaze-creds
+            key: ACCESS_SECRET_KEY
+        wal:
+          maxParallel: 8
+---
+apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
   name: nextcloud-postgres

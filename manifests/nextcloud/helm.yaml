@@ -5,13 +5,13 @@ metadata:
   namespace: nextcloud
 spec:
   interval: 24h0m0s
-  timeout: 1h0m0s
+  timeout: 5m0s
   driftDetection:
     mode: enabled
   chart:
     spec:
       chart: nextcloud
-      version: "7.0.0"
+      version: "8.5.1"
       sourceRef:
         kind: HelmRepository
         name: nextcloud
@@ -20,7 +20,7 @@ spec:
   values:
     image:
       flavor: apache
-      tag: 31.0.9 # {"$imagepolicy": "nextcloud:nextcloud:tag"}
+      tag: 31.0.10 # {"$imagepolicy": "nextcloud:nextcloud:tag"}
     podAnnotations:
       backup.velero.io/backup-volumes: nextcloud-data
     nextcloud:
@@ -35,7 +35,8 @@ spec:
             ),
             'forwarded_for_headers' => array('HTTP_X_FORWARDED_FOR'),
             'default_phone_region' => '+1',
-            'maintenance_window_start' => 1
+            'maintenance_window_start' => 1,
+            'loglevel' => 5
           );
       podSecurityContext:
         fsGroupChangePolicy: OnRootMismatch
