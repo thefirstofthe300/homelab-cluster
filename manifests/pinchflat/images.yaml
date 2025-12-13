@@ -4,7 +4,7 @@ kind: ImageRepository
 metadata:
   name: pinchflat
 spec:
-  image: pinchflat
+  image: ghcr.io/kieraneglin/pinchflat
   interval: 24h0m0s
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
@@ -15,8 +15,8 @@ spec:
   imageRepositoryRef:
     name: pinchflat
   filterTags:
-    pattern: "^(?P<Y>[0-9]*).(?P<M>[0-9]*).(?P<D>[0-9]*)"
+    pattern: "^v(?P<Y>[0-9]*).(?P<M>[0-9]*).(?P<D>[0-9]*)"
     extract: "$Y$M$D"
   policy:
     numerical:
-      order: asc
+      order: desc
