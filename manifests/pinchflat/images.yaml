@@ -13,7 +13,7 @@ metadata:
   name: pinchflat
 spec:
   imageRepositoryRef:
-    name: ghcr.io/kieraneglin/pinchflat
+    name: pinchflat
   filterTags:
     pattern: "^(?P<Y>[0-9]*).(?P<M>[0-9]*).(?P<D>[0-9]*)"
     extract: "$Y$M$D"
