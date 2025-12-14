@@ -6,6 +6,8 @@ metadata:
   name: pinchflat
   namespace: pinchflat
 spec:
+  strategy:
+    type: Recreate
   template:
     spec:
       containers:
