@@ -3,7 +3,6 @@ kind: Kustomization
 namespace: pinchflat
 resources:
   - deployment.yaml
-  - images.yaml
   - namespace.yaml
   - service.yaml
   - storage.yaml
@@ -13,4 +12,4 @@ labels:
       app.kubernetes.io/name: pinchflat
 images:
   - name: ghcr.io/kieraneglin/pinchflat
-    newTag: v2025.3.17 # {"$imagepolicy": "pinchflat:pinchflat:tag"}
+    newTag: v2025.6.6
