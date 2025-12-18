@@ -4,6 +4,8 @@ metadata:
   name: pinchflat
   namespace: pinchflat
 spec:
+  type: LoadBalancer
+  loadBalancerClass: tailscale
   ports:
     - name: http
       port: 80

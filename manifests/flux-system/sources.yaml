@@ -193,3 +193,12 @@ spec:
   type: oci
   interval: 24h0m0s
   url: oci://ghcr.io/element-hq/ess-helm
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: tailscale
+  namespace: flux-system
+spec:
+  interval: 24h0m0s
+  url: https://pkgs.tailscale.com/helmcharts
