@@ -31,9 +31,9 @@ spec:
         redirectTo:
           port: websecure
     additionalArguments:
-      - "--entryPoints.websecure.transport.respondingTimeouts.readTimeout=300s"
-      - "--entryPoints.websecure.transport.respondingTimeouts.writeTimeout=300s"
-      - "--entryPoints.websecure.transport.respondingTimeouts.idleTimeout=300s"
+      - "--entryPoints.websecure.transport.respondingTimeouts.readTimeout=0s"
+      - "--entryPoints.websecure.transport.respondingTimeouts.writeTimeout=0s"
+      - "--entryPoints.websecure.transport.respondingTimeouts.idleTimeout=0s"
     service:
       spec:
         externalTrafficPolicy: Local
