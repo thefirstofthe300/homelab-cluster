@@ -30,6 +30,10 @@ spec:
       web:
         redirectTo:
           port: websecure
+    additionalArguments:
+      - "--entryPoints.websecure.transport.respondingTimeouts.readTimeout=300s"
+      - "--entryPoints.websecure.transport.respondingTimeouts.writeTimeout=300s"
+      - "--entryPoints.websecure.transport.respondingTimeouts.idleTimeout=300s"
     service:
       spec:
         externalTrafficPolicy: Local
