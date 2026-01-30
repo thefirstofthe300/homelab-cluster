@@ -17,7 +17,7 @@ spec:
   chart:
     spec:
       chart: traefik
-      version: "29.0.0"
+      version: "39.0.0"
       sourceRef:
         kind: HelmRepository
         name: traefik
@@ -28,12 +28,24 @@ spec:
       replicas: 2
     ports:
       web:
-        redirectTo:
-          port: websecure
-    additionalArguments:
-      - "--entryPoints.websecure.transport.respondingTimeouts.readTimeout=0s"
-      - "--entryPoints.websecure.transport.respondingTimeouts.writeTimeout=0s"
-      - "--entryPoints.websecure.transport.respondingTimeouts.idleTimeout=0s"
+        http:
+          redirections:
+            entryPoint:
+              to: websecure
+              scheme: https
+        transport:
+          respondingTimeouts:
+            readTimeout: 0s
+            writeTimeout: 0s
+            idleTimeout: 0s
+      websecure:
+        http3:
+          enabled: true
+        transport:
+          respondingTimeouts:
+            readTimeout: 0s
+            writeTimeout: 0s
+            idleTimeout: 0s
     service:
       spec:
         externalTrafficPolicy: Local
