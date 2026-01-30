@@ -18,7 +18,7 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: "58.0.0"
+      version: "81.2.2"
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
@@ -26,19 +26,11 @@ spec:
       interval: 24h0m0s
   values:
     grafana:
-      ingress:
-        enabled: true
-        ingressClassName: traefik
+      service:
+        type: LoadBalancer
+        loadBalancerClass: tailscale
         annotations:
-          cert-manager.io/cluster-issuer: letsencrypt-production
-        path: /
-        pathType: ImplementationSpecific
-        hosts:
-          - grafana.seymour.family
-        tls:
-          - secretName: grafana-cert
-            hosts:
-              - grafana.seymour.family
+          tailscale.com/hostname: grafana
     prometheus:
       prometheusSpec:
         podMonitorSelectorNilUsesHelmValues: false
@@ -59,7 +51,7 @@ spec:
         ingressClassName: traefik
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-production
-        paths: 
+        paths:
           - /
         pathType: ImplementationSpecific
         hosts:
