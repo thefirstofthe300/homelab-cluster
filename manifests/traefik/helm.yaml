@@ -52,3 +52,7 @@ spec:
     logs:
       access:
         enabled: true
+    metrics:
+      prometheus:
+        serviceMonitor:
+          enabled: true
