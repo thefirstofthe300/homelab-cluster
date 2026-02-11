@@ -56,3 +56,8 @@ spec:
       prometheus:
         serviceMonitor:
           enabled: true
+          relabelings:
+            - action: replace
+              sourceLabels:
+                - exported_service
+              targetLabel: service
