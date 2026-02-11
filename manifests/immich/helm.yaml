@@ -11,7 +11,7 @@ spec:
   chart:
     spec:
       chart: immich
-      version: "0.9.3"
+      version: "0.10.3"
       sourceRef:
         kind: HelmRepository
         name: immich
@@ -21,10 +21,14 @@ spec:
     - kind: Secret
       name: immich-values
   values:
-    env:
-      REDIS_HOSTNAME: redis-master.redis.svc
-    image:
-      tag: v2.5.6 # {"$imagepolicy": "immich:immich:tag"}
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              tag: v2.5.6 # {"$imagepolicy": "immich:immich:tag"}
+            env:
+              REDIS_HOSTNAME: redis-master.redis.svc
     immich:
       metrics:
         enabled: true
@@ -34,15 +38,21 @@ spec:
     server:
       enabled: true
       podAnnotations:
-        backup.velero.io/backup-volumes: library
-      image:
-        repository: ghcr.io/immich-app/immich-server
-        pullPolicy: IfNotPresent
-      podSecurityContext:
-        runAsUser: 10001
-        runAsGroup: 10001
-        fsGroup: 10001
-        fsGroupChangePolicy: Always
+      controllers:
+        main:
+          annotations:
+            backup.velero.io/backup-volumes: library
+          pod:
+            securityContext:
+              runAsUser: 10001
+              runAsGroup: 10001
+              fsGroup: 10001
+              fsGroupChangePolicy: Always
+          containers:
+            main:
+              image:
+                repository: ghcr.io/immich-app/immich-server
+                pullPolicy: IfNotPresent
       ingress:
         main:
           enabled: true
@@ -58,14 +68,19 @@ spec:
               secretName: immich-tls
     machine-learning:
       enabled: true
-      podSecurityContext:
-        runAsUser: 10001
-        runAsGroup: 10001
-        fsGroup: 10001
-        fsGroupChangePolicy: Always
-      image:
-        repository: ghcr.io/immich-app/immich-machine-learning
-        pullPolicy: IfNotPresent
+      controllers:
+        main:
+          pod:
+            securityContext:
+              runAsUser: 10001
+              runAsGroup: 10001
+              fsGroup: 10001
+              fsGroupChangePolicy: Always
+          containers:
+            main:
+              image:
+                repository: ghcr.io/immich-app/immich-machine-learning
+                pullPolicy: IfNotPresent
       persistence:
         matplotlib:
           enabled: true
