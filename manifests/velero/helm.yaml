@@ -24,6 +24,12 @@ spec:
         namespace: flux-system
       interval: 24h0m0s
   values:
+    kubectl:
+      image:
+        repository: alpine/k8s
+        tag: "1.35.0"
+    upgradeCRDsJob:
+      shellCmd: /bin/sh
     image:
       repository: velero/velero
       tag: v1.17.2
