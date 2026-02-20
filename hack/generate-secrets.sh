@@ -5,11 +5,11 @@ function encrypt {
     kubeseal -f $1 -o yaml | grep -v creationTimestamp >$2
 }
 # encrypt secrets/authentik/secret.yaml manifests/authentik/sealedsecret.yaml
-# encrypt secrets/synapse/bridges/mautrix-signal/secret.yaml manifests/synapse/bridges/mautrix-signal/sealedsecret.yaml
-# encrypt secrets/synapse/bridges/mautrix-gmessages/secret.yaml manifests/synapse/bridges/mautrix-gmessages/sealedsecret.yaml
-# encrypt secrets/synapse/bridges/mautrix-telegram/secret.yaml manifests/synapse/bridges/mautrix-telegram/sealedsecret.yaml
-# encrypt secrets/synapse/bridges/mautrix-discord/secret.yaml manifests/synapse/bridges/mautrix-discord/sealedsecret.yaml
-# encrypt secrets/synapse/bridges/registrations/secret.yaml manifests/synapse/bridges/registrations/sealedsecret.yaml
+encrypt secrets/synapse/bridges/mautrix-signal/secret.yaml manifests/synapse/bridges/mautrix-signal/sealedsecret.yaml
+encrypt secrets/synapse/bridges/mautrix-gmessages/secret.yaml manifests/synapse/bridges/mautrix-gmessages/sealedsecret.yaml
+encrypt secrets/synapse/bridges/mautrix-telegram/secret.yaml manifests/synapse/bridges/mautrix-telegram/sealedsecret.yaml
+encrypt secrets/synapse/bridges/mautrix-discord/secret.yaml manifests/synapse/bridges/mautrix-discord/sealedsecret.yaml
+encrypt secrets/synapse/bridges/registrations/secret.yaml manifests/synapse/bridges/registrations/sealedsecret.yaml
 # encrypt secrets/redis/secret.yaml manifests/redis/sealedsecret.yaml
 encrypt secrets/immich/secret.yaml manifests/immich/sealedsecret.yaml
 # encrypt secrets/inadyn/secret.yaml manifests/inadyn/sealedsecret.yaml
