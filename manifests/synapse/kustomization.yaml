@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: synapse
 resources:
   - ./state-compressor
+  - ./bridges
   - helm.yaml
   - namespace.yaml
   - podmonitor.yaml

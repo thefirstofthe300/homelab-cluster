@@ -4,6 +4,5 @@ namespace: synapse
 resources:
   - mautrix-gmessages
   - mautrix-signal
-  - mautrix-telegram
   - mautrix-discord
   - registrations

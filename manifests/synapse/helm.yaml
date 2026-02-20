@@ -76,8 +76,10 @@ spec:
     serverName: seymour.family
     synapse:
       additional:
-        room-config.yml:
+        100-room-config.yml:
           config: |
+            experimental_features:
+              msc4190_device_management: true
             forget_rooms_on_leave: true
             forgotten_room_retention_period: 1d
             dynamic_thumbnails: true
@@ -90,8 +92,6 @@ spec:
           secretKey: mautrix-gmessages.yaml
         - secret: appservice-registrations
           secretKey: mautrix-discord.yaml
-        - secret: appservice-registrations
-          secretKey: mautrix-telegram.yaml
         - secret: appservice-registrations
           secretKey: doublepuppet.yaml
       workers:
