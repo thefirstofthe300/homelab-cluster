@@ -7,7 +7,7 @@ terraform {
     }
     oci = {
       source = "chainguard-dev/oci"
-      version = "0.0.27"
+      version = "0.0.29"
     }
   }
 }
