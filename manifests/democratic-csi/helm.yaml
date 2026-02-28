@@ -73,7 +73,7 @@ spec:
           extentAvailThreshold: 0
     controller:
       driver:
-        image: docker.io/democraticcsi/democratic-csi:v1.9.3
+        image: docker.io/democraticcsi/democratic-csi:v1.9.5
         resources:
           requests:
             cpu: 10m
@@ -87,7 +87,7 @@ spec:
           effect: "NoSchedule"
       hostPID: true
       driver:
-        image: docker.io/democraticcsi/democratic-csi:v1.9.3
+        image: docker.io/democraticcsi/democratic-csi:v1.9.5
         extraEnv:
           - name: ISCSIADM_HOST_STRATEGY
             value: nsenter
@@ -169,7 +169,7 @@ spec:
           shareMapallGroup: ""
     controller:
       driver:
-        image: docker.io/democraticcsi/democratic-csi:v1.9.3
+        image: docker.io/democraticcsi/democratic-csi:v1.9.5
         resources:
           requests:
             cpu: 10m
@@ -178,7 +178,7 @@ spec:
             memory: 100Mi
     node:
       driver:
-        image: docker.io/democraticcsi/democratic-csi:v1.9.3
+        image: docker.io/democraticcsi/democratic-csi:v1.9.5
         resources:
           requests:
             cpu: 10m
@@ -230,7 +230,7 @@ spec:
         driver: node-manual
     controller:
       driver:
-        image: docker.io/democraticcsi/democratic-csi:v1.9.3
+        image: docker.io/democraticcsi/democratic-csi:v1.9.5
         resources:
           requests:
             cpu: 10m
@@ -248,7 +248,7 @@ spec:
           effect: "NoSchedule"
       hostPID: true
       driver:
-        image: docker.io/democraticcsi/democratic-csi:v1.9.3
+        image: docker.io/democraticcsi/democratic-csi:v1.9.5
         extraEnv:
           - name: ISCSIADM_HOST_STRATEGY
             value: nsenter
