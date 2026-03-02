@@ -26,10 +26,7 @@ spec:
   values:
     kubectl:
       image:
-        repository: alpine/k8s
-        tag: "1.35.2"
-    upgradeCRDsJob:
-      shellCmd: /bin/sh
+        repository: jfcoz/kubectl-deb12-basic
     image:
       repository: velero/velero
       tag: v1.17.2
