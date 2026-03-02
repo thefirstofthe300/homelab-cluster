@@ -3,11 +3,11 @@ terraform {
   required_providers {
     apko = {
       source = "chainguard-dev/apko"
-      version = "1.0.8"
+      version = "1.0.9"
     }
     oci = {
       source = "chainguard-dev/oci"
-      version = "0.0.27"
+      version = "0.0.29"
     }
   }
 }
