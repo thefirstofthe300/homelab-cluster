@@ -11,7 +11,7 @@ spec:
   chart:
     spec:
       chart: democratic-csi
-      version: ">= 0.14.0 < 0.15.0"
+      version: "0.15.1"
       sourceRef:
         kind: HelmRepository
         name: democratic-csi
@@ -73,7 +73,9 @@ spec:
           extentAvailThreshold: 0
     controller:
       driver:
-        image: docker.io/democraticcsi/democratic-csi:v1.9.3
+        image:
+          registry: ghcr.io/democratic-csi/democratic-csi
+          tag: v1.9.3
         resources:
           requests:
             cpu: 10m
@@ -87,7 +89,9 @@ spec:
           effect: "NoSchedule"
       hostPID: true
       driver:
-        image: docker.io/democraticcsi/democratic-csi:v1.9.3
+        image:
+          registry: ghcr.io/democratic-csi/democratic-csi
+          tag: v1.9.3
         extraEnv:
           - name: ISCSIADM_HOST_STRATEGY
             value: nsenter
@@ -114,7 +118,7 @@ spec:
   chart:
     spec:
       chart: democratic-csi
-      version: ">= 0.14.0 < 0.15.0"
+      version: "0.15.1"
       sourceRef:
         kind: HelmRepository
         name: democratic-csi
@@ -169,7 +173,9 @@ spec:
           shareMapallGroup: ""
     controller:
       driver:
-        image: docker.io/democraticcsi/democratic-csi:v1.9.3
+        image:
+          registry: ghcr.io/democratic-csi/democratic-csi
+          tag: v1.9.3
         resources:
           requests:
             cpu: 10m
@@ -178,7 +184,9 @@ spec:
             memory: 100Mi
     node:
       driver:
-        image: docker.io/democraticcsi/democratic-csi:v1.9.3
+        image:
+          registry: ghcr.io/democratic-csi/democratic-csi
+          tag: v1.9.3
         resources:
           requests:
             cpu: 10m
@@ -202,7 +210,7 @@ spec:
   chart:
     spec:
       chart: democratic-csi
-      version: ">= 0.14.0 < 0.15.0"
+      version: "0.15.1"
       sourceRef:
         kind: HelmRepository
         name: democratic-csi
@@ -230,7 +238,9 @@ spec:
         driver: node-manual
     controller:
       driver:
-        image: docker.io/democraticcsi/democratic-csi:v1.9.3
+        image:
+          registry: ghcr.io/democratic-csi/democratic-csi
+          tag: v1.9.3
         resources:
           requests:
             cpu: 10m
@@ -248,7 +258,9 @@ spec:
           effect: "NoSchedule"
       hostPID: true
       driver:
-        image: docker.io/democraticcsi/democratic-csi:v1.9.3
+        image:
+          registry: ghcr.io/democratic-csi/democratic-csi
+          tag: v1.9.3
         extraEnv:
           - name: ISCSIADM_HOST_STRATEGY
             value: nsenter
