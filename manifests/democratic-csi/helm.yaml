@@ -75,7 +75,7 @@ spec:
       driver:
         image:
           registry: ghcr.io/democratic-csi/democratic-csi
-          tag: v1.9.3
+          tag: v1.9.5
         resources:
           requests:
             cpu: 10m
@@ -91,7 +91,7 @@ spec:
       driver:
         image:
           registry: ghcr.io/democratic-csi/democratic-csi
-          tag: v1.9.3
+          tag: v1.9.5
         extraEnv:
           - name: ISCSIADM_HOST_STRATEGY
             value: nsenter
@@ -175,7 +175,7 @@ spec:
       driver:
         image:
           registry: ghcr.io/democratic-csi/democratic-csi
-          tag: v1.9.3
+          tag: v1.9.5
         resources:
           requests:
             cpu: 10m
@@ -186,7 +186,7 @@ spec:
       driver:
         image:
           registry: ghcr.io/democratic-csi/democratic-csi
-          tag: v1.9.3
+          tag: v1.9.5
         resources:
           requests:
             cpu: 10m
@@ -240,7 +240,7 @@ spec:
       driver:
         image:
           registry: ghcr.io/democratic-csi/democratic-csi
-          tag: v1.9.3
+          tag: v1.9.5
         resources:
           requests:
             cpu: 10m
@@ -260,7 +260,7 @@ spec:
       driver:
         image:
           registry: ghcr.io/democratic-csi/democratic-csi
-          tag: v1.9.3
+          tag: v1.9.5
         extraEnv:
           - name: ISCSIADM_HOST_STRATEGY
             value: nsenter
