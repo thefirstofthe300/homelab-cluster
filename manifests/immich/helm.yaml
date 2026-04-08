@@ -26,7 +26,7 @@ spec:
         containers:
           main:
             image:
-              tag: v2.6.3 # {"$imagepolicy": "immich:immich:tag"}
+              tag: v2.7.2 # {"$imagepolicy": "immich:immich:tag"}
             env:
               REDIS_HOSTNAME: redis-master.redis.svc
     immich:
