@@ -4,3 +4,16 @@ resources:
   - gotk-components.yaml
   - gotk-sync.yaml
   - sources.yaml
+patches:
+  - path: patches/cancel-health-checks-feature-gate.yaml
+    target:
+      version: v1
+      group: apps
+      kind: Deployment
+      name: kustomize-controller
+  - path: patches/cancel-health-checks-feature-gate.yaml
+    target:
+      version: v1
+      group: apps
+      kind: Deployment
+      name: helm-controller
