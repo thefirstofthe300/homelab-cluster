@@ -18,6 +18,7 @@ spec:
     nextcloud:
       host: "https://cloud.seymour.family"
       mcpServerUrl: "https://cloud-mcp.seymour.family"
+      publicIssuerUrl: "https://authentik.seymour.family/application/o/nextcloud/"
 
     auth:
       mode: login-flow
