@@ -13,6 +13,7 @@ encrypt secrets/synapse/bridges/registrations/secret.yaml manifests/synapse/brid
 encrypt secrets/immich/secret.yaml manifests/immich/sealedsecret.yaml
 encrypt secrets/dyn-a-go/secret.yaml manifests/dyn-a-go/sealedsecret.yaml
 encrypt secrets/nextcloud-mcp/secret.yaml manifests/nextcloud-mcp/sealedsecret.yaml
+encrypt secrets/cert-manager/secret.yaml manifests/cert-manager/sealedsecret.yaml
 # encrypt secrets/inadyn/secret.yaml manifests/inadyn/sealedsecret.yaml
 # encrypt secrets/cert-manager/secret.yaml manifests/cert-manager/sealedsecret.yaml
 # encrypt secrets/nextcloud/secret.yaml manifests/nextcloud/sealedsecret.yaml

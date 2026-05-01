@@ -13,3 +13,6 @@ kind: L2Advertisement
 metadata:
   name: load-balancers
   namespace: metallb-system
+spec:
+  ipAddressPools:
+    - load-balancers
