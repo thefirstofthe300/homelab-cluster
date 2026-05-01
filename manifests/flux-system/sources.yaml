@@ -202,3 +202,12 @@ metadata:
 spec:
   interval: 24h0m0s
   url: https://pkgs.tailscale.com/helmcharts
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: cbcoutinho
+  namespace: flux-system
+spec:
+  interval: 24h0m0s
+  url: https://cbcoutinho.github.io/helm-charts/
