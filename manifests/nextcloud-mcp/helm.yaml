@@ -20,8 +20,22 @@ spec:
       mcpServerUrl: "https://cloud-mcp.seymour.family"
       publicIssuerUrl: "https://authentik.seymour.family/application/o/nextcloud/"
 
+    extraEnv:
+      - name: OIDC_DISCOVERY_URL
+        value: "https://authentik.seymour.family/application/o/nextcloud/.well-known/op\
+          enid-configuration"
+      - name: NEXTCLOUD_OIDC_CLIENT_ID
+        valueFrom:
+          secretKeyRef:
+            name: nextcloud-mcp-login-flow
+            key: client_id
+      - name: NEXTCLOUD_OIDC_CLIENT_SECRET
+        valueFrom:
+          secretKeyRef:
+            name: nextcloud-mcp-login-flow
+            key: client_secret
     auth:
-      mode: login-flow
+      mode: oauth
       loginFlow:
         existingSecret: "nextcloud-mcp-login-flow"
         tokenEncryptionKeyKey: "token_encryption_key"
