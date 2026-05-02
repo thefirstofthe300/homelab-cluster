@@ -34,7 +34,7 @@ spec:
             name: nextcloud-mcp-login-flow
             key: client_secret
       - name: ALLOWED_MCP_CLIENTS
-        value: "ZhNEqJaLr6NUiQ71z2rFBtNuF0rvyaa1xZFdXO2U"
+        value: "wSXoXqk6udkIH1fvRtpPZrmfFcSABXjVWHRKJ2ai"
     auth:
       mode: oauth
       loginFlow:
