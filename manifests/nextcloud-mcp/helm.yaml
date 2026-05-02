@@ -44,6 +44,11 @@ spec:
             key: token_encryption_key
     auth:
       mode: oauth
+      oauth:
+        persistence:
+          enabled: true
+          storageClass: "truenas-iscsi-csi"
+          size: 100Mi
       loginFlow:
         existingSecret: "nextcloud-mcp-login-flow"
         tokenEncryptionKeyKey: "token_encryption_key"
