@@ -17,7 +17,6 @@ spec:
   values:
     nextcloud:
       host: "https://cloud.seymour.family"
-      mcpServerUrl: "https://cloud-mcp.seymour.family"
       publicIssuerUrl: "https://authentik.seymour.family/application/o/nextcloud/"
 
     extraEnv:
@@ -34,6 +33,8 @@ spec:
           secretKeyRef:
             name: nextcloud-mcp-login-flow
             key: client_secret
+      - name: ALLOWED_MCP_CLIENTS
+        value: "ZhNEqJaLr6NUiQ71z2rFBtNuF0rvyaa1xZFdXO2U"
     auth:
       mode: oauth
       loginFlow:
