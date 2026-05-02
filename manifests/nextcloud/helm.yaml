@@ -36,7 +36,7 @@ spec:
             'forwarded_for_headers' => array('HTTP_X_FORWARDED_FOR'),
             'default_phone_region' => '+1',
             'maintenance_window_start' => 1,
-            'loglevel' => 5
+            'loglevel' => 1
           );
       podSecurityContext:
         fsGroupChangePolicy: OnRootMismatch
