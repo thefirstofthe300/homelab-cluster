@@ -35,6 +35,8 @@ spec:
             key: client_secret
       - name: ALLOWED_MCP_CLIENTS
         value: "wSXoXqk6udkIH1fvRtpPZrmfFcSABXjVWHRKJ2ai"
+      - name: ENABLE_LOGIN_FLOW
+        value: "true"
     auth:
       mode: oauth
       loginFlow:
