@@ -37,6 +37,11 @@ spec:
         value: "wSXoXqk6udkIH1fvRtpPZrmfFcSABXjVWHRKJ2ai"
       - name: ENABLE_LOGIN_FLOW
         value: "true"
+      - name: TOKEN_ENCRYPTION_KEY
+        valueFrom:
+          secretKeyRef:
+            name: nextcloud-mcp-login-flow
+            key: token_encryption_key
     auth:
       mode: oauth
       loginFlow:
