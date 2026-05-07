@@ -18,7 +18,7 @@ spec:
   values:
     wellKnownDelegation:
       baseDomainRedirect:
-        enabled: false
+        enabled: true
     certManager:
       clusterIssuer: letsencrypt-production
     elementAdmin:
