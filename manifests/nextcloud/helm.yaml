@@ -25,6 +25,14 @@ spec:
       backup.velero.io/backup-volumes: nextcloud-data
     nextcloud:
       host: cloud.seymour.family
+      extraEnv:
+        - name: REDIS_HOST
+          value: redis-master.redis.svc.cluster.local
+        - name: REDIS_HOST_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: nextcloud-redis
+              key: redis-password
       configs:
         proxy.config.php: |-
           <?php
