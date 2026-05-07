@@ -6,3 +6,4 @@ resources:
   - mautrix-signal
   - mautrix-discord
   - registrations
+  - imageupdates.yaml
