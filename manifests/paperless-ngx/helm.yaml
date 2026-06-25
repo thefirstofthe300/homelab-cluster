@@ -1,0 +1,92 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: paperless-ngx
+  namespace: paperless-ngx
+spec:
+  interval: 24h0m0s
+  timeout: 5m0s
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: paperless-ngx
+      version: "0.24.1"
+      sourceRef:
+        kind: HelmRepository
+        name: gabe565
+        namespace: flux-system
+      interval: 24h0m0s
+  valuesFrom:
+    - kind: Secret
+      name: paperless-ngx-values
+  values:
+    image:
+      tag: "2.20.15"
+    env:
+      TZ: America/Los_Angeles
+      PAPERLESS_URL: https://paperless.seymour.family
+      # Explicitly set to prevent Kubernetes service injection overwriting this var
+      PAPERLESS_PORT: "8000"
+      PAPERLESS_TRUSTED_PROXIES: 10.0.0.0/8
+      PAPERLESS_DBENGINE: postgresql
+      PAPERLESS_DBHOST: 192.168.1.204
+      PAPERLESS_DBPORT: "5432"
+      PAPERLESS_DBNAME: paperless
+      PAPERLESS_OCR_LANGUAGE: eng
+      # inotify does not work over NFS; polling is required for the consume folder
+      PAPERLESS_CONSUMER_POLLING: "60"
+      PAPERLESS_TASK_WORKERS: "2"
+      PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
+      PAPERLESS_ACCOUNT_ALLOW_SIGNUPS: "false"
+    podSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+      fsGroupChangePolicy: OnRootMismatch
+    resources:
+      requests:
+        cpu: 200m
+        memory: 512Mi
+      limits:
+        memory: 4Gi
+    postgresql:
+      enabled: false
+    redis:
+      enabled: false
+    mariadb:
+      enabled: false
+    persistence:
+      data:
+        enabled: true
+        storageClass: truenas-iscsi-csi
+        accessMode: ReadWriteOnce
+        size: 5Gi
+      media:
+        enabled: true
+        storageClass: truenas-nfs-csi
+        accessMode: ReadWriteMany
+        size: 100Gi
+      consume:
+        enabled: true
+        existingClaim: paperless-ngx-consume
+      export:
+        enabled: true
+        storageClass: truenas-iscsi-csi
+        accessMode: ReadWriteOnce
+        size: 2Gi
+    ingress:
+      main:
+        enabled: true
+        className: traefik
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-production
+        hosts:
+          - host: paperless.seymour.family
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - paperless.seymour.family
+            secretName: paperless-ngx-tls
