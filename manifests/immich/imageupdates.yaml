@@ -16,7 +16,7 @@ spec:
     name: immich
   policy:
     semver:
-      range: v2.x
+      range: v3.x
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageUpdateAutomation

@@ -11,7 +11,7 @@ spec:
   chart:
     spec:
       chart: immich
-      version: "0.12.0"
+      version: "0.13.1"
       sourceRef:
         kind: HelmRepository
         name: immich
@@ -26,7 +26,7 @@ spec:
         containers:
           main:
             image:
-              tag: v2.7.5 # {"$imagepolicy": "immich:immich:tag"}
+              tag: v3.0.1 # {"$imagepolicy": "immich:immich:tag"}
             env:
               REDIS_HOSTNAME: redis-master.redis.svc
     immich:
@@ -37,7 +37,6 @@ spec:
           existingClaim: library
     server:
       enabled: true
-      podAnnotations:
       controllers:
         main:
           annotations:
@@ -82,24 +81,7 @@ spec:
                 repository: ghcr.io/immich-app/immich-machine-learning
                 pullPolicy: IfNotPresent
       persistence:
-        matplotlib:
+        cache:
           enabled: true
           type: emptyDir
-          mountPath: /.config
-        tmp:
-          enabled: true
-          type: emptyDir
-          mountPath: /.cache
-      probes:
-        liveness:
-          spec:
-            initialDelaySeconds: 180
-            periodSeconds: 10
-            timeoutSeconds: 1
-            failureThreshold: 6
-        readiness:
-          spec:
-            initialDelaySeconds: 120
-            periodSeconds: 10
-            timeoutSeconds: 1
-            failureThreshold: 2
+          mountPath: /cache
