@@ -27,6 +27,10 @@ spec:
   values:
     deployment:
       replicas: 2
+      strategy:
+        rollingUpdate:
+          maxSurge: 0
+          maxUnavailable: 1
     topologySpreadConstraints:
       - maxSkew: 1
         topologyKey: kubernetes.io/hostname
