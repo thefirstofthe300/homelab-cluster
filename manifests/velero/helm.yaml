@@ -17,7 +17,7 @@ spec:
   chart:
     spec:
       chart: velero
-      version: "11.4.0"
+      version: "12.1.0"
       sourceRef:
         kind: HelmRepository
         name: vmware
@@ -29,12 +29,12 @@ spec:
         repository: jfcoz/kubectl-deb12-basic
     image:
       repository: velero/velero
-      tag: v1.17.2
+      tag: v1.18.2
       pullPolicy: IfNotPresent
     resources: {}
     initContainers:
       - name: velero-plugin-for-aws
-        image: velero/velero-plugin-for-aws:v1.13.2
+        image: velero/velero-plugin-for-aws:v1.14.2
         imagePullPolicy: IfNotPresent
         volumeMounts:
           - mountPath: /target
