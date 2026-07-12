@@ -6,7 +6,7 @@ metadata:
   namespace: tubearchivist
 data:
   TZ: America/Los_Angeles
-  HOST_UID: "568"
+  HOST_UID: "1000"
   HOST_GID: "568"
   ES_URL: http://192.168.1.204:9200
   REDIS_CON: redis://tubearchivist-redis:6379
