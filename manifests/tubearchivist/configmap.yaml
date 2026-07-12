@@ -10,4 +10,4 @@ data:
   HOST_GID: "568"
   ES_URL: http://192.168.1.204:9200
   REDIS_CON: redis://tubearchivist-redis:6379
-  TA_HOST: https://jellytube.seymour.family
+  TA_HOST: "https://jellytube.seymour.family *"

@@ -56,18 +56,12 @@ spec:
             httpGet:
               path: /api/health/
               port: http
-              httpHeaders:
-                - name: Host
-                  value: jellytube.seymour.family
             periodSeconds: 10
             failureThreshold: 30
           livenessProbe:
             httpGet:
               path: /api/health/
               port: http
-              httpHeaders:
-                - name: Host
-                  value: jellytube.seymour.family
             periodSeconds: 30
             timeoutSeconds: 10
             failureThreshold: 3
@@ -75,9 +69,6 @@ spec:
             httpGet:
               path: /api/health/
               port: http
-              httpHeaders:
-                - name: Host
-                  value: jellytube.seymour.family
             periodSeconds: 10
             timeoutSeconds: 5
       volumes:
