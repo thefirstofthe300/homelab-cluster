@@ -16,10 +16,6 @@ spec:
       labels:
         app.kubernetes.io/name: tubearchivist
     spec:
-      securityContext:
-        runAsUser: 568
-        runAsGroup: 568
-        fsGroup: 568
       containers:
         - name: tubearchivist
           image: bbilly1/tubearchivist
