@@ -5,10 +5,11 @@ metadata:
   name: tubearchivist
   namespace: tubearchivist
 spec:
-  type: ClusterIP
+  type: LoadBalancer
+  loadBalancerClass: tailscale
   selector:
     app.kubernetes.io/name: tubearchivist
   ports:
     - name: http
-      port: 8000
+      port: 80
       targetPort: http
