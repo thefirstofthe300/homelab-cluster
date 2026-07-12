@@ -1,11 +1,14 @@
+---
 apiVersion: v1
 kind: Service
 metadata:
-  name: pinchflat
-  namespace: pinchflat
+  name: tubearchivist
+  namespace: tubearchivist
 spec:
   type: LoadBalancer
   loadBalancerClass: tailscale
+  selector:
+    app.kubernetes.io/name: tubearchivist
   ports:
     - name: http
       port: 80
