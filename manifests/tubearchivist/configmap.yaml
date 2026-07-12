@@ -11,3 +11,4 @@ data:
   ES_URL: http://192.168.1.204:9200
   REDIS_CON: redis://tubearchivist-redis:6379
   TA_HOST: "https://jellytube.seymour.family *"
+  TA_AUTO_UPDATE_YTDLP: release
