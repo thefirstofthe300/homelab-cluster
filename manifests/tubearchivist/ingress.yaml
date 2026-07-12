@@ -1,0 +1,25 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tubearchivist
+  namespace: tubearchivist
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: jellytube.seymour.family
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: tubearchivist
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - jellytube.seymour.family
+      secretName: tubearchivist-tls

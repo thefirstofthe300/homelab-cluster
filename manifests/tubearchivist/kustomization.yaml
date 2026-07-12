@@ -9,6 +9,7 @@ resources:
   - redis.yaml
   - deployment.yaml
   - service.yaml
+  - ingress.yaml
 labels:
   - includeSelectors: true
     pairs:
