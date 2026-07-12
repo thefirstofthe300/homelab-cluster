@@ -1,0 +1,80 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tubearchivist
+  namespace: tubearchivist
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: tubearchivist
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: tubearchivist
+    spec:
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+      containers:
+        - name: tubearchivist
+          image: bbilly1/tubearchivist
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: tubearchivist
+          env:
+            - name: TA_USERNAME
+              value: tubearchivist
+            - name: TA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tubearchivist
+                  key: TA_PASSWORD
+            - name: ELASTIC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tubearchivist
+                  key: ELASTIC_PASSWORD
+          volumeMounts:
+            - name: media
+              mountPath: /youtube
+            - name: cache
+              mountPath: /cache
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          livenessProbe:
+            httpGet:
+              path: /api/health/
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 5
+          readinessProbe:
+            httpGet:
+              path: /api/health/
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+      volumes:
+        - name: media
+          persistentVolumeClaim:
+            claimName: media
+        - name: cache
+          persistentVolumeClaim:
+            claimName: cache
