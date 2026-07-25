@@ -17,4 +17,4 @@ images:
   - name: bbilly1/tubearchivist
     newTag: v0.5.10
   - name: redis
-    newTag: 7-alpine
+    newTag: 8-alpine
