@@ -1,0 +1,10 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: audiobookshelf
+  namespace: audiobookshelf
+data:
+  TZ: America/Los_Angeles
+  AUDIOBOOKSHELF_UID: "1000"
+  AUDIOBOOKSHELF_GID: "568"
