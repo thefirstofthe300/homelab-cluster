@@ -36,6 +36,8 @@ spec:
             - name: media
               mountPath: /podcasts
               subPath: podcasts
+            - name: metadata
+              mountPath: /metadata
           resources:
             requests:
               cpu: 500m
@@ -62,6 +64,11 @@ spec:
               port: http
             periodSeconds: 10
             timeoutSeconds: 5
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
       volumes:
         - name: config
           persistentVolumeClaim:
@@ -69,3 +76,6 @@ spec:
         - name: media
           persistentVolumeClaim:
             claimName: media
+        - name: metadata
+          persistentVolumeClaim:
+            claimName: metadata
