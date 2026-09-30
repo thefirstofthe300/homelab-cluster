@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: matrix-stack
-      version: "26.9.3"
+      version: "26.94"
       sourceRef:
         kind: HelmRepository
         name: ess-community
