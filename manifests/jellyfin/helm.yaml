@@ -49,7 +49,7 @@ spec:
           secretName: jellyfin-tls
     resources:
       requests:
-        cpu: 1000m
+        cpu: 150m
         memory: 1Gi
       limits:
         gpu.intel.com/i915: 1000m
