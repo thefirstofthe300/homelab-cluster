@@ -29,11 +29,19 @@ spec:
       upgradeJob:
         enabled: true
     grafana:
+      grafana.ini:
+        server:
+          root_url: https://grafana.corgi-magellanic.ts.net
       service:
-        type: LoadBalancer
-        loadBalancerClass: tailscale
-        annotations:
-          tailscale.com/hostname: grafana
+        type: ClusterIP
+      ingress:
+        enabled: true
+        ingressClassName: tailscale
+        hosts:
+          - grafana
+        tls:
+          - hosts:
+              - grafana
     prometheus:
       prometheusSpec:
         podMonitorSelectorNilUsesHelmValues: false
