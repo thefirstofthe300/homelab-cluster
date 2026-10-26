@@ -10,7 +10,7 @@ resources:
 images:
   - name: dock.mau.dev/mautrix/gmessages
     newTag: v0.2610.0 # {"$imagepolicy": "synapse:mautrix-gmessages:tag"}
-    digest: "" # {"$imagepolicy": "synapse:mautrix-gmessages:digest"}
+    digest: "sha256:afeca2d14a01fac919c8fb94b04bf812db78e29425ceafe042508d7aea9e50a8" # {"$imagepolicy": "synapse:mautrix-gmessages:digest"}
 labels:
   - includeSelectors: true
     pairs:
