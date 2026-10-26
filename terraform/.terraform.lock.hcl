@@ -2,18 +2,18 @@
 # Manual edits may be lost in future updates.
 
 provider "registry.terraform.io/chainguard-dev/apko" {
-  version     = "1.2.25"
-  constraints = "1.2.25"
+  version     = "1.2.27"
+  constraints = "1.2.27"
   hashes = [
-    "h1:NpPP8qo/bjpy0yhgq8q9dntdkgeELTSNH/idSMcRsTg=",
-    "h1:Rg7CmPPN0jO9CuWnCXPFyQVo/LQPgx8XbAumSsoiYEg=",
-    "h1:ZvZ3twBgeARSTochJxcpz2Ho4Bruf+85q5KbRRQhGhU=",
-    "h1:sFvDsW2cJQyElfrTR1hX8R4V/nATgFlFg/+H/L6gC7U=",
-    "zh:1562fe7f0ff4080341793d3958bcbc94139d85daf5b1663d5da0ee594111ae0a",
+    "h1:+3XcsFEYEV8uXPEHXMa3xlbC1nszl+1+AgS7WVWpFPs=",
+    "h1:YX86pbXrh3fObuHlXaJkKmBlkmxUvMC/10L1KLRxLIo=",
+    "h1:ZkAyBXsFBeeUPLxJSgYlkScKWjKpwGv0CJGqFJd0uoA=",
+    "h1:u2iWTbYR+9SLSViOx4TGinB3oZFtz6I8wXOuzTwAHkM=",
+    "zh:07fedebfb649d9556a7f2c543ebd95631c3cd9a00c6a861cdffb7909c2b6a85a",
+    "zh:4bd137d012a49a389ee4f92dbcf1ff2abd1b993c8bbad43d6b8cd2798bfa59a9",
+    "zh:5adf15c14c204a3075a3a01409b4d6762f41a7b1f40754f560ff0320ec09936e",
     "zh:890df766e9b839623b1f0437355032a3c006226a6c200cd911e15ee1a9014e9f",
-    "zh:8da37739e2630db0f62e68ed160a962c80b73a389f6590162839a1ae663c8dc9",
-    "zh:9bc33daf0b401c6b31e50afc82319482c94bfa81fa00689393ce6eaab2d5dece",
-    "zh:e2b065ebdf6242beddd0d24580d6fa94d0d3d46ae25364f404f40be4b1c259a8",
+    "zh:ce9a7d3e1c714d7b67ad0e645684a7725f585b811ff9c2e6dae80404af76e5ef",
   ]
 }
 
