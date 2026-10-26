@@ -27,3 +27,29 @@ spec:
     fullnameOverride: sealed-secrets-controller
     image:
       registry: ghcr.io
+    metrics:
+      serviceMonitor:
+        enabled: true
+      prometheusRule:
+        enabled: true
+        groups:
+          - name: sealed-secrets-controller.rules
+            rules:
+              - alert: SealedSecretNotSynced
+                expr: |-
+                  sealed_secrets_controller_condition_info{condition="Synced"} != 1
+                for: 10m
+                labels:
+                  severity: critical
+                annotations:
+                  summary: SealedSecret {{ $labels.namespace }}/{{ $labels.name }} is not Synced
+                  description: The controller could not unseal {{ $labels.namespace }}/{{ $labels.name }} (value {{ $value }}; -1 is false, 0 is unknown). The app that uses the Secret will not get its config. Check the controller logs.
+              - alert: SealedSecretsMetricsMissing
+                expr: |-
+                  absent(sealed_secrets_controller_condition_info)
+                for: 30m
+                labels:
+                  severity: warning
+                annotations:
+                  summary: Sealed Secrets metrics are missing
+                  description: No SealedSecret condition metrics for 30 minutes, so unseal failures cannot be detected. Check the ServiceMonitor and the controller pod.
