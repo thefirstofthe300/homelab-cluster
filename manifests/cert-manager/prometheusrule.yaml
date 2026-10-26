@@ -1,0 +1,54 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: cert-manager
+  namespace: cert-manager
+spec:
+  groups:
+    - name: cert-manager
+      rules:
+        - alert: CertManagerCertificateNotReady
+          annotations:
+            summary: Certificate {{ $labels.namespace }}/{{ $labels.name }} is not Ready
+            description: Certificate {{ $labels.namespace }}/{{ $labels.name }} has not been Ready for an hour. Check `kubectl describe certificate` and its CertificateRequest and Order.
+          expr: |-
+            certmanager_certificate_ready_status{condition="False"} == 1
+          for: 1h
+          labels:
+            severity: warning
+        - alert: CertManagerCertificateRenewalOverdue
+          annotations:
+            summary: Certificate {{ $labels.namespace }}/{{ $labels.name }} was not renewed on time
+            description: Certificate {{ $labels.namespace }}/{{ $labels.name }} passed its renewal time {{ $value | humanizeDuration }} ago and has not been renewed. Renewal is probably failing; check the ACME order and the DNS-01 challenge.
+          expr: |-
+            time() - certmanager_certificate_renewal_timestamp_seconds > 172800
+          for: 1h
+          labels:
+            severity: warning
+        - alert: CertManagerCertificateExpiringSoon
+          annotations:
+            summary: Certificate {{ $labels.namespace }}/{{ $labels.name }} expires in under 7 days
+            description: Certificate {{ $labels.namespace }}/{{ $labels.name }} expires in {{ $value | humanizeDuration }}.
+          expr: |-
+            certmanager_certificate_expiration_timestamp_seconds - time() < 604800
+          for: 1h
+          labels:
+            severity: critical
+        - alert: CertManagerIssuerNotReady
+          annotations:
+            summary: cert-manager issuer {{ $labels.name }} is not Ready
+            description: "{{ $labels.name }} has not been Ready for 15 minutes, so certificates it issues cannot renew."
+          expr: |-
+            certmanager_clusterissuer_ready_status{condition="False"} == 1 or certmanager_issuer_ready_status{condition="False"} == 1
+          for: 15m
+          labels:
+            severity: warning
+        - alert: CertManagerMetricsMissing
+          annotations:
+            summary: cert-manager metrics are missing
+            description: No certificate metrics for 30 minutes, so the certificate alerts cannot fire. Check the ServiceMonitor and the cert-manager pod.
+          expr: |-
+            absent(certmanager_certificate_expiration_timestamp_seconds)
+          for: 30m
+          labels:
+            severity: warning
