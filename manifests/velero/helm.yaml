@@ -53,20 +53,58 @@ spec:
         enabled: true
         additionalLabels: {}
         spec:
-          - alert: VeleroBackupPartialFailures
+          - alert: VeleroBackupFailed
             annotations:
-              message: Velero backup {{ $labels.schedule }} has {{ $value | humanizePercentage }} partialy failed backups.
+              summary: Velero backup schedule {{ $labels.schedule }} failed
+              description: The most recent backup of schedule {{ $labels.schedule }} did not complete. Check `kubectl get backup -n velero` for the failureReason.
             expr: |-
-              velero_backup_partial_failure_total{schedule!=""} / velero_backup_attempt_total{schedule!=""} > 0.25
-            for: 15m
+              min by (schedule) (velero_backup_last_status{schedule!=""}) == 0
+            for: 10m
+            labels:
+              severity: critical
+          - alert: VeleroBackupStale
+            annotations:
+              summary: No successful Velero backup of {{ $labels.schedule }} in 36 hours
+              description: Schedule {{ $labels.schedule }} last succeeded {{ $value | humanizeDuration }} ago.
+            expr: |-
+              time() - max by (schedule) (velero_backup_last_successful_timestamp{schedule!=""}) > 129600
+            for: 10m
+            labels:
+              severity: critical
+          - alert: VeleroNoBackupAttempts
+            annotations:
+              summary: Velero schedule {{ $labels.schedule }} has not run in 36 hours
+              description: No backup was attempted for schedule {{ $labels.schedule }}. Check the Schedule and the Velero server.
+            expr: |-
+              sum by (schedule) (increase(velero_backup_attempt_total{schedule!=""}[36h])) == 0
+            for: 1h
+            labels:
+              severity: critical
+          - alert: VeleroBackupPartialFailure
+            annotations:
+              summary: Velero backup schedule {{ $labels.schedule }} partially failed
+              description: A backup of schedule {{ $labels.schedule }} completed with errors in the last 24 hours.
+            expr: |-
+              sum by (schedule) (increase(velero_backup_partial_failure_total{schedule!=""}[24h])) > 0
+            for: 10m
             labels:
               severity: warning
-          - alert: VeleroBackupFailures
+          - alert: VeleroBackupStorageLocationUnavailable
             annotations:
-              message: Velero backup {{ $labels.schedule }} has {{ $value | humanizePercentage }} failed backups.
+              summary: Velero backup storage location is unavailable
+              description: Velero cannot reach its backup storage location.
             expr: |-
-              velero_backup_failure_total{schedule!=""} / velero_backup_attempt_total{schedule!=""} > 0.25
-            for: 15m
+              min(velero_backup_location_status_gauge) == 0
+            for: 10m
+            labels:
+              severity: critical
+          - alert: VeleroRepoMaintenanceFailed
+            annotations:
+              summary: Velero repository maintenance failed
+              description: A kopia repository maintenance job failed in the last 24 hours.
+            expr: |-
+              sum(increase(velero_repo_maintenance_failure_total[24h])) > 0
+            for: 10m
             labels:
               severity: warning
 
