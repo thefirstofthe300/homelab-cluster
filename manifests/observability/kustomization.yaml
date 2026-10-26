@@ -6,3 +6,11 @@ resources:
   - namespace.yaml
   - sealedsecret.yaml
   - prometheusrule-oom.yaml
+configMapGenerator:
+  - name: grafana-dashboard-synapse
+    files:
+      - dashboards/synapse.json
+    options:
+      disableNameSuffixHash: true
+      labels:
+        grafana_dashboard: "1"
