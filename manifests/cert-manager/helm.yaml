@@ -24,6 +24,9 @@ spec:
         namespace: flux-system
       interval: 24h0m0s
   values:
+    prometheus:
+      servicemonitor:
+        enabled: true
     resources:
       requests:
         cpu: 100m
