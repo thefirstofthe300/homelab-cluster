@@ -45,9 +45,9 @@ spec:
       enabled: true
       controllers:
         main:
-          annotations:
-            backup.velero.io/backup-volumes: library
           pod:
+            annotations:
+              backup.velero.io/backup-volumes: library
             securityContext:
               runAsUser: 10001
               runAsGroup: 10001
