@@ -1,0 +1,27 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: external-dependencies
+  namespace: observability-system
+spec:
+  groups:
+    - name: external-dependencies
+      rules:
+        - alert: ExternalDependencyDown
+          annotations:
+            summary: "{{ $labels.instance }} is unreachable"
+            description: "{{ $labels.instance }} ({{ $labels.job }}) has not accepted a TCP connection for 5 minutes. Postgres 192.168.1.204:5432 backs Synapse, MAS, Nextcloud and Authentik; TrueNAS 192.168.1.100 backs every volume."
+          expr: |-
+            probe_success{job=~"probe/observability-system/(external-postgres|external-elasticsearch|truenas)"} == 0
+          for: 5m
+          labels:
+            severity: critical
+        - alert: ExternalProbesMissing
+          annotations:
+            summary: External dependency probes are not reporting
+            description: No probe_success series for the external dependency probes for 30 minutes, so an outage there would go unnoticed. Check the blackbox exporter.
+          expr: |-
+            absent(probe_success{job=~"probe/observability-system/.*"})
+          for: 30m
+          labels:
+            severity: warning

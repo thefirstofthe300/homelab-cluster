@@ -1,0 +1,46 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: external-postgres
+  namespace: observability-system
+spec:
+  interval: 30s
+  module: tcp_connect
+  prober:
+    url: blackbox-exporter.observability-system.svc:9115
+  targets:
+    staticConfig:
+      static:
+        - 192.168.1.204:5432
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: external-elasticsearch
+  namespace: observability-system
+spec:
+  interval: 30s
+  module: tcp_connect
+  prober:
+    url: blackbox-exporter.observability-system.svc:9115
+  targets:
+    staticConfig:
+      static:
+        - 192.168.1.204:9200
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: truenas
+  namespace: observability-system
+spec:
+  interval: 30s
+  module: tcp_connect
+  prober:
+    url: blackbox-exporter.observability-system.svc:9115
+  targets:
+    staticConfig:
+      static:
+        - 192.168.1.100:443
+        - 192.168.1.100:2049
+        - 192.168.1.100:3260
