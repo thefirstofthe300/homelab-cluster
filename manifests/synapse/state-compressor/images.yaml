@@ -12,6 +12,8 @@ kind: ImagePolicy
 metadata:
   name: state-compressor
 spec:
+  digestReflectionPolicy: Always
+  interval: 24h0m0s
   imageRepositoryRef:
     name: state-compressor
   policy:

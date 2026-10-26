@@ -12,6 +12,8 @@ kind: ImagePolicy
 metadata:
   name: immich
 spec:
+  digestReflectionPolicy: Always
+  interval: 24h0m0s
   imageRepositoryRef:
     name: immich
   policy:

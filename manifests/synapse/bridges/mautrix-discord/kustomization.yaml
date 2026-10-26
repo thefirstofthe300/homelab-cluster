@@ -10,6 +10,7 @@ resources:
 images:
   - name: dock.mau.dev/mautrix/discord
     newTag: v0.7.7 # {"$imagepolicy": "synapse:mautrix-discord:tag"}
+    digest: sha256:065405ca2f961b2687ca577c4eb65592c139d641342a9611d98b5394f30cf84a # {"$imagepolicy": "synapse:mautrix-discord:digest"}
 labels:
   - includeSelectors: true
     pairs:

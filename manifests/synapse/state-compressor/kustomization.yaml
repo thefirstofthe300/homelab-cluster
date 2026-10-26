@@ -7,3 +7,4 @@ resources:
 images:
   - name: ghcr.io/thefirstofthe300/rust-synapse-compress-state
     newTag: v0.1.4 # {"$imagepolicy": "synapse:state-compressor:tag"}
+    digest: sha256:2893ba87f01f75914f84859e09471deda1da581f0a421294c2695ee8ea77a2e5 # {"$imagepolicy": "synapse:state-compressor:digest"}

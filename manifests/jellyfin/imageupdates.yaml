@@ -14,6 +14,8 @@ metadata:
   name: jellyfin
   namespace: jellyfin
 spec:
+  digestReflectionPolicy: Always
+  interval: 24h0m0s
   imageRepositoryRef:
     name: jellyfin
   policy:

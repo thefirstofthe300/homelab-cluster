@@ -17,6 +17,12 @@ spec:
         name: nextcloud
         namespace: flux-system
       interval: 24h0m0s
+  postRenderers:
+    - kustomize:
+        images:
+          - name: docker.io/library/nextcloud
+            newTag: 35.0.2 # {"$imagepolicy": "nextcloud:nextcloud:tag"}
+            digest: sha256:89af7ee7a96ff5e9668280566209268ae6b2d02327f6ef6d56f6d68228cf9431 # {"$imagepolicy": "nextcloud:nextcloud:digest"}
   values:
     image:
       flavor: apache
