@@ -30,35 +30,3 @@ spec:
                       name: postgres-synapse
                       key: password
           restartPolicy: OnFailure
----
-apiVersion: batch/v1
-kind: CronJob
-metadata:
-  name: postgres-vacuum
-  labels:
-    app.kubernetes.io/component: postgres-vacuum
-spec:
-  schedule: "0 4 * * 0"
-  jobTemplate:
-    spec:
-      template:
-        spec:
-          containers:
-            - name: compressor
-              image: ghcr.io/cloudnative-pg/postgresql:17.0
-              command:
-                - PGPASSWORD=$(DB_PASSWORD)
-                - psql
-              args:
-                - --username=postgres
-                - -d
-                - synapse
-                - -c
-                - "VACUUM (VERBOSE, ANALYZE) synapse;"
-              env:
-                - name: DB_PASSWORD
-                  valueFrom:
-                    secretKeyRef:
-                      name: postgres-synapse
-                      key: password
-          restartPolicy: OnFailure
