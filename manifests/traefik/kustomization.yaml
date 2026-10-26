@@ -4,3 +4,4 @@ namespace: traefik-system
 resources:
   - helm.yaml
   - namespace.yaml
+  - prometheusrule.yaml
