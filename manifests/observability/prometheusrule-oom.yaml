@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: oom-kills
+  namespace: observability-system
+spec:
+  groups:
+    - name: oom-kills
+      rules:
+        - alert: ContainerOOMKilled
+          annotations:
+            summary: Container {{ $labels.namespace }}/{{ $labels.pod }} ({{ $labels.container }}) was OOM killed
+            description: "{{ $labels.container }} in {{ $labels.namespace }}/{{ $labels.pod }} was killed for exceeding its memory limit and restarted in the last 10 minutes. Raise its memory limit or find the leak."
+          expr: |-
+            kube_pod_container_status_last_terminated_reason{reason="OOMKilled"} == 1
+              and on (namespace, pod, container)
+            increase(kube_pod_container_status_restarts_total[10m]) > 0
+          labels:
+            severity: warning
