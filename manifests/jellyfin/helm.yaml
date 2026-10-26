@@ -16,6 +16,12 @@ spec:
         name: jellyfin
         namespace: flux-system
       interval: 24h0m0s
+  postRenderers:
+    - kustomize:
+        images:
+          - name: docker.io/jellyfin/jellyfin
+            newTag: 10.11.11 # {"$imagepolicy": "jellyfin:jellyfin:tag"}
+            digest: sha256:aefb67e6a7ff1debdd154a78a7bbb780fd0c873d8639210a7f6a2016ad2b35db # {"$imagepolicy": "jellyfin:jellyfin:digest"}
   values:
     image:
       tag: 10.11.11 # {"$imagepolicy": "jellyfin:jellyfin:tag"}

@@ -12,6 +12,8 @@ kind: ImagePolicy
 metadata:
   name: mautrix-discord
 spec:
+  digestReflectionPolicy: Always
+  interval: 24h0m0s
   imageRepositoryRef:
     name: mautrix-discord
   policy:

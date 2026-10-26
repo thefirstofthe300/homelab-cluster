@@ -20,6 +20,12 @@ spec:
   valuesFrom:
     - kind: Secret
       name: immich-values
+  postRenderers:
+    - kustomize:
+        images:
+          - name: ghcr.io/immich-app/immich-server
+            newTag: v3.3.5 # {"$imagepolicy": "immich:immich:tag"}
+            digest: sha256:485d546a2e31d6a8b4db8423fcba5c109de8c218d93410af115fd1ccfc4352a6 # {"$imagepolicy": "immich:immich:digest"}
   values:
     controllers:
       main:
