@@ -29,6 +29,8 @@ spec:
       upgradeJob:
         enabled: true
     grafana:
+      admin:
+        existingSecret: grafana-admin
       grafana.ini:
         server:
           root_url: https://grafana.corgi-magellanic.ts.net
