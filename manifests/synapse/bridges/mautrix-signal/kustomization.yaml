@@ -10,7 +10,7 @@ resources:
 images:
   - name: dock.mau.dev/mautrix/signal
     newTag: v0.2610.0 # {"$imagepolicy": "synapse:mautrix-signal:tag"}
-    digest: sha256:39afa721aa69472b2e91c75bd7d81a739e47f7e480fc0ff5ac8247af28eb2d0a # {"$imagepolicy": "synapse:mautrix-signal:digest"}
+    digest: "sha256:39afa721aa69472b2e91c75bd7d81a739e47f7e480fc0ff5ac8247af28eb2d0a" # {"$imagepolicy": "synapse:mautrix-signal:digest"}
 labels:
   - includeSelectors: true
     pairs:
