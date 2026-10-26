@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: traefik-ingress
+  namespace: traefik-system
+spec:
+  groups:
+    - name: traefik-ingress
+      rules:
+        - alert: TraefikServiceHigh5xxRate
+          annotations:
+            summary: Traefik service {{ $labels.service }} is returning errors
+            description: "{{ $value | humanizePercentage }} of requests to {{ $labels.service }} returned a 5xx status over the last 10 minutes."
+          expr: |-
+            sum by (service) (rate(traefik_service_requests_total{code=~"5.."}[10m]))
+              / sum by (service) (rate(traefik_service_requests_total[10m])) > 0.05
+            and
+            sum by (service) (rate(traefik_service_requests_total[10m])) > 0.01
+          for: 10m
+          labels:
+            severity: warning
