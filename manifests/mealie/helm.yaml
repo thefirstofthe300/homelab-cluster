@@ -1,0 +1,79 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: mealie
+  namespace: mealie
+spec:
+  interval: 24h0m0s
+  install:
+    remediation:
+      retries: 3
+      remediateLastFailure: true
+  upgrade:
+    remediation:
+      retries: 3
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: mealie
+      version: "0.1.17"
+      sourceRef:
+        kind: HelmRepository
+        name: bdclark
+        namespace: flux-system
+      interval: 24h0m0s
+  values:
+    image:
+      tag: "v3.29.0"
+    database:
+      engine: postgres
+      postgres:
+        server:
+          value: 192.168.1.204
+        db:
+          value: mealie
+        user:
+          existingSecret:
+            name: mealie-postgres
+            key: username
+        password:
+          existingSecret:
+            name: mealie-postgres
+            key: password
+    extraEnv:
+      - name: TZ
+        value: America/Los_Angeles
+      - name: BASE_URL
+        value: https://mealie.corgi-magellanic.ts.net
+      - name: ALLOW_SIGNUP
+        value: "false"
+    # The first start runs database migrations, which can take a while.
+    startupProbe:
+      httpGet:
+        path: /
+        port: http
+      periodSeconds: 10
+      failureThreshold: 30
+    persistence:
+      enabled: true
+      storageClass: truenas-iscsi-csi
+      size: 5Gi
+    resources:
+      requests:
+        cpu: 25m
+        memory: 256Mi
+      limits:
+        memory: 1Gi
+    ingress:
+      enabled: true
+      className: tailscale
+      hosts:
+        - host: mealie
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - mealie
+          secretName: ""
