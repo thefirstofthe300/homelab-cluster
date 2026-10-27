@@ -221,3 +221,12 @@ metadata:
 spec:
   interval: 24h0m0s
   url: https://valkey.io/valkey-helm/
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: bdclark
+  namespace: flux-system
+spec:
+  interval: 24h0m0s
+  url: https://bdclark.github.io/helm-charts
