@@ -62,6 +62,13 @@ spec:
                 token_file: /etc/alertmanager/secrets/alertmanager-pushover/token
                 priority: "1"
                 send_resolved: true
+    kubeEtcd:
+      endpoints:
+        - 192.168.1.201
+      service:
+        enabled: true
+        port: 2381
+        targetPort: 2381
     kubeControllerManager:
       enabled: false
     kubeScheduler:
