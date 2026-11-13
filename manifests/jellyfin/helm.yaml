@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: jellyfin
-      version: "3.6.0"
+      version: "3.7.0"
       sourceRef:
         kind: HelmRepository
         name: jellyfin
@@ -20,11 +20,11 @@ spec:
     - kustomize:
         images:
           - name: docker.io/jellyfin/jellyfin
-            newTag: 10.11.11 # {"$imagepolicy": "jellyfin:jellyfin:tag"}
-            digest: sha256:aefb67e6a7ff1debdd154a78a7bbb780fd0c873d8639210a7f6a2016ad2b35db # {"$imagepolicy": "jellyfin:jellyfin:digest"}
+            newTag: "12.4" # {"$imagepolicy": "jellyfin:jellyfin:tag"}
+            digest: sha256:fea863d0cd9ec445985d9c75fc6ed64e38a1d2766cf0c250a33d553f4fc1b771 # {"$imagepolicy": "jellyfin:jellyfin:digest"}
   values:
     image:
-      tag: 10.11.11 # {"$imagepolicy": "jellyfin:jellyfin:tag"}
+      tag: "12.4" # {"$imagepolicy": "jellyfin:jellyfin:tag"}
     jellyfin:
       env:
         - name: TZ
