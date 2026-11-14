@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: audiobookshelf
+  name: audiosilo
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
@@ -12,7 +12,7 @@ spec:
         paths:
           - backend:
               service:
-                name: audiobookshelf
+                name: audiosilo
                 port:
                   name: http
             path: /
@@ -20,4 +20,4 @@ spec:
   tls:
     - hosts:
         - books.seymour.family
-      secretName: audiobookshelf-tls
+      secretName: audiosilo-tls
