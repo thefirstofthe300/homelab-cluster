@@ -17,7 +17,7 @@ spec:
   chart:
     spec:
       chart: mealie
-      version: "0.1.17"
+      version: "0.1.19"
       sourceRef:
         kind: HelmRepository
         name: bdclark
