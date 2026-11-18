@@ -22,7 +22,7 @@ spec:
       name: paperless-ngx-values
   values:
     image:
-      tag: "2.20.15"
+      tag: "3.5.1"
     env:
       TZ: America/Los_Angeles
       PAPERLESS_URL: https://paperless.seymour.family
@@ -39,6 +39,11 @@ spec:
       PAPERLESS_TASK_WORKERS: "2"
       PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
       PAPERLESS_ACCOUNT_ALLOW_SIGNUPS: "false"
+      PAPERLESS_AI_ENABLED: "true"
+      PAPERLESS_AI_LLM_BACKEND: openai-like
+      PAPERLESS_AI_LLM_MODEL: gpt-4o-mini
+      PAPERLESS_AI_LLM_EMBEDDING_BACKEND: openai-like
+      PAPERLESS_AI_LLM_EMBEDDING_MODEL: text-embedding-3-small
     podSecurityContext:
       runAsUser: 1000
       runAsGroup: 1000
