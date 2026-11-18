@@ -9,6 +9,17 @@
       "/manifests/.+\\.yaml$/"
     ]
   },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Paperless-ngx image tag in HelmRelease values",
+      "managerFilePatterns": ["/^manifests/paperless-ngx/helm\\.yaml$/"],
+      "matchStrings": ["tag: \"(?<currentValue>[^\"@]+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?\""],
+      "autoReplaceStringTemplate": "tag: \"{{newValue}}{{#if newDigest}}@{{newDigest}}{{/if}}\"",
+      "depNameTemplate": "ghcr.io/paperless-ngx/paperless-ngx",
+      "datasourceTemplate": "docker"
+    }
+  ],
   "packageRules": [
     {
       "matchPackageNames": ["dock.mau.dev/mautrix/signal"],
