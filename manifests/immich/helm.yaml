@@ -24,15 +24,15 @@ spec:
     - kustomize:
         images:
           - name: ghcr.io/immich-app/immich-server
-            newTag: v3.4.1 # {"$imagepolicy": "immich:immich:tag"}
-            digest: sha256:7c489add298fc2f92cda4c777de6462aa206877e04087b815f62c7664af0b53b # {"$imagepolicy": "immich:immich:digest"}
+            newTag: v3.4.2 # {"$imagepolicy": "immich:immich:tag"}
+            digest: sha256:fc880c1bf665b4aab1e74c15e56ab871225989cd546536e6b77e771869af06bd # {"$imagepolicy": "immich:immich:digest"}
   values:
     controllers:
       main:
         containers:
           main:
             image:
-              tag: v3.4.1 # {"$imagepolicy": "immich:immich:tag"}
+              tag: v3.4.2 # {"$imagepolicy": "immich:immich:tag"}
             env:
               REDIS_HOSTNAME: redis-master.redis.svc
     immich:
