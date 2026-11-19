@@ -47,6 +47,7 @@ spec:
       PAPERLESS_TASK_WORKERS: "2"
       PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
       PAPERLESS_ACCOUNT_ALLOW_SIGNUPS: "false"
+      PAPERLESS_DISABLE_REGULAR_LOGIN: "true"
       PAPERLESS_AI_ENABLED: "true"
       PAPERLESS_AI_LLM_BACKEND: openai-like
       PAPERLESS_AI_LLM_MODEL: gpt-4o-mini
