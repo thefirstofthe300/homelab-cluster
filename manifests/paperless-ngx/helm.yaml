@@ -20,6 +20,14 @@ spec:
   valuesFrom:
     - kind: Secret
       name: paperless-ngx-values
+    - kind: Secret
+      name: paperless-ngx-api-keys
+      valuesKey: azure-ocr-key
+      targetPath: env.PAPERLESS_REMOTE_OCR_API_KEY
+    - kind: Secret
+      name: paperless-ngx-api-keys
+      valuesKey: openai-key
+      targetPath: env.PAPERLESS_AI_LLM_API_KEY
   values:
     image:
       tag: "3.5.1"
@@ -44,6 +52,9 @@ spec:
       PAPERLESS_AI_LLM_MODEL: gpt-4o-mini
       PAPERLESS_AI_LLM_EMBEDDING_BACKEND: openai-like
       PAPERLESS_AI_LLM_EMBEDDING_MODEL: text-embedding-3-small
+      PAPERLESS_REMOTE_OCR_ENGINE: azureai
+      PAPERLESS_REMOTE_OCR_ENDPOINT: https://opthalmologist-paperless.cognitiveservices.azure.com/
+      PAPERLESS_REMOTE_OCR_MODE: always
     podSecurityContext:
       runAsUser: 1000
       runAsGroup: 1000
