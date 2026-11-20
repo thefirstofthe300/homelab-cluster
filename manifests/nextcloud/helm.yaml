@@ -22,7 +22,7 @@ spec:
         images:
           - name: docker.io/library/nextcloud
             newTag: 35.0.3 # {"$imagepolicy": "nextcloud:nextcloud:tag"}
-            digest: sha256:fc14de792d6b8fdf413557c1aa1a5425a7252a41ed7065df5d85b7b5e36561cc # {"$imagepolicy": "nextcloud:nextcloud:digest"}
+            digest: sha256:f22d1dd63844bd15bbf6c2019149653c3d1c775ba48b173b56c3c6ad5f386196 # {"$imagepolicy": "nextcloud:nextcloud:digest"}
   values:
     image:
       flavor: apache
