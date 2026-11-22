@@ -58,6 +58,9 @@ spec:
               image:
                 repository: ghcr.io/immich-app/immich-server
                 pullPolicy: IfNotPresent
+              env:
+                # v3.4.2 defaults the listen host to "::", which breaks the metrics exporter's base URL (400 on every scrape)
+                IMMICH_HOST: 0.0.0.0
       ingress:
         main:
           enabled: true
