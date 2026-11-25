@@ -29,7 +29,7 @@ spec:
         repository: jfcoz/kubectl-deb12-basic
     image:
       repository: velero/velero
-      tag: v1.18.4
+      tag: v1.19.0@sha256:da94e0de154f837db0ada37ea0c168428943dab2c872efc10481189925de395f
       pullPolicy: IfNotPresent
     resources: {}
     initContainers:
