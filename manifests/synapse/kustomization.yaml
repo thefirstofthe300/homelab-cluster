@@ -8,4 +8,5 @@ resources:
   - namespace.yaml
   - podmonitor.yaml
   - sealedsecret.yaml
+  - mas-upstream-oauth-sealedsecret.yaml
   - storage.yaml
