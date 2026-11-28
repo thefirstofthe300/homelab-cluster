@@ -43,14 +43,14 @@ spec:
                   claims_imports:
                     localpart:
                       action: require
-                      template: "{{ user.matrix_handle }}"
+                      template: "{{ `{{ user.matrix_handle }}` }}"
                       on_conflict: add
                     displayname:
                       action: require
-                      template: "{{ user.name }}"
+                      template: "{{ `{{ user.name }}` }}"
                     email:
                       action: require
-                      template: "{{ user.email }}"
+                      template: "{{ `{{ user.email }}` }}"
             passwords:
               enabled: false
               schemes:
